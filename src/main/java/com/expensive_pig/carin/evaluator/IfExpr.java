@@ -1,15 +1,15 @@
 package com.expensive_pig.carin.evaluator;
 
 public class IfExpr implements Statement {
-    private Statement expression, if_statement, else_statement; // for if else
+    private Statement expression, statement_if_true, statement_if_false; // for if else
 
 
 
-    public IfExpr(Statement expression, Statement if_statement, Statement else_statement) {
-        this.if_statement = if_statement;
+    public IfExpr(Statement expression, Statement statement_if_true, Statement statement_if_false) {
+        this.statement_if_true = statement_if_true;
         this.expression = expression;
 
-        this.else_statement = else_statement;
+        this.statement_if_false = statement_if_false;
     }
 
 
