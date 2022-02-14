@@ -17,16 +17,13 @@ public class ReadGeneticCode {
         String data = readGenetic.readfile();
         evaluate(data);
         System.out.println(data);
-
-
-
     }
 
     public static String evaluate(String data) throws SyntaxError {
-        Parser_Expr parse = new Parser_Expr();
-         parse.parse(data)  ;
-        //
-
+        Parser_Expr parser = new Parser_Expr();
+        Program p = parser.parse(data);
+        GeneticCodeEvaluator evaluator = new GeneticCodeEvaluator();
+        evaluator.evaluateProgram(p, null);
         return null;
     }
 
@@ -59,8 +56,4 @@ public class ReadGeneticCode {
         return data.toString();
     }
 
-    }
-
-
-
-
+}

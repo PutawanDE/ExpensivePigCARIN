@@ -12,4 +12,7 @@ public class IntLiteral implements Statement {
         return Integer.toString(val);
     }
 
+    public int eval() {
+        return val;
+    }
 }
