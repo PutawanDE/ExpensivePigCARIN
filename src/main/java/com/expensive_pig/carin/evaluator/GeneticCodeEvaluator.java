@@ -82,6 +82,7 @@ public class GeneticCodeEvaluator {
                 case "*" -> lv * rv;
                 case "/" -> lv / rv;
                 case "%" -> lv % rv;
+                case "^" -> (int) Math.pow(lv, rv);
                 default -> throw new SyntaxError();
             };
 
