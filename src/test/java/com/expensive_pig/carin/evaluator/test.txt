@@ -1,0 +1,17 @@
+if (virusLoc / 10 - 1)
+then
+  if (virusLoc % 10 - 7) then move upleft
+  else if (virusLoc % 10 - 6) then move left
+  else move up
+else if (virusLoc)
+then
+  if (virusLoc % 10 - 7) then shoot upleft
+  else if (virusLoc % 10 - 6) then shoot left
+  else shoot up
+else
+{
+  dir = random % 8
+  if (dir - 6) then move upleft
+  else if (dir - 5) then move left
+  else move up
+}
