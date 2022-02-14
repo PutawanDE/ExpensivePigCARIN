@@ -219,15 +219,6 @@ public class Parser_Expr {
         }
     }
 
-//       return switch (this_peek) {
-//            case "virus" ->   new Parse_Data("virus");
-//            case "antibody" ->    new Parse_Data("antibody");
-//            case "nearby" ->   new ActionExpr("shoot", parseDirection());
-//            default -> throw new SyntaxError();
-//        };
-//    }
-
-
     public static boolean isNumeric(String str) {
         try {
             Integer.parseInt(str);
@@ -308,49 +299,4 @@ public class Parser_Expr {
 
         return new WhileStatement(Expression, true_statement);
     }
-
-
-    /**
-     * T → T * F | T / F | T % F | F
-     * so use reassociation
-     * T → F (* F)* | F (/ F)* | F (% F)*
-     */
-//    statement parseT() throws SyntaxError {
-//        statement v = parseF();
-//        while (token.peek("*") || token.peek("/") || token.peek("%")) {
-//            String this_peek = token.peek();
-//            token.consume(); // remove * or / or %
-//            switch (this_peek) {
-//                case "*" -> v = new BinaryArithExpr(v, "*", parseF());
-//                case "/" -> v = new BinaryArithExpr(v, "/", parseF());
-//                case "%" -> v = new BinaryArithExpr(v, "%", parseF());
-//                default -> throw new SyntaxError();
-//            }
-//        }
-//        return v;
-//    }
-
-    /**
-     * F → n | ( E )
-     */
-//    statement parseF() throws SyntaxError {
-//        if (isNumeric(token.peek())) {
-//            return new DoubleLit(Double.parseDouble(token.consume()));
-//        } else {
-//            token.consume("(");
-//            statement v = parseE();
-//            token.consume(")");
-//            return v;
-//        }
-//    }
-
-//
-//    public static boolean isNumeric(String str) {
-//        try {
-//            Double.parseDouble(str);
-//            return true;
-//        } catch (NumberFormatException e) {
-//            return false;
-//        }
-//    }
 }
