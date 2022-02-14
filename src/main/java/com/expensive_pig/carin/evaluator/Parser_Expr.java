@@ -213,7 +213,10 @@ public class Parser_Expr {
         if (isNumeric(this_peek)) {
             return new Parse_Data(token.consume());
         } else if(this_peek.equals("(")) {
-            return parseExpression();
+            token.consume_check("(");
+            Statement expression = parseExpression();
+            token.consume_check(")");
+            return expression;
         } else if(this_peek.equals("virus") | this_peek.equals("antibody ")|this_peek.equals("nearby")){
             return parseSensorExpression();
         }else {
