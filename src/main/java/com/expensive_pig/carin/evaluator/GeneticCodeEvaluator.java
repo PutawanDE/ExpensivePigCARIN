@@ -13,6 +13,7 @@ public class GeneticCodeEvaluator {
 
     private final Random rand = new Random();
     private final int MAX_RAND_BOUND = 100;
+    private final int MAX_ITERATION = 1000;
 
     private int loopCounter = 0;
 
@@ -30,7 +31,7 @@ public class GeneticCodeEvaluator {
     }
 
     private int evalStatement(Statement statement) throws SyntaxError {
-        if (statement == null || loopCounter > 1000) return 0;
+        if (statement == null || loopCounter > MAX_ITERATION) return 0;
 
         if (statement instanceof IfStatement ifStatement) {
             // If statement
