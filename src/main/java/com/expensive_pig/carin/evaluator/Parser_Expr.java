@@ -164,13 +164,15 @@ public class Parser_Expr {
      */
     Statement parseFactor() throws SyntaxError {
         Statement power = parsePower();
-        String this_peek = token.peek();
-        if (this_peek.equals("^")) {
-            token.consume_check("^");
-            return new Expr(power, "^", parseFactor());
-        } else {
-            return power;
+        if(token.peek_check("^")) {
+            String this_peek = token.peek();
+            if (this_peek.equals("^")) {
+                token.consume_check("^");
+                power = new Expr(power, "^", parseFactor());
+            }
         }
+        return power;
+
     }
 
     /**
