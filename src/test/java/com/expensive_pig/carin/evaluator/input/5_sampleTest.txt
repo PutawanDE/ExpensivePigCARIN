@@ -22,7 +22,7 @@ then # virus nearby
   else shoot up
 else # no virus; move in a random direction
 {
-  dir = random % 8
+  dir = 80 % 8
   if (dir - 6) then move upleft
   else if (dir - 5) then move left
   else if (dir - 4) then move downleft

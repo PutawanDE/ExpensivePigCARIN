@@ -19,18 +19,18 @@ class GeneticCodeEvaluatorTest {
             "src/test/java/com/expensive_pig/carin/evaluator/input/3_infLoopTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/4_infLoopNestedTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/5_sampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/6_test.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/7_test.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/8_test.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/9_test.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/input/6_ifelseTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/input/7_ifelseTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/input/8_ifelseTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/input/9_WhileTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/10_WhileTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/11_WhileTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/12_BlockStatementTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/13_BlockStatementTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/14_BlockStatementTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/input/15_OrderTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/16_OrderTest.txt"
-
+            "src/test/java/com/expensive_pig/carin/evaluator/input/16_OrderTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/input/17_OneLineTest.txt"
     };
 
     private String[] expectedFileNames = {
@@ -39,20 +39,18 @@ class GeneticCodeEvaluatorTest {
             "src/test/java/com/expensive_pig/carin/evaluator/expected/3_expectedTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/expected/4_expectedTest.txt",
             "src/test/java/com/expensive_pig/carin/evaluator/expected/5_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/6_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/7_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/8_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/9_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/10_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/11_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/12_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/13_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/14_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/15_expectedSampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/16_expectedSampleTest.txt"
-
-
-
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/6_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/7_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/8_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/9_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/10_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/11_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/12_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/13_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/14_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/15_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/16_expectedTest.txt",
+            "src/test/java/com/expensive_pig/carin/evaluator/expected/17_expectedTest.txt"
     };
 
     @Test

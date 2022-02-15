@@ -1,1 +1,1 @@
-shoot left
+shoot right
