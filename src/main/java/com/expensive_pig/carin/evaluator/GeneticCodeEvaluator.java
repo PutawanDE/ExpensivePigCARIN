@@ -58,7 +58,9 @@ public class GeneticCodeEvaluator {
             // Assignment statement
             String identifier = assignStatement.getIdentifier().string_val();
             if (!identifier.equals("random")) {
-                variableMap.put(identifier, 0);
+                if(!variableMap.containsKey(identifier)) {
+                    variableMap.put(identifier, 0);
+                }
                 int val = evalStatement(assignStatement.getExpression());
                 variableMap.put(identifier, val);
             }

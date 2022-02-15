@@ -21,7 +21,7 @@ public class Tokenizer  {
     public void cutter(String stream) {
         this.stream = stream;
         tokens = new LinkedList<>();
-        String[] separated = stream.split("([\\s]++)|(?<=[=+-\\-*/%()])|(?=[=+\\-*/%()])");
+        String[] separated = stream.split("([\\s]++)|(?<=[=+-\\-*/%(){}^])|(?=[=+\\-*/%(){}^])");
         for(String s : separated) {
             if(!s.trim().isEmpty()) {
                 tokens.add(s);
