@@ -7,53 +7,40 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ReadGeneticCode {
     public static void main(String[] args) throws SyntaxError {
-
         ReadGeneticCode readGenetic = new ReadGeneticCode();
-        String data = readGenetic.readfile();
-        evaluate(data);
+        String data = readGenetic.readFile("src/test/java/com/expensive_pig/carin/evaluator/sampleTest.txt");
+        readGenetic.evaluate(data);
         System.out.println(data);
     }
 
-    public static String evaluate(String data) throws SyntaxError {
+    public String evaluate(String data) throws SyntaxError {
         Parser_Expr parser = new Parser_Expr();
         Program p = parser.parse(data);
         GeneticCodeEvaluator evaluator = new GeneticCodeEvaluator();
-        evaluator.evaluateProgram(p, null);
-        return null;
+        return evaluator.evaluateProgram(p, null);
     }
 
     /**
      * readfile
      */
-    public String readfile() {
-        Path file = Paths.get("src/test/java/com/expensive_pig/carin/evaluator/test.txt");  // path string
-        HashMap<Integer, String> line = new HashMap<>();
-        Charset charset = StandardCharsets.UTF_8;
-        try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
-            int lines = 0;
-            String text;
-
-            while ((text = reader.readLine()) != null) {
-                line.put(lines, text);
-                lines++;
-            }
-
-        } catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
-        }
-
-
+    public String readFile(String filePath) {
+        Path file = Paths.get(filePath);  // path string
         StringBuilder data = new StringBuilder();
-        for (Map.Entry<Integer, String> number_lines : line.entrySet()) {
-            String stream = number_lines.getValue();
-            data.append(stream).append(" ");
+        Charset charset = StandardCharsets.UTF_8;
+
+        try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
+            String text;
+            while ((text = reader.readLine()) != null) {
+                String ignoreComment = text.split("#", text.length())[0];
+                data.append(ignoreComment).append(" ");
+            }
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
         }
+
         return data.toString();
     }
-
 }
