@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class GeneticCodeEvaluator {
-    private Entity owner;
+    private Entity host;
     private final Map<String, Integer> variableMap = new HashMap<>();
     private boolean isActionPerformed = false;
 
@@ -18,8 +18,8 @@ public class GeneticCodeEvaluator {
 
     private final StringBuilder commandsToCall = new StringBuilder();
 
-    public String evaluateProgram(Program program, Entity owner) throws SyntaxError {
-        this.owner = owner;
+    public String evaluateProgram(Program program, Entity host) throws SyntaxError {
+        this.host = host;
         isActionPerformed = false;
         program.resetIterator();
         while (program.hasNext()) {
@@ -68,9 +68,9 @@ public class GeneticCodeEvaluator {
                 commandsToCall.append(actionCommand.string_val()).append("\n");
                 if (actionCommand.getActionCmd().equals("move")) {
 
-                    /// owner.move(actionCommand.getDirection());
+                    /// host.move(actionCommand.getDirection());
                 } else if (actionCommand.getActionCmd().equals("shoot")) {
-                    /// owner.shoot(actionCommand.getDirection());
+                    /// host.shoot(actionCommand.getDirection());
                 } else {
                     throw new SyntaxError();
                 }

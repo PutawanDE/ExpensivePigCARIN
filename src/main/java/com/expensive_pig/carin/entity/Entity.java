@@ -1,6 +1,7 @@
 package com.expensive_pig.carin.entity;
 
 import com.expensive_pig.carin.evaluator.Program;
+import com.expensive_pig.carin.gameData.Map;
 
 public class Entity {
     private Program program;
@@ -9,6 +10,8 @@ public class Entity {
     int hp;
     int damage;
     int killcout;
+    int posX;
+    int posY;
 
 
     /**
@@ -44,6 +47,34 @@ public class Entity {
     }
 
 
+    public void move(String direction) {
+        switch (direction) {
+            case "left" -> posX--;
+            case "right" -> posX++;
+            case "up" -> posY++;
+            case "down" -> posY--;
+            case "downleft" -> {
+                posY--;
+                posX--;
+            }
+            case "downright" -> {
+                posY--;
+                posX++;
+            }
+            case "upleft" -> {
+                posY++;
+                posX--;
+            }
+            case "upright" -> {
+                posY++;
+                posX++;
+            }
 
+        }
+    }
+
+    public void shoot(String direction) {
+//        Entity target = lineOfSign();
+        }
 
 }
