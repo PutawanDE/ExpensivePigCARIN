@@ -1,0 +1,4 @@
+virusLoc = 10
+  if (virusLoc % 10 - 1) then move right
+  else if (virusLoc % 10 - 6) then move left
+  else move up

@@ -1,0 +1,5 @@
+c = 10
+while(c)
+    c = c-1
+    if(c) then c=c-2
+    else move up

@@ -1,0 +1,12 @@
+virusLoc = 17
+if (virusLoc % 10 - 4)
+then
+  if (virusLoc % 10 - 6) then shoot upleft
+  else shoot up
+else
+{
+  dir = virusLoc - 6
+  if (dir - 4) then move upleft
+  else if (dir - 5) then move right
+  else move up
+}
