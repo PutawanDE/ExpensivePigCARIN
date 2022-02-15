@@ -22,7 +22,7 @@ public class Tokenizer  {
     public void cutter(String stream) {
         this.stream = stream;
         tokens = new LinkedList<>();
-        String O_temp = stream.replaceAll("([\\s]++)|(?<=[+-\\-*/%()])|(?=[+\\-*/%()])", " ");
+        String O_temp = stream.replaceAll("([\\s]++)|(?<=[=+-\\-*/%()])|(?=[=+\\-*/%()])", " ");
         O_temp = O_temp.replaceAll("( )+", " ");
         String[] separated = O_temp.split(" ");
         Collections.addAll(tokens, separated);
