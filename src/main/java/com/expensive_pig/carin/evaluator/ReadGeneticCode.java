@@ -31,7 +31,7 @@ public class ReadGeneticCode {
      * readfile
      */
     public String readfile() {
-        Path file = Paths.get("src/test/java/com/expensive_pig/carin/evaluator/test.txt");  // path string
+        Path file = Paths.get("src/main/java/com/expensive_pig/carin/dev_genetic/test.txt");  // path string
         HashMap<Integer, String> line = new HashMap<>();
         Charset charset = StandardCharsets.UTF_8;
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {

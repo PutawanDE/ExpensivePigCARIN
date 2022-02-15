@@ -1,13 +1,13 @@
 package com.expensive_pig.carin.evaluator;
 
-import com.expensive_pig.carin.entity.Host;
+import com.expensive_pig.carin.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class GeneticCodeEvaluator {
-    private Host owner;
+    private Entity owner;
     private final Map<String, Integer> variableMap = new HashMap<>();
     private boolean isActionPerformed = false;
 
@@ -16,7 +16,7 @@ public class GeneticCodeEvaluator {
 
     private int loopCounter = 0;
 
-    public void evaluateProgram(Program program, Host owner) throws SyntaxError {
+    public void evaluateProgram(Program program, Entity owner) throws SyntaxError {
         this.owner = owner;
         loopCounter = 0;
         isActionPerformed = false;
@@ -62,6 +62,7 @@ public class GeneticCodeEvaluator {
             if (!isActionPerformed) {
                 System.out.println(actionCommand.string_val());
                 if (actionCommand.getActionCmd().equals("move")) {
+
                     /// owner.move(actionCommand.getDirection());
                 } else if (actionCommand.getActionCmd().equals("shoot")) {
                     /// owner.shoot(actionCommand.getDirection());
