@@ -11,7 +11,7 @@ public class GeneticCodeEvaluator {
     private final Map<String, Integer> variableMap = new HashMap<>();
     private boolean isActionPerformed = false;
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
     private final int MAX_RAND_BOUND = 100;
 
     private int loopCounter = 0;
@@ -20,18 +20,17 @@ public class GeneticCodeEvaluator {
 
     public String evaluateProgram(Program program, Entity owner) throws SyntaxError {
         this.owner = owner;
-        loopCounter = 0;
         isActionPerformed = false;
         program.resetIterator();
         while (program.hasNext()) {
+            loopCounter = 0;
             evalStatement(program.getNextStatement());
         }
         return commandsToCall.toString();
     }
 
     private int evalStatement(Statement statement) throws SyntaxError {
-        if (statement == null) return 0;
-        if (loopCounter > 1000) throw new SyntaxError();
+        if (statement == null || loopCounter > 1000) return 0;
 
         if (statement instanceof IfStatement ifStatement) {
             // If statement
