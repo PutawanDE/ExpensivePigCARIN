@@ -1,5 +1,6 @@
 package com.expensive_pig.carin.evaluator;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class Tokenizer  {
@@ -18,16 +19,13 @@ public class Tokenizer  {
     }
 
 
-    public void cutter(String stream) throws SyntaxError {
+    public void cutter(String stream) {
         this.stream = stream;
         tokens = new LinkedList<>();
         String O_temp = stream.replaceAll("([\\s]++)|(?<=[+-\\-*/%()])|(?=[+\\-*/%()])", " ");
         O_temp = O_temp.replaceAll("( )+", " ");
         String[] separated = O_temp.split(" ");
-        StringBuilder logic = new StringBuilder();
-            for (String s : separated) {
-                    tokens.add(s);
-            }
+        Collections.addAll(tokens, separated);
 
         System.out.println(tokens);
     }
@@ -36,7 +34,7 @@ public class Tokenizer  {
     public String peek() throws SyntaxError {
         if (!tokens.isEmpty()) {
             return tokens.getFirst();
-        } else throw new SyntaxError("Invalid Line: " + stream);
+        } else throw new SyntaxError();
     }
 
 
@@ -55,8 +53,7 @@ public class Tokenizer  {
         if (peek_check(s)){
             consume();
         }
-
-        else throw new SyntaxError("Invalid Line: " + stream);
+        else throw new SyntaxError();
     }
 
     public boolean empty(){

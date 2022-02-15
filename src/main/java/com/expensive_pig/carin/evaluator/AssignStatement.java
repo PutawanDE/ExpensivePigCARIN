@@ -7,7 +7,7 @@ public class AssignStatement implements Statement {
 
     public AssignStatement(Statement _identifier, String _op, Statement _expression) {
         this.identifier = _identifier;
-        this.op = op;
+        this.op = _op;
         this.expression = _expression;
     }
 

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class Parser_Expr {
     private Tokenizer token;
+    private Program program;
 
     /**
      * Program → Statement+
@@ -29,7 +30,8 @@ public class Parser_Expr {
     public Program parse(String stream) throws SyntaxError {
         this.token = new Tokenizer();
         token.cutter(stream);
-        return parseProgram();
+        program = parseProgram();
+        return program;
     }
 
     //==================================================================
@@ -206,6 +208,7 @@ public class Parser_Expr {
      */
     Statement parseSensorExpression() throws SyntaxError {
         String this_peek = token.peek();
+        token.consume();
         switch (this_peek) {
             case "virus":
                 return new SensorExpr("virus");
