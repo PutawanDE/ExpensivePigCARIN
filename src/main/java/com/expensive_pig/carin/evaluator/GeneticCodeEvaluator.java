@@ -16,7 +16,9 @@ public class GeneticCodeEvaluator {
 
     private int loopCounter = 0;
 
-    public void evaluateProgram(Program program, Host owner) throws SyntaxError {
+    private final StringBuilder commandsToCall = new StringBuilder();
+
+    public String evaluateProgram(Program program, Host owner) throws SyntaxError {
         this.owner = owner;
         loopCounter = 0;
         isActionPerformed = false;
@@ -24,6 +26,7 @@ public class GeneticCodeEvaluator {
         while (program.hasNext()) {
             evalStatement(program.getNextStatement());
         }
+        return commandsToCall.toString();
     }
 
     private int evalStatement(Statement statement) throws SyntaxError {
@@ -55,12 +58,15 @@ public class GeneticCodeEvaluator {
             // Assignment statement
             String identifier = assignStatement.getIdentifier().string_val();
             if (!identifier.equals("random")) {
-                variableMap.put(identifier, evalStatement(assignStatement.getExpression()));
+                variableMap.put(identifier, 0);
+                int val = evalStatement(assignStatement.getExpression());
+                variableMap.put(identifier, val);
             }
         } else if (statement instanceof ActionCommand actionCommand) {
             // Action Command
             if (!isActionPerformed) {
                 System.out.println(actionCommand.string_val());
+                commandsToCall.append(actionCommand.string_val()).append("\n");
                 if (actionCommand.getActionCmd().equals("move")) {
                     /// owner.move(actionCommand.getDirection());
                 } else if (actionCommand.getActionCmd().equals("shoot")) {
@@ -96,7 +102,7 @@ public class GeneticCodeEvaluator {
 
         } else if (statement instanceof SensorExpr sensorExpr) {
             // Sensor Command
-            System.out.println(sensorExpr.string_val());
+            commandsToCall.append(sensorExpr.string_val()).append("\n");
             switch (sensorExpr.getCommand()) {
                 case "virus":
                     /// return owner.virus();
