@@ -15,7 +15,11 @@ public class SensorExpr implements Statement {
 
     @Override
     public String string_val() throws SyntaxError {
-        return command + " " + direction;
+        if (direction == null) {
+            return command;
+        } else {
+            return command + " " + direction;
+        }
     }
 
     public String getCommand() {
