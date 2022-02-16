@@ -1,10 +1,20 @@
 package com.expensive_pig.carin.evaluator;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 public class Parser_Expr {
     private Tokenizer token;
     private Program program;
+    private static final Set<String> reservedWords = new HashSet<>(Arrays.asList(
+            "down", "downleft", "downright", "left", "right",
+            "up", "upleft", "upright", "virus", "antibody",
+            "while", "else", "if", "shoot", "then", "move", "nearby"
+    ));
+
+
 
     /**
      * Program → Statement+
@@ -50,7 +60,6 @@ public class Parser_Expr {
     /**
      * Statement → Command | BlockStatement | ifStatement | WhileStatement
      */
-//
     Statement parseStatement() throws SyntaxError {
         String this_peek = token.peek();
         return switch (this_peek) {
@@ -164,7 +173,7 @@ public class Parser_Expr {
      */
     Statement parseFactor() throws SyntaxError {
         Statement power = parsePower();
-        if(token.peek_check("^")) {
+        if (token.peek_check("^")) {
             String this_peek = token.peek();
             if (this_peek.equals("^")) {
                 token.consume_check("^");
@@ -183,7 +192,7 @@ public class Parser_Expr {
         String this_peek = token.peek();
         if (isNumeric(this_peek)) {
             return new IntLiteral(Integer.parseInt(token.consume()));
-        } else if(this_peek.equals("(")) {
+        } else if (this_peek.equals("(")) {
             token.consume_check("(");
             Statement expression = parseExpression();
             token.consume_check(")");
@@ -201,11 +210,19 @@ public class Parser_Expr {
     Statement parseIdentifier() throws SyntaxError {
         String this_peek = token.peek();
         token.consume(); //
-        return new Identifier(this_peek);
+        if (reservedWords.contains(this_peek)) {
+            throw new SyntaxError();
+        }
+        if (!isNumeric("" + this_peek.charAt(0))) {
+            // If after this_peak[0] are alphanumeric
+            if (this_peek.substring(1).chars().allMatch(Character::isLetterOrDigit)) {
+                return new Identifier(this_peek);
+            }
+        }
+        throw new SyntaxError();
     }
 
     /**
-     * i don't know
      * SensorExpression → virus | antibody |  nearby_Direction
      */
     Statement parseSensorExpression() throws SyntaxError {
@@ -255,8 +272,6 @@ public class Parser_Expr {
      */
     /**
      * BlockStatement → { Statement* }
-     *
-     * @return
      */
     BlockStatement parseBlockStatement() throws SyntaxError {
         token.consume_check("{");
