@@ -197,7 +197,7 @@ public class Parser_Expr {
             Statement expression = parseExpression();
             token.consume_check(")");
             return expression;
-        } else if (this_peek.equals("virus") || this_peek.equals("antibody ") || this_peek.equals("nearby")) {
+        } else if (this_peek.equals("virus") || this_peek.equals("antibody") || this_peek.equals("nearby")) {
             return parseSensorExpression();
         } else {
             return parseIdentifier();
