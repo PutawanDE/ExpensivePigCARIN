@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.Random;
 
 public class GeneticCodeEvaluator {
+    private static final int MAX_RAND_BOUND = 100;
+    private static final int MAX_ITERATION = 1000;
+    private final Random rand = new Random();
+
     private Entity host;
     private final Map<String, Integer> variableMap = new HashMap<>();
     private boolean isActionPerformed = false;
-
-    private final Random rand = new Random();
-    private final int MAX_RAND_BOUND = 100;
-    private final int MAX_ITERATION = 1000;
 
     private int loopCounter = 0;
 
@@ -58,7 +58,7 @@ public class GeneticCodeEvaluator {
             // Assignment statement
             String identifier = assignStatement.getIdentifier().string_val();
             if (!identifier.equals("random")) {
-                if(!variableMap.containsKey(identifier)) {
+                if (!variableMap.containsKey(identifier)) {
                     variableMap.put(identifier, 0);
                 }
                 int val = evalStatement(assignStatement.getExpression());
