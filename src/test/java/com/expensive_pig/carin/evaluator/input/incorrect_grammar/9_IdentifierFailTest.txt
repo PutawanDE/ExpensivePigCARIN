@@ -1,0 +1,2 @@
+virus=55
+antibody=2

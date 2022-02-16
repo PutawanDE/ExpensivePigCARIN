@@ -17,9 +17,10 @@ public class GeneticCodeEvaluator {
 
     private int loopCounter = 0;
 
-    private final StringBuilder commandsToCall = new StringBuilder();
+    private StringBuilder commandsToCall;
 
     public String evaluateProgram(Program program, Entity host) throws SyntaxError {
+        commandsToCall = new StringBuilder();
         this.host = host;
         isActionPerformed = false;
         program.resetIterator();
