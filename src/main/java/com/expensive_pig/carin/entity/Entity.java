@@ -95,7 +95,7 @@ public class Entity {
 //        world[][]
         return null;
     }
-    public int nearby() {
-       return world.search(posX,posY,"Entity");
+    public int nearby(String direction) {
+       return world.searchNearby(posX,posY,"Entity",direction);
     }
 }

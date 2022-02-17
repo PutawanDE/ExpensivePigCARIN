@@ -40,6 +40,9 @@ public class WorldGame {
         mapField[posY][posX] = null;
     }
 
+    public int searchNearby(int posX, int posY, String entity, String direction) {
+        return lineOfSign(posX,posY,direction ,entity);
+    }
     public int search(int posX , int posY , String type){
         List<Integer> list = new ArrayList<>();
         list.add(  lineOfSign(posX,posY,"up" ,type));

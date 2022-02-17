@@ -118,7 +118,7 @@ public class GeneticCodeEvaluator {
             return switch (sensorExpr.getCommand()) {
                 case "virus" -> host.getVirus();
                 case "antibody" -> host.getAntibody();
-                case "nearby" -> host.nearby();
+                case "nearby" -> host.nearby(sensorExpr.getDirection());
                 default -> throw new SyntaxError();
             };
         } else if (statement instanceof IntLiteral intLit) {
