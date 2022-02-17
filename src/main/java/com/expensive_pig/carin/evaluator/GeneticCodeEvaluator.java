@@ -102,10 +102,13 @@ public class GeneticCodeEvaluator {
 
         } else if (statement instanceof Identifier identifier) {
             // Identifier, get variable, or get random
-            if (identifier.string_val().equals("random")) {
+            String varName = identifier.string_val();
+            if (varName.equals("random")) {
                 return rand.nextInt(MAX_RAND_BOUND);
+            } else if(variableMap.containsKey(varName)){
+                return variableMap.get(varName);
             } else {
-                return variableMap.get(identifier.string_val());
+                throw new SyntaxError();
             }
 
         } else if (statement instanceof SensorExpr sensorExpr) {
