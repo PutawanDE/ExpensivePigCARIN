@@ -8,13 +8,14 @@ public class Anti extends Entity {
         target.reduceHp();
     }
 
-    @Override
-    public void  isDie(){
+    public void  die(){
         if(hp<=0) {
             dieTransferToVirus();
         }
     }
 
     public void dieTransferToVirus(){}
+
+    public String getType(){return "Antibody";}
 
 }

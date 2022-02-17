@@ -1,10 +1,14 @@
 package com.expensive_pig.carin.entity;
 
+import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
-import com.expensive_pig.carin.gameData.Map;
+import com.expensive_pig.carin.evaluator.SyntaxError;
+import com.expensive_pig.carin.gameData.WorldGame;
 
 public class Entity {
     private Program program;
+    private GeneticCodeEvaluator evaluator;
+    private WorldGame world;
 
     int maxhp;
     int hp;
@@ -13,37 +17,38 @@ public class Entity {
     int posX;
     int posY;
 
+    public void connectWorld(WorldGame _world)  {
+        world = _world;
+    }
+    public void ealuated() throws SyntaxError {
+        evaluator = new GeneticCodeEvaluator();
+        evaluator.evaluateProgram(program, this);
+    }
+
 
     /**
-     *  move()
-     *    - attack()
-     *    - isVirus()
-     *    - isAntiBody()
-     *    - status()
-     *
+     * - move()
+     * - attack()
+     * - status()
      */
 
-    public void reduceHp(){
+    public void reduceHp() {
         hp--;
     }
 
-    public void  earnHp(){
+    public void earnHp() {
         hp++;
     }
 
-    public void status(){
+    public void status() {
         System.out.println(maxhp + " " + hp + " " + damage + " " + killcout);
     }
 
-    public int nearby(){
-
-        return 0;
-
-    }
-    public void  isDie(){
-        if(hp<=0) {
+    public boolean isDie() {
+        if (hp <= 0) {
             System.out.println("die");
-        }
+            return true;
+        }else return false;
     }
 
 
@@ -75,6 +80,22 @@ public class Entity {
 
     public void shoot(String direction) {
 //        Entity target = lineOfSign();
-        }
+    }
+    public String getType(){return "Entity";}
 
+    //Sensor ability
+    public int getAntibody() {
+        return world.search(posX,posY,"Antibody");
+    }
+
+    public int getVirus() {
+        return world.search(posX,posY,"Virus");
+    }
+    public Entity getTarget() {
+//        world[][]
+        return null;
+    }
+    public int nearby() {
+       return world.search(posX,posY,"Entity");
+    }
 }

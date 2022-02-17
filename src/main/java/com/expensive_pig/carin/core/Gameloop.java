@@ -1,20 +1,25 @@
 package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.entity.Entity;
+import com.expensive_pig.carin.entity.Virus;
+import com.expensive_pig.carin.evaluator.SyntaxError;
+import com.expensive_pig.carin.gameData.WorldGame;
 
 import java.util.LinkedList;
 
 public class Gameloop {
+    private  WorldGame world;
+    private LinkedList<Entity> entities;
     boolean gameIsruning = true;
     boolean setGame = true;
     boolean newPlayerInput = true;
     double counter = 0.0;
     double multiply = 0.8;
     boolean newStateChange = true;
+    private GenerateEntity newEntity;
 
-    LinkedList<Entity> entity;
 
-    public void start() {
+    public void start() throws SyntaxError {
         gameloop();
     }
 
@@ -22,13 +27,16 @@ public class Gameloop {
         this.multiply = _speed;
     }
 
-    public void gameloop(){
-        for (int i = 0; i < 1000; i++) {
+    public void gameloop() throws SyntaxError {
 
-
-//        while (gameIsruning){
+        for (int i = 0; i < 1000; i++) {//        while (gameIsruning){
             if(setGame){
                 ///
+                world = new WorldGame();
+                entities = new LinkedList<>();
+                newEntity = new GenerateEntity();
+                // form config
+                world.setMapSize(5,6);
                 System.out.println("setgame");
                 setGame = false;
             }
@@ -39,14 +47,21 @@ public class Gameloop {
                 newPlayerInput = false;
             }
             if(counter*(multiply*10.0) > 100 ){
-                System.out.println("evaluate");
+
+                newEntity.update(world);
+                Entity newV = newEntity.create();
+                entities.add(newV);
+                for (Entity entity : entities) {
+                    System.out.println("evaluate");
+                    entity.ealuated();
+                }
+
                 counter=0.0;
             }
             if(newStateChange){
                 System.out.println(counter);
             }
             counter++;
-
 
         }
 
