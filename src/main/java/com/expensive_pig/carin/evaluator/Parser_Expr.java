@@ -1,5 +1,7 @@
 package com.expensive_pig.carin.evaluator;
 
+import com.expensive_pig.carin.core.Direction;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -242,7 +244,7 @@ public class Parser_Expr {
             case "antibody":
                 return new SensorExpr("antibody");
             case "nearby":
-                String direction = parseDirection();
+                Direction direction = parseDirection();
                 return new SensorExpr("nearby", direction);
             default:
                 throw new SyntaxError();
@@ -253,13 +255,12 @@ public class Parser_Expr {
      * Direction → return direction
      * down, downleft, downright,   left,   right, shoot, then, up, upleft, upright
      */
-    private String parseDirection() throws SyntaxError {
+    private Direction parseDirection() throws SyntaxError {
         String this_peek = token.peek();
         token.consume(); // remove down, downleft, downright,   left,   right, shoot, then, up, upleft, upright
-        if (this_peek.equals("left") || this_peek.equals("right") || this_peek.equals("up") || this_peek.equals("down")
-                || this_peek.equals("downleft") || this_peek.equals("downright") || this_peek.equals("upleft")
-                || this_peek.equals("upright")) {
-            return this_peek;
+        Direction direction = Direction.getDirectionByString(this_peek);
+        if (direction != null) {
+            return direction;
         } else {
             throw new SyntaxError();
         }

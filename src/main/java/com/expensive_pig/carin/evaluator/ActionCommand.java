@@ -1,10 +1,12 @@
 package com.expensive_pig.carin.evaluator;
 
+import com.expensive_pig.carin.core.Direction;
+
 public class ActionCommand implements Statement {
     private String command;
-    private String direction; //for  action
+    private Direction direction; //for  action
 
-    public ActionCommand(String _action, String _direction) {
+    public ActionCommand(String _action, Direction _direction) {
         this.command = _action;
         this.direction = _direction;
     }
@@ -19,6 +21,6 @@ public class ActionCommand implements Statement {
     }
 
     public String getDirection() {
-        return direction;
+        return direction.toString();
     }
 }

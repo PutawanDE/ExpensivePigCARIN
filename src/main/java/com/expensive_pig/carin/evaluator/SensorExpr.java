@@ -1,14 +1,16 @@
 package com.expensive_pig.carin.evaluator;
 
+import com.expensive_pig.carin.core.Direction;
+
 public class SensorExpr implements Statement {
     private String command;
-    private String direction; //for  action
+    private Direction direction; //for  action
 
     public SensorExpr(String command) {
         this.command = command;
     }
 
-    public SensorExpr(String command, String direction) {
+    public SensorExpr(String command, Direction direction) {
         this.command = command;
         this.direction = direction;
     }
@@ -26,7 +28,7 @@ public class SensorExpr implements Statement {
         return command;
     }
 
-    public String getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 }
