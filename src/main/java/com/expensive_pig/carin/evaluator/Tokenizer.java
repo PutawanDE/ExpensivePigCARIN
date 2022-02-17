@@ -1,42 +1,33 @@
 package com.expensive_pig.carin.evaluator;
 
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
-public class Tokenizer  {
+public class Tokenizer {
+    private static final Pattern splitPattern =
+            Pattern.compile("([\\s]++)|(?<=[=+-\\-*/%(){}^])|(?=[=+\\-*/%(){}^])");
 
-    /**
-     * E → E + T | E - T | T
-     * T → T * F | T / F | T % F | F
-     * F → n | ( E )
-     */
-
-
-    private String stream;
     private LinkedList<String> tokens;
 
     public Tokenizer() {
     }
 
-
     public void cutter(String stream) {
-        this.stream = stream;
         tokens = new LinkedList<>();
-        String[] separated = stream.split("([\\s]++)|(?<=[=+-\\-*/%(){}^])|(?=[=+\\-*/%(){}^])");
-        for(String s : separated) {
-            if(!s.trim().isEmpty()) {
+        String[] separated = splitPattern.split(stream);
+        for (String s : separated) {
+            if (!s.trim().isEmpty()) {
                 tokens.add(s);
             }
         }
         System.out.println(tokens);
     }
 
-
     public String peek() throws SyntaxError {
         if (!tokens.isEmpty()) {
             return tokens.getFirst();
         } else throw new SyntaxError();
     }
-
 
     public String consume() {
         String temp = tokens.getFirst();
@@ -50,14 +41,12 @@ public class Tokenizer  {
     }
 
     public void consume_check(String s) throws SyntaxError {
-        if (peek_check(s)){
+        if (peek_check(s)) {
             consume();
-        }
-        else throw new SyntaxError();
+        } else throw new SyntaxError();
     }
 
-    public boolean empty(){
+    public boolean empty() {
         return tokens.isEmpty();
     }
-
 }

@@ -1,0 +1,13 @@
+a=5
+while((((((a)))))) {
+    a=a-1
+    if(a) then {
+        s=antibody+nearby up
+        if((((0-5)))) then {}
+        else {
+            {{{v=virus}}}
+        }
+    } else {
+        shoot down
+    }
+}

@@ -1,5 +1,6 @@
 package com.expensive_pig.carin.evaluator;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -9,75 +10,118 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GeneticCodeEvaluatorTest {
-    private String[] inFileNames = {
-            "src/test/java/com/expensive_pig/carin/evaluator/input/1_multipleAssignTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/2_test.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/3_infLoopTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/4_infLoopNestedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/5_sampleTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/6_ifelseTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/7_ifelseTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/8_ifelseTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/9_WhileTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/10_WhileTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/11_WhileTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/12_BlockStatementTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/13_BlockStatementTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/14_BlockStatementTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/15_OrderTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/16_OrderTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/input/17_OneLineTest.txt"
-    };
+    private static ArrayList<Path> correctGrammarTests = new ArrayList<>();
+    private static ArrayList<Path> expectedCorrectGrammarTests = new ArrayList<>();
 
-    private String[] expectedFileNames = {
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/1_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/2_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/3_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/4_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/5_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/6_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/7_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/8_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/9_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/10_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/11_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/12_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/13_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/14_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/15_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/16_expectedTest.txt",
-            "src/test/java/com/expensive_pig/carin/evaluator/expected/17_expectedTest.txt"
-    };
+    private static ArrayList<Path> incorrectGrammarTests = new ArrayList<>();
 
-    @Test
-    void parseAndEvaluate() {
-        ReadGeneticCode readGeneticCode = new ReadGeneticCode();
-        for (int i = 0; i < inFileNames.length; i++) {
-            try {
-                assertEquals(readFile(expectedFileNames[i]),
-                        readGeneticCode.evaluate(readGeneticCode.readFile(inFileNames[i])),
-                        "Expected output: " + expectedFileNames[i] + "\n" +
-                                "Input: " + inFileNames[i]);
-            } catch (SyntaxError e) {
-                System.out.println("FAILED------------------------");
-                System.out.println("Expected output: " + expectedFileNames[i] + "\n" +
-                        "Input: " + inFileNames[i]);
-                e.printStackTrace();
-            }
+    private static ArrayList<Path> manyTimesEvalTests = new ArrayList<>();
+    private static ArrayList<Path> expectedManyTimesEvalTests = new ArrayList<>();
 
+    @BeforeAll
+    static void scanForFilenames() {
+        try {
+            Files.list(Paths.get("src/test/java/com/expensive_pig/carin/evaluator/" +
+                            "input/correct_grammar"))
+                    .forEach(correctGrammarTests::add);
+            Files.list(Paths.get("src/test/java/com/expensive_pig/carin/evaluator/" +
+                            "expected/correct_grammar"))
+                    .forEach(expectedCorrectGrammarTests::add);
+
+            Files.list(Paths.get("src/test/java/com/expensive_pig/carin/evaluator/" +
+                            "input/incorrect_grammar"))
+                    .forEach(incorrectGrammarTests::add);
+
+            Files.list(Paths.get("src/test/java/com/expensive_pig/carin/evaluator/" +
+                            "input/many_times_eval"))
+                    .forEach(manyTimesEvalTests::add);
+            Files.list(Paths.get("src/test/java/com/expensive_pig/carin/evaluator/" +
+                            "expected/many_times_eval"))
+                    .forEach(expectedManyTimesEvalTests::add);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private String readFile(String filePath) {
-        Path file = Paths.get(filePath);  // path string
+    @Test
+    void TestParseAndEvaluate_CorrectGrammar_ShouldPass() {
+        for (int i = 0; i < correctGrammarTests.size(); i++) {
+            ReadGeneticCode readGeneticCode = new ReadGeneticCode();
+            Path input = correctGrammarTests.get(i);
+            Path expected = expectedCorrectGrammarTests.get(i);
+            try {
+                assertEquals(readFile(expected),
+                        readGeneticCode.evaluate(
+                                ReadGeneticCode.readFile(String.valueOf(input))),
+                        "Expected output: " + expected + "\n" +
+                                "Input: " + input);
+            } catch (SyntaxError e) {
+                System.out.println("FAILED------------------------");
+                System.out.println("Expected output: " + expected + "\n" +
+                        "Input: " + input);
+                e.printStackTrace();
+                fail();
+            }
+        }
+    }
+
+    @Test
+    void TestParseAndEvaluate_IncorrectGrammar_ShouldThrowSyntaxErrorException() {
+        for (int i = 0; i < incorrectGrammarTests.size(); i++) {
+            ReadGeneticCode readGeneticCode = new ReadGeneticCode();
+            Path input = incorrectGrammarTests.get(i);
+            try {
+                assertThrows(SyntaxError.class, () ->
+                                readGeneticCode.evaluate(
+                                        ReadGeneticCode.readFile(String.valueOf(input))),
+                        "Expected output: throw SyntaxError exception \n" +
+                                "Input: " + input);
+            } catch (AssertionError e) {
+                System.out.println("FAILED-----------------------------------------");
+                System.out.println("Expected output: throw SyntaxError exception\n" +
+                        "Input: " + input);
+                e.printStackTrace();
+                fail();
+            }
+        }
+    }
+
+    @Test
+    void TestParseAndEvaluate_ManyTimesEvaluation_ShouldPass() {
+        for (int i = 0; i < manyTimesEvalTests.size(); i++) {
+            ReadGeneticCode readGeneticCode = new ReadGeneticCode();
+            Path input = manyTimesEvalTests.get(i);
+            Path expected = expectedManyTimesEvalTests.get(i);
+            try {
+                StringBuilder output = new StringBuilder();
+                for (int j = 0; j < 5; j++) {
+                    output.append(readGeneticCode.evaluate(
+                            ReadGeneticCode.readFile(String.valueOf(input))));
+                }
+
+                assertEquals(readFile(expected), output.toString(),
+                        "Expected output: " + expected + "\n" +
+                                "Input: " + input);
+            } catch (SyntaxError e) {
+                System.out.println("FAILED------------------------");
+                System.out.println("Expected output: " + expected + "\n" +
+                        "Input: " + input);
+                e.printStackTrace();
+                fail();
+            }
+        }
+    }
+
+    private static String readFile(Path filePath) {
         StringBuilder data = new StringBuilder();
         Charset charset = StandardCharsets.UTF_8;
 
-        try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
+        try (BufferedReader reader = Files.newBufferedReader(filePath, charset)) {
             String text;
             while ((text = reader.readLine()) != null) {
                 String ignoreComment = text.split("#", text.length())[0];

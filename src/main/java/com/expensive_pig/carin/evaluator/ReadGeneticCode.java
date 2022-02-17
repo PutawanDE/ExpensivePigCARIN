@@ -9,24 +9,26 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ReadGeneticCode {
+    Parser_Expr parser = new Parser_Expr();
+    GeneticCodeEvaluator evaluator = new GeneticCodeEvaluator();
+
     public static void main(String[] args) throws SyntaxError {
         ReadGeneticCode readGenetic = new ReadGeneticCode();
-        String data = readGenetic.readFile("src/main/java/com/expensive_pig/carin/dev_genetic/test.txt");
+        String data = readFile("src/test/java/com/expensive_pig/carin/evaluator/input/" +
+                "correct_grammar/20_NestedBlockTest.txt");
         readGenetic.evaluate(data);
         System.out.println(data);
     }
 
     public String evaluate(String data) throws SyntaxError {
-        Parser_Expr parser = new Parser_Expr();
         Program p = parser.parse(data);
-        GeneticCodeEvaluator evaluator = new GeneticCodeEvaluator();
         return evaluator.evaluateProgram(p, null);
     }
 
     /**
      * readfile
      */
-    public String readFile(String filePath) {
+    public static String readFile(String filePath) {
         Path file = Paths.get(filePath);  // path string
         StringBuilder data = new StringBuilder();
         Charset charset = StandardCharsets.UTF_8;

@@ -15,7 +15,6 @@ public class Parser_Expr {
     ));
 
 
-
     /**
      * Program → Statement+
      * Statement → Command | BlockStatement | IfStatement | WhileStatement
@@ -36,6 +35,15 @@ public class Parser_Expr {
      *
      * @throws SyntaxError
      */
+
+    public static boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     public Program parse(String stream) throws SyntaxError {
         this.token = new Tokenizer();
@@ -60,7 +68,7 @@ public class Parser_Expr {
     /**
      * Statement → Command | BlockStatement | ifStatement | WhileStatement
      */
-    Statement parseStatement() throws SyntaxError {
+    private Statement parseStatement() throws SyntaxError {
         String this_peek = token.peek();
         return switch (this_peek) {
             case "{" -> parseBlockStatement();          //BlockStatement
@@ -73,7 +81,7 @@ public class Parser_Expr {
     /**
      * Command → AssignmentStatement | ActionCommand
      */
-    Statement parseCommand() throws SyntaxError {
+    private Statement parseCommand() throws SyntaxError {
         String this_peek = token.peek();
         // token.consume();
         if (this_peek.equals("move") | this_peek.equals("shoot")) {
@@ -86,7 +94,7 @@ public class Parser_Expr {
     /**
      * AssignmentStatement → <identifier> = Expression
      */
-    Statement parseAssignmentStatement() throws SyntaxError {
+    private Statement parseAssignmentStatement() throws SyntaxError {
         Statement identifier = parseIdentifier();
         token.consume_check("=");
         Statement expression = parseExpression();
@@ -96,7 +104,7 @@ public class Parser_Expr {
     /**
      * ActionCommand → MoveCommand | AttackCommand
      */
-    Statement parseActionCommand() throws SyntaxError {
+    private Statement parseActionCommand() throws SyntaxError {
         String this_peek = token.peek();
         if (this_peek.equals("move")) {
             return parseMoveCommand();
@@ -110,7 +118,7 @@ public class Parser_Expr {
     /**
      * MoveCommand → move Direction
      */
-    Statement parseMoveCommand() throws SyntaxError {
+    private Statement parseMoveCommand() throws SyntaxError {
         String this_peek = token.peek();
         token.consume_check("move");
         if (this_peek.equals("move")) {
@@ -121,7 +129,7 @@ public class Parser_Expr {
     /**
      * AttackCommand → shoot Direction
      */
-    Statement parseAttackCommand() throws SyntaxError {
+    private Statement parseAttackCommand() throws SyntaxError {
         String this_peek = token.peek();
         token.consume_check("shoot");
         if (this_peek.equals("shoot")) {
@@ -134,7 +142,7 @@ public class Parser_Expr {
      * so use reassociation
      * Expression → Term( + Term)* | Term( - Term)* | Term
      */
-    Statement parseExpression() throws SyntaxError {
+    private Statement parseExpression() throws SyntaxError {
         Statement term = parseTerm();
         while (token.peek_check("+") || token.peek_check("-")) {
             String this_peek = token.peek();
@@ -153,7 +161,7 @@ public class Parser_Expr {
      * so use reassociation
      * Term → Factor (* Factor)* | Factor (/ Factor)* | Factor (% Factor)* | Factor
      */
-    Statement parseTerm() throws SyntaxError {
+    private Statement parseTerm() throws SyntaxError {
         Statement factor = parseFactor();
         while (token.peek_check("*") || token.peek_check("/") || token.peek_check("%")) {
             String this_peek = token.peek();
@@ -171,7 +179,7 @@ public class Parser_Expr {
     /**
      * Factor → Power ^ Factor |   Power
      */
-    Statement parseFactor() throws SyntaxError {
+    private Statement parseFactor() throws SyntaxError {
         Statement power = parsePower();
         if (token.peek_check("^")) {
             String this_peek = token.peek();
@@ -187,7 +195,7 @@ public class Parser_Expr {
     /**
      * Power → <number> | <identifier> |  Expression | SensorExpression
      */
-    Statement parsePower() throws SyntaxError {
+    private Statement parsePower() throws SyntaxError {
         //parseInt
         String this_peek = token.peek();
         if (isNumeric(this_peek)) {
@@ -197,7 +205,7 @@ public class Parser_Expr {
             Statement expression = parseExpression();
             token.consume_check(")");
             return expression;
-        } else if (this_peek.equals("virus") || this_peek.equals("antibody ") || this_peek.equals("nearby")) {
+        } else if (this_peek.equals("virus") || this_peek.equals("antibody") || this_peek.equals("nearby")) {
             return parseSensorExpression();
         } else {
             return parseIdentifier();
@@ -207,7 +215,7 @@ public class Parser_Expr {
     /**
      * identifier is valuable
      */
-    Statement parseIdentifier() throws SyntaxError {
+    private Statement parseIdentifier() throws SyntaxError {
         String this_peek = token.peek();
         token.consume(); //
         if (reservedWords.contains(this_peek)) {
@@ -225,7 +233,7 @@ public class Parser_Expr {
     /**
      * SensorExpression → virus | antibody |  nearby_Direction
      */
-    Statement parseSensorExpression() throws SyntaxError {
+    private Statement parseSensorExpression() throws SyntaxError {
         String this_peek = token.peek();
         token.consume();
         switch (this_peek) {
@@ -241,21 +249,11 @@ public class Parser_Expr {
         }
     }
 
-    public static boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-
     /**
      * Direction → return direction
      * down, downleft, downright,   left,   right, shoot, then, up, upleft, upright
      */
-    String parseDirection() throws SyntaxError {
+    private String parseDirection() throws SyntaxError {
         String this_peek = token.peek();
         token.consume(); // remove down, downleft, downright,   left,   right, shoot, then, up, upleft, upright
         if (this_peek.equals("left") || this_peek.equals("right") || this_peek.equals("up") || this_peek.equals("down")
@@ -273,7 +271,7 @@ public class Parser_Expr {
     /**
      * BlockStatement → { Statement* }
      */
-    BlockStatement parseBlockStatement() throws SyntaxError {
+    private BlockStatement parseBlockStatement() throws SyntaxError {
         token.consume_check("{");
 
         LinkedList<Statement> prossed = new LinkedList<>();
@@ -291,7 +289,7 @@ public class Parser_Expr {
     /**
      * ifStatement → if (Expression) then statement  else statement
      */
-    Statement parseIfStatement() throws SyntaxError {
+    private Statement parseIfStatement() throws SyntaxError {
         token.consume_check("if");
         token.consume_check("(");
         Statement Expression = parseExpression();
@@ -311,7 +309,7 @@ public class Parser_Expr {
     /**
      * WhileStatement → while ( Expression ) Statement
      */
-    Statement parseWhileStatement() throws SyntaxError {
+    private Statement parseWhileStatement() throws SyntaxError {
         token.consume_check("while");
         Statement Expression = parseExpression();
 
