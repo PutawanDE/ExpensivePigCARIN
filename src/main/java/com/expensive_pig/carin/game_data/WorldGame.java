@@ -20,6 +20,10 @@ public class WorldGame {
         mapField = new EntityType[m][n];
     }
 
+    public int[] getMapSize() {
+        return  new int[] {m,n};
+    }
+
     public boolean slotIsFree(int posX, int posY) {
         return mapField[posY][posX] == null;
     }

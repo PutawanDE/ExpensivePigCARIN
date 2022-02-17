@@ -2,6 +2,7 @@ package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.entity.Entity;
+import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.entity.Virus;
 import com.expensive_pig.carin.game_data.WorldGame;
 
@@ -9,8 +10,8 @@ import java.util.Random;
 
 public class EntityFactory {
     private  WorldGame world;
-    private Process virusGen[];
-    private Process antiGen[];
+    private Process[] virusGen;
+    private Process[] antiGen;
     private final Random r = new Random();
 
     public void importGen(Process[] virusGen, Process[] antiGen){
@@ -23,11 +24,11 @@ public class EntityFactory {
 
     }
 
-    public Entity createEntity(String _type) {
+    public Entity createEntity(EntityType _type) {
         Entity e = null;
-        if(_type.equals("Virus")){
+        if(_type.equals(EntityType.VIRUS)){
             e = new Virus();
-        }else if(_type.equals("Anti")) {
+        }else if(_type.equals(EntityType.ANTIBODY)) {
             e = new Anti();
         }
         e.connectWorld(world);
@@ -36,7 +37,7 @@ public class EntityFactory {
 
         int posX = r.nextInt(max_X) ;
         int posY = r.nextInt(max_Y);
-        if(world.slootIsFree(posX,posY)){
+        if(world.slotIsFree(posX,posY)){
             world.addNewEntity(posX,posY,e.getType());
         }
 

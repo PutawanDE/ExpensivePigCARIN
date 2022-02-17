@@ -1,6 +1,7 @@
 package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.entity.Entity;
+import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.game_data.WorldGame;
 
@@ -50,7 +51,7 @@ public class Gameloop {
 
 
 
-                Entity newV = newEntity.createEntity("Virus");
+                Entity newV = newEntity.createEntity(EntityType.VIRUS);
                 entities.add(newV);
                 for (Entity entity : entities) {
                     System.out.println("evaluate");
