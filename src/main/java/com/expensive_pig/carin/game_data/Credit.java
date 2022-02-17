@@ -1,4 +1,4 @@
-package com.expensive_pig.carin.gameData;
+package com.expensive_pig.carin.game_data;
 
 public class Credit {
     private  int money;

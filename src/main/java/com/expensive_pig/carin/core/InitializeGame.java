@@ -1,4 +1,4 @@
-package com.expensive_pig.carin.gamecontroller;
+package com.expensive_pig.carin.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;

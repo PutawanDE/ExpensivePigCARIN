@@ -1,4 +1,4 @@
-package com.expensive_pig.carin.gameData;
+package com.expensive_pig.carin.game_data;
 
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.evaluator.SyntaxError;

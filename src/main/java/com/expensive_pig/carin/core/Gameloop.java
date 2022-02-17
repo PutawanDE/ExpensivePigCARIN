@@ -1,9 +1,8 @@
 package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.entity.Entity;
-import com.expensive_pig.carin.entity.Virus;
 import com.expensive_pig.carin.evaluator.SyntaxError;
-import com.expensive_pig.carin.gameData.WorldGame;
+import com.expensive_pig.carin.game_data.WorldGame;
 
 import java.util.LinkedList;
 

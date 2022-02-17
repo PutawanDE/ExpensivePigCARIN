@@ -3,7 +3,7 @@ package com.expensive_pig.carin.entity;
 import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
-import com.expensive_pig.carin.gameData.WorldGame;
+import com.expensive_pig.carin.game_data.WorldGame;
 
 public class Entity {
     private Program program;
