@@ -17,7 +17,7 @@ public class GeneticCodeEvaluator {
 
     private int loopCounter = 0;
 
-    private final StringBuilder commandsToCall = new StringBuilder();
+    private final StringBuilder commandsCall = new StringBuilder();  // commandsCall for debug
 
     public String evaluateProgram(Program program, Entity host) throws SyntaxError {
         this.host = host;
@@ -27,7 +27,7 @@ public class GeneticCodeEvaluator {
             loopCounter = 0;
             evalStatement(program.getNextStatement());
         }
-        return commandsToCall.toString();
+        return commandsCall.toString();
     }
 
     private int evalStatement(Statement statement) throws SyntaxError {
@@ -68,12 +68,16 @@ public class GeneticCodeEvaluator {
             // Action Command
             if (!isActionPerformed) {
                 System.out.println(actionCommand.string_val());
-                commandsToCall.append(actionCommand.string_val()).append("\n");
+                commandsCall.append(actionCommand.string_val()).append("\n");
+                // todo
                 if (actionCommand.getActionCmd().equals("move")) {
 
-                    /// host.move(actionCommand.getDirection());
+                     host.move(actionCommand.getDirection());
+
                 } else if (actionCommand.getActionCmd().equals("shoot")) {
-                    /// host.shoot(actionCommand.getDirection());
+
+                    host.shoot(actionCommand.getDirection());
+
                 } else {
                     throw new SyntaxError();
                 }
@@ -105,20 +109,16 @@ public class GeneticCodeEvaluator {
 
         } else if (statement instanceof SensorExpr sensorExpr) {
             // Sensor Command
-            commandsToCall.append(sensorExpr.string_val()).append("\n");
-            switch (sensorExpr.getCommand()) {
-                case "virus":
-                    /// return owner.virus();
-                    break;
-                case "antibody":
-                    /// return owner.antibody();
-                    break;
-                case "nearby":
-                    // return owner.nearby(sensorExpr.getDirection);
-                    break;
-                default:
-                    throw new SyntaxError();
-            }
+            commandsCall.append(sensorExpr.string_val()).append("\n");
+            // todo
+
+
+            return switch (sensorExpr.getCommand()) {
+                case "virus" -> host.getVirus();
+                case "antibody" -> host.getAntibody();
+                case "nearby" -> host.nearby();
+                default -> throw new SyntaxError();
+            };
         } else if (statement instanceof IntLiteral intLit) {
             return intLit.eval();
         }
