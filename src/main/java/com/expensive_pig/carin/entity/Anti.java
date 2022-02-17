@@ -16,6 +16,6 @@ public class Anti extends Entity {
 
     public void dieTransferToVirus(){}
 
-    public String getType(){return "Antibody";}
+    public EntityType getType(){return EntityType.ANTIBODY;}
 
 }

@@ -1,5 +1,6 @@
 package com.expensive_pig.carin.entity;
 
+import com.expensive_pig.carin.core.Direction;
 import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
@@ -17,9 +18,10 @@ public class Entity {
     int posX;
     int posY;
 
-    public void connectWorld(WorldGame _world)  {
+    public void connectWorld(WorldGame _world) {
         world = _world;
     }
+
     public void ealuated() throws SyntaxError {
         evaluator = new GeneticCodeEvaluator();
         evaluator.evaluateProgram(program, this);
@@ -48,7 +50,7 @@ public class Entity {
         if (hp <= 0) {
             System.out.println("die");
             return true;
-        }else return false;
+        } else return false;
     }
 
 
@@ -81,21 +83,26 @@ public class Entity {
     public void shoot(String direction) {
 //        Entity target = lineOfSign();
     }
-    public String getType(){return "Entity";}
+
+    public EntityType getType() {
+        return EntityType.ENTITY;
+    }
 
     //Sensor ability
     public int getAntibody() {
-        return world.search(posX,posY,"Antibody");
+        return world.search(posX, posY, EntityType.ANTIBODY);
     }
 
     public int getVirus() {
-        return world.search(posX,posY,"Virus");
+        return world.search(posX, posY, EntityType.VIRUS);
     }
+
     public Entity getTarget() {
 //        world[][]
         return null;
     }
-    public int nearby(String direction) {
-       return world.searchNearby(posX,posY,"Entity",direction);
+
+    public int nearby(Direction direction) {
+        return world.searchNearby(posX, posY, EntityType.ENTITY, direction);
     }
 }
