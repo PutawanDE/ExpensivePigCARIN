@@ -4,17 +4,18 @@ import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.entity.Virus;
+import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.WorldGame;
 
 import java.util.Random;
 
 public class EntityFactory {
-    private  WorldGame world;
-    private Process[] virusGen;
-    private Process[] antiGen;
+    private WorldGame world;
+    private Program[] virusGen;
+    private Program[] antiGen;
     private final Random r = new Random();
 
-    public void importGen(Process[] virusGen, Process[] antiGen){
+    public void importGen(Program[] virusGen, Program[] antiGen) {
         this.virusGen = virusGen;
         this.antiGen = antiGen;
     }
@@ -24,21 +25,24 @@ public class EntityFactory {
 
     }
 
-    public Entity createEntity(EntityType _type) {
+    public Entity createEntity(EntityType _type, Integer antibodyType) {
         Entity e = null;
-        if(_type.equals(EntityType.VIRUS)){
-            e = new Virus();
-        }else if(_type.equals(EntityType.ANTIBODY)) {
-            e = new Anti();
+        if (_type.equals(EntityType.VIRUS)) {
+            int slot = r.nextInt(3);
+            e = new Virus(virusGen[slot]);
+            e.connectWorld(world);
+        } else if (_type.equals(EntityType.ANTIBODY)) {
+            e = new Anti(antiGen[antibodyType]);
+            e.connectWorld(world);
         }
-        e.connectWorld(world);
-        int max_X =  world.getMapSize()[1];
+
+        int max_X = world.getMapSize()[1];
         int max_Y = world.getMapSize()[0];
 
-        int posX = r.nextInt(max_X) ;
+        int posX = r.nextInt(max_X);
         int posY = r.nextInt(max_Y);
-        if(world.slotIsFree(posX,posY)){
-            world.addNewEntity(posX,posY,e.getType());
+        if (world.slotIsFree(posX, posY)) {
+            world.addNewEntity(posX, posY, e);
         }
 
         return e;

@@ -2,6 +2,7 @@ package com.expensive_pig.carin.game_data;
 
 import com.expensive_pig.carin.core.Direction;
 
+import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 
@@ -12,12 +13,12 @@ import java.util.List;
 public class WorldGame {
     int m;
     int n;
-    EntityType[][] mapField;
+    Entity[][] mapField;
 
     public void setMapSize(int m, int n) {
         this.m = m;
         this.n = n;
-        mapField = new EntityType[m][n];
+        mapField = new Entity[m][n];
     }
 
     public int[] getMapSize() {
@@ -31,8 +32,8 @@ public class WorldGame {
     //    public Entity getTarget(int posX,int posY){
 ////        return mapField[posY][posX];
 //    }
-    public void addNewEntity(int posX, int posY, EntityType type) {
-        mapField[posY][posX] = type;
+    public void addNewEntity(int posX, int posY, Entity obj) {
+        mapField[posY][posX] = obj;
     }
 
     public void movePosEntity(int posX, int posY, int toposX, int toposY) throws SyntaxError {
@@ -123,7 +124,7 @@ public class WorldGame {
                 if (mapField[nowY][nowX] != null) {
                     if (_type.equals(EntityType.ENTITY)) {
                         break;
-                    } else if (mapField[nowY][nowX].equals(_type)) {
+                    } else if (mapField[nowY][nowX].getType().equals(_type)) {
                         break;
                     }
                 }
