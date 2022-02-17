@@ -16,13 +16,17 @@ public class ReadGeneticCode {
         ReadGeneticCode readGenetic = new ReadGeneticCode();
         String data = readFile("src/test/java/com/expensive_pig/carin/evaluator/input/" +
                 "correct_grammar/20_NestedBlockTest.txt");
-        readGenetic.evaluate(data);
+        readGenetic.getProgram(data);
         System.out.println(data);
     }
-
-    public String evaluate(String data) throws SyntaxError {
+    // for test genetic dont use
+    public String geneticEvaluateTest(String data) throws SyntaxError {
         Program p = parser.parse(data);
         return evaluator.evaluateProgram(p, null);
+    }
+    public Program getProgram(String data) throws SyntaxError {
+        Program p = parser.parse(data);
+        return p;
     }
 
     /**

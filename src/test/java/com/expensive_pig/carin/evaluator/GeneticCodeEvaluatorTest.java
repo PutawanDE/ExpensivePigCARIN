@@ -56,7 +56,7 @@ class GeneticCodeEvaluatorTest {
             Path expected = expectedCorrectGrammarTests.get(i);
             try {
                 assertEquals(readFile(expected),
-                        readGeneticCode.evaluate(
+                        readGeneticCode.geneticEvaluateTest(
                                 ReadGeneticCode.readFile(String.valueOf(input))),
                         "Expected output: " + expected + "\n" +
                                 "Input: " + input);
@@ -77,7 +77,7 @@ class GeneticCodeEvaluatorTest {
             Path input = incorrectGrammarTests.get(i);
             try {
                 assertThrows(SyntaxError.class, () ->
-                                readGeneticCode.evaluate(
+                                readGeneticCode.geneticEvaluateTest(
                                         ReadGeneticCode.readFile(String.valueOf(input))),
                         "Expected output: throw SyntaxError exception \n" +
                                 "Input: " + input);
@@ -100,7 +100,7 @@ class GeneticCodeEvaluatorTest {
             try {
                 StringBuilder output = new StringBuilder();
                 for (int j = 0; j < 5; j++) {
-                    output.append(readGeneticCode.evaluate(
+                    output.append(readGeneticCode.geneticEvaluateTest(
                             ReadGeneticCode.readFile(String.valueOf(input))));
                 }
 
