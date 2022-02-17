@@ -18,6 +18,9 @@ public class WorldGame {
         mapField = new String[m][n];
 
     }
+    public int[] getMapSize() {
+        return  new int[] {m,n};
+    }
     public boolean slootIsFree(int posX, int posY) {
         return mapField[posY][posX] == null;
     }

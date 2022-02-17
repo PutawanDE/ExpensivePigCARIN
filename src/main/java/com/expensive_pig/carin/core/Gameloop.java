@@ -15,7 +15,7 @@ public class Gameloop {
     double counter = 0.0;
     double multiply = 0.8;
     boolean newStateChange = true;
-    private GenerateEntity newEntity;
+    private EntityFactory newEntity;
 
 
     public void start() throws SyntaxError {
@@ -33,7 +33,7 @@ public class Gameloop {
                 ///
                 world = new WorldGame();
                 entities = new LinkedList<>();
-                newEntity = new GenerateEntity();
+                newEntity = new EntityFactory();
                 // form config
                 world.setMapSize(5,6);
                 System.out.println("setgame");
@@ -46,9 +46,11 @@ public class Gameloop {
                 newPlayerInput = false;
             }
             if(counter*(multiply*10.0) > 100 ){
-
                 newEntity.update(world);
-                Entity newV = newEntity.create();
+
+
+
+                Entity newV = newEntity.createEntity("Virus");
                 entities.add(newV);
                 for (Entity entity : entities) {
                     System.out.println("evaluate");
