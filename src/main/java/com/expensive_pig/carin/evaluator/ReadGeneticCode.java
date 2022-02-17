@@ -12,22 +12,19 @@ public class ReadGeneticCode {
     Parser_Expr parser = new Parser_Expr();
     GeneticCodeEvaluator evaluator = new GeneticCodeEvaluator();
 
-    public static void main(String[] args) throws SyntaxError {
-        ReadGeneticCode readGenetic = new ReadGeneticCode();
-        String data = readFile("src/test/java/com/expensive_pig/carin/evaluator/input/" +
-                "correct_grammar/20_NestedBlockTest.txt");
-        readGenetic.getProgram(data);
-        System.out.println(data);
+    public  Program getProgrambyPath(String path) throws SyntaxError {
+        String data = readFile(path);
+        return parser.parse(data);  // Program
+    }
+    public  Program getProgrambyString(String data) throws SyntaxError {
+        return parser.parse(data); // Program
     }
     // for test genetic dont use
     public String geneticEvaluateTest(String data) throws SyntaxError {
         Program p = parser.parse(data);
         return evaluator.evaluateProgram(p, null);
     }
-    public Program getProgram(String data) throws SyntaxError {
-        Program p = parser.parse(data);
-        return p;
-    }
+
 
     /**
      * readfile

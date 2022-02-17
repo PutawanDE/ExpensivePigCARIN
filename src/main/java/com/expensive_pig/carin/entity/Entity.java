@@ -7,7 +7,7 @@ import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.game_data.WorldGame;
 
 public class Entity {
-    private Program program;
+    protected Program program;
     private GeneticCodeEvaluator evaluator;
     private WorldGame world;
 

@@ -18,10 +18,10 @@ public class InitializeGame {
 
     @MessageMapping("/start")
     public void initializeGame(@Header("simpSessionId") String sessionId) throws Exception {
-        createNewGame(sessionId, new GameConfiguration());
+//        createNewGame(sessionId, new GameConfiguration());
     }
 
-    private void createNewGame(String sessionId, GameConfiguration gameConfiguration) {
-        template.convertAndSend("/queue/game-" + sessionId, gameConfiguration);
-    }
+//    private void createNewGame(String sessionId, GameConfiguration gameConfiguration) {
+//        template.convertAndSend("/queue/game-" + sessionId, gameConfiguration);
+//    }
 }
