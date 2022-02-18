@@ -1,6 +1,7 @@
 package com.expensive_pig.carin.entity;
 
 import com.expensive_pig.carin.core.Direction;
+import com.expensive_pig.carin.core.EntityFactory;
 import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
@@ -8,12 +9,14 @@ import com.expensive_pig.carin.game_data.WorldGame;
 
 public class Entity {
     protected Program program;
+    protected int kind; // get form config
     private GeneticCodeEvaluator evaluator;
-    private WorldGame world;
+    protected WorldGame world;
 
     int maxhp; // get form config
     int hp;  // get form config
     int damage; // get form config
+    boolean live = true;
     int killcout;
     int posX;
     int posY;
@@ -32,18 +35,27 @@ public class Entity {
      * - move()
      * - attack()
      * - status()
+     *
      * @param damage
      */
 
-    public void reduceHp(int damage) {
-        if (!isDie()){
-            hp-=damage;
+    public void reduceVirusHp(int damage) {
+        if (!isDie()) {
+            hp -= damage;
+            if (hp <= 0) {
+                live = false;
+            }
         }
+    }
+
+
+    public void reduceAntiHp(int damage,int kind, Program program) {
 
     }
 
+
     public void earnHp(int damage) {
-        hp+=damage;
+        hp += damage;
     }
 
     public void status() {
@@ -53,10 +65,17 @@ public class Entity {
     public boolean isDie() {
         if (hp <= 0) {
             System.out.println("die");
+            if (!live) {
+                world.clearPosEntity(posX, posY);
+            }
             return true;
         } else return false;
     }
 
+    public void dieTransferToVirus(int virusKind , Program virusProgram) {
+        // add new virus in die pos of this!
+        world.converseEntity(posX, posY, virusKind, virusProgram);
+    }
 
     public void move(Direction direction) throws SyntaxError {
         int tempposX = posX;
@@ -99,7 +118,13 @@ public class Entity {
             case LEFT -> taget = world.getTarget(posX - 1, posY);
             case UP_LEFT -> taget = world.getTarget(posX - 1, posY + 1);
         }
-        taget.reduceHp(damage);
+
+        if(world.getTarget(posX,posY).getType().equals(EntityType.VIRUS)){  // cheack who shoot
+            taget.reduceAntiHp(damage,kind,program);
+        }else {
+            taget.reduceVirusHp(damage);
+        }
+
         earnHp(damage);
 
     }
