@@ -6,20 +6,25 @@ import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class WorldGame {
     int m;
     int n;
     Entity[][] mapField;
+    public Set<Pair> freeField =  new HashSet<>();
 
     public void setMapSize(int m, int n) {
         this.m = m;
         this.n = n;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                freeField.add(new Pair(n,m ));
+            }
+        }
         mapField = new Entity[m][n];
     }
+
 
     public int[] getMapSize() {
         return  new int[] {m,n};
@@ -47,6 +52,7 @@ public class WorldGame {
 
     public void clearPosEntity(int posX, int posY) {
         mapField[posY][posX] = null;
+        freeField.remove(new Pair(n,m));
     }
 
     public int searchNearby(int posX, int posY, EntityType entity, Direction direction) {

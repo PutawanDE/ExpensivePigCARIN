@@ -5,6 +5,7 @@ import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.entity.Virus;
 import com.expensive_pig.carin.evaluator.Program;
+import com.expensive_pig.carin.game_data.Pair;
 import com.expensive_pig.carin.game_data.WorldGame;
 
 import java.util.Random;
@@ -25,26 +26,49 @@ public class EntityFactory {
 
     }
 
-    public Entity createEntity(EntityType _type, Integer antibodyType) {
+    public Entity converseAntiToVirus(int posX, int posY, int kind, Program rna) {
         Entity e = null;
-        int max_X = world.getMapSize()[1];
-        int max_Y = world.getMapSize()[0];
 
-        int posX = r.nextInt(max_X);
-        int posY = r.nextInt(max_Y);
-        if (_type.equals(EntityType.VIRUS)) {
-            int slot = r.nextInt(3);
-            e = new Virus(posX, posY,virusGen[slot]);
-            e.connectWorld(world);
-        } else if (_type.equals(EntityType.ANTIBODY)) {
-            e = new Anti(posX, posY,antiGen[antibodyType]);
-            e.connectWorld(world);
-        }
-
+        e = new Virus(posX, posY, kind, rna);
+        e.connectWorld(world);
 
         if (world.slotIsFree(posX, posY)) {
             world.addNewEntity(posX, posY, e);
         }
+
+        return e;
+    }
+
+    public Entity createEntity(EntityType _type, Integer antiKind) {
+        Entity e = null;
+
+        int posX = 0;
+        int posY = 0;
+
+        int size = world.freeField.size();
+        int item = r.nextInt(size); // In real life, the Random object should be rather more shared than this
+        int i = 0;
+        for (Pair tile : world.freeField) {
+            if (i == item) {
+                posX = tile.getX();
+                posY = tile.getY();
+                break;
+            }
+            i++;
+        }
+
+
+        if (_type.equals(EntityType.VIRUS)) {
+            int kind = r.nextInt(3);
+            e = new Virus(posX, posY, kind, virusGen[kind]);
+            e.connectWorld(world);
+        } else if (_type.equals(EntityType.ANTIBODY)) {
+            e = new Anti(posX, posY, antiKind, antiGen[antiKind]);
+            e.connectWorld(world);
+        }
+
+        world.addNewEntity(posX, posY, e);
+
 
         return e;
     }
