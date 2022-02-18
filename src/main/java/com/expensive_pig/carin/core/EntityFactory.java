@@ -8,9 +8,11 @@ import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.Pair;
 import com.expensive_pig.carin.game_data.WorldGame;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class EntityFactory {
+    public final LinkedList<Entity> entities = new LinkedList<>();
     private WorldGame world;
     private Program[] virusGen;
     private Program[] antiGen;
@@ -21,25 +23,21 @@ public class EntityFactory {
         this.antiGen = antiGen;
     }
 
-    public void update(WorldGame _world) {
+    public void connect(WorldGame _world) {
         world = _world;
-
     }
 
-    public Entity converseAntiToVirus(int posX, int posY, int kind, Program rna) {
-        Entity e = null;
-
+    public void converseAntiToVirus(int posX, int posY, int kind, Program rna) {
+        Entity e;
         e = new Virus(posX, posY, kind, rna);
         e.connectWorld(world);
-
         if (world.slotIsFree(posX, posY)) {
             world.addNewEntity(posX, posY, e);
         }
-
-        return e;
+        entities.add(e);
     }
 
-    public Entity createEntity(EntityType _type, Integer antiKind) {
+    public void createEntity(EntityType _type, Integer antiKind) {
         Entity e = null;
 
         int posX = 0;
@@ -57,7 +55,6 @@ public class EntityFactory {
             i++;
         }
 
-
         if (_type.equals(EntityType.VIRUS)) {
             int kind = r.nextInt(3);
             e = new Virus(posX, posY, kind, virusGen[kind]);
@@ -69,7 +66,6 @@ public class EntityFactory {
 
         world.addNewEntity(posX, posY, e);
 
-
-        return e;
+        entities.add(e);
     }
 }

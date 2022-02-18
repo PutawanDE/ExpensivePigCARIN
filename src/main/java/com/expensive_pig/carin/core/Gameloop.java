@@ -6,11 +6,9 @@ import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.game_data.WorldGame;
 
-import java.util.LinkedList;
-
 public class Gameloop {
 
-    private final LinkedList<Entity> entities = new LinkedList<>();
+
 
     boolean gameIsruning = true;
     boolean setGame = true;
@@ -41,7 +39,8 @@ public class Gameloop {
 
             // form config
             world.setMapSize(5, 6);
-            entityFactory.update(world);
+            world.connect(entityFactory);
+            entityFactory.connect(world);
 
             entityFactory.importGen(virus, anti);
             System.out.println("setgame");
@@ -60,18 +59,15 @@ public class Gameloop {
             }
             //==================================================
             if (counter * (multiply * 10.0) > 100) {
-
                 if (playerInput != null) {
-                    Entity newA = entityFactory.createEntity(EntityType.ANTIBODY, 1);
-                    entities.add(newA);
+                    entityFactory.createEntity(EntityType.ANTIBODY, 1);
                 }
-                Entity newV = entityFactory.createEntity(EntityType.VIRUS, null);
-                entities.add(newV);
-                for (Entity entity : entities) {
+                 entityFactory.createEntity(EntityType.VIRUS, null);
+
+                for (Entity entity : entityFactory.entities) {
                     System.out.println("evaluate");
                     entity.ealuated();
                 }
-
                 counter = 0.0;
             }
             //==================================================

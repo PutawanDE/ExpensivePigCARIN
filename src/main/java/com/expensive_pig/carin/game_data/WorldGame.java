@@ -2,24 +2,35 @@ package com.expensive_pig.carin.game_data;
 
 import com.expensive_pig.carin.core.Direction;
 
+import com.expensive_pig.carin.core.EntityFactory;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
+import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 
 import java.util.*;
 
 public class WorldGame {
+    private EntityFactory factory;
     int m;
     int n;
     Entity[][] mapField;
-    public Set<Pair> freeField =  new HashSet<>();
+    public Set<Pair> freeField = new HashSet<>();
+
+    public void connect(EntityFactory entityFactory) {
+        factory = entityFactory;
+    }
+
+    public void converseEntity(int posX, int posY, int kind, Program rna) {
+        factory.converseAntiToVirus(posX, posY, kind, rna);
+    }
 
     public void setMapSize(int m, int n) {
         this.m = m;
         this.n = n;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                freeField.add(new Pair(n,m ));
+                freeField.add(new Pair(n, m));
             }
         }
         mapField = new Entity[m][n];
@@ -27,14 +38,14 @@ public class WorldGame {
 
 
     public int[] getMapSize() {
-        return  new int[] {m,n};
+        return new int[]{m, n};
     }
 
     public boolean slotIsFree(int posX, int posY) {
         return mapField[posY][posX] == null;
     }
 
-        public Entity getTarget(int posX,int posY){
+    public Entity getTarget(int posX, int posY) {
         return mapField[posY][posX];
     }
     public void addNewEntity(int posX, int posY, Entity obj) {
