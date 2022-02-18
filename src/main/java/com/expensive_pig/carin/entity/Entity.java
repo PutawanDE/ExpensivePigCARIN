@@ -11,9 +11,9 @@ public class Entity {
     private GeneticCodeEvaluator evaluator;
     private WorldGame world;
 
-    int maxhp;
-    int hp;
-    int damage;
+    int maxhp; // get form config
+    int hp;  // get form config
+    int damage; // get form config
     int killcout;
     int posX;
     int posY;
@@ -32,14 +32,18 @@ public class Entity {
      * - move()
      * - attack()
      * - status()
+     * @param damage
      */
 
-    public void reduceHp() {
-        hp--;
+    public void reduceHp(int damage) {
+        if (!isDie()){
+            hp-=damage;
+        }
+
     }
 
-    public void earnHp() {
-        hp++;
+    public void earnHp(int damage) {
+        hp+=damage;
     }
 
     public void status() {
@@ -54,34 +58,50 @@ public class Entity {
     }
 
 
-    public void move(String direction) {
+    public void move(Direction direction) throws SyntaxError {
+        int tempposX = posX;
+        int tempposY = posY;
         switch (direction) {
-            case "left" -> posX--;
-            case "right" -> posX++;
-            case "up" -> posY++;
-            case "down" -> posY--;
-            case "downleft" -> {
-                posY--;
-                posX--;
+            case UP -> posY++;
+            case UP_RIGHT -> {
+                posY++;
+                posX++;
             }
-            case "downright" -> {
+            case RIGHT -> posX++;
+            case DOWN_RIGHT -> {
                 posY--;
                 posX++;
             }
-            case "upleft" -> {
-                posY++;
+            case DOWN -> posY--;
+            case DOWN_LEFT -> {
+                posY--;
                 posX--;
             }
-            case "upright" -> {
+            case LEFT -> posX--;
+            case UP_LEFT -> {
                 posY++;
-                posX++;
+                posX--;
             }
 
         }
+        world.movePosEntity(tempposX, tempposY, posX, posY);
     }
 
-    public void shoot(String direction) {
-//        Entity target = lineOfSign();
+    public void shoot(Direction direction) {
+        Entity taget = null;
+        switch (direction) {
+            case UP -> taget = world.getTarget(posX, posY + 1);
+            case UP_RIGHT -> taget = world.getTarget(posX + 1, posY + 1);
+            case RIGHT -> taget = world.getTarget(posX + 1, posY);
+            case DOWN_RIGHT -> taget = world.getTarget(posX + 1, posY - 1);
+            case DOWN -> taget = world.getTarget(posX, posY - 1);
+            case DOWN_LEFT -> taget = world.getTarget(posX - 1, posY - 1);
+            case LEFT -> taget = world.getTarget(posX - 1, posY);
+            case UP_LEFT -> taget = world.getTarget(posX - 1, posY + 1);
+        }
+        taget.reduceHp(damage);
+        earnHp(damage);
+
     }
 
     public EntityType getType() {
@@ -97,10 +117,6 @@ public class Entity {
         return world.search(posX, posY, EntityType.VIRUS);
     }
 
-    public Entity getTarget() {
-//        world[][]
-        return null;
-    }
 
     public int nearby(Direction direction) {
         return world.searchNearby(posX, posY, EntityType.ENTITY, direction);

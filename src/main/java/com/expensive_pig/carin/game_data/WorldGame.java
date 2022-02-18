@@ -29,15 +29,15 @@ public class WorldGame {
         return mapField[posY][posX] == null;
     }
 
-    //    public Entity getTarget(int posX,int posY){
-////        return mapField[posY][posX];
-//    }
+        public Entity getTarget(int posX,int posY){
+        return mapField[posY][posX];
+    }
     public void addNewEntity(int posX, int posY, Entity obj) {
         mapField[posY][posX] = obj;
     }
 
     public void movePosEntity(int posX, int posY, int toposX, int toposY) throws SyntaxError {
-        if (mapField[posY][posX] != null) {
+        if (mapField[toposY][toposX] != null) {
             System.out.println("มีตัวอยู๋");
             throw new SyntaxError();
         }

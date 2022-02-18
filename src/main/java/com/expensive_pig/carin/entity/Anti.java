@@ -5,12 +5,14 @@ import com.expensive_pig.carin.evaluator.Program;
 public class Anti extends Entity {
 
 
-    public Anti(Program antibodyType) {
-        super.program = antibodyType;
+    public Anti(int posX, int posY, Program program) {
+        super.posX = posX;
+        super.posY = posY;
+        super.program = program;
     }
 
     public void attack(Virus target){
-        target.reduceHp();
+        target.reduceHp(damage);
     }
 
     public void  die(){

@@ -27,20 +27,21 @@ public class EntityFactory {
 
     public Entity createEntity(EntityType _type, Integer antibodyType) {
         Entity e = null;
-        if (_type.equals(EntityType.VIRUS)) {
-            int slot = r.nextInt(3);
-            e = new Virus(virusGen[slot]);
-            e.connectWorld(world);
-        } else if (_type.equals(EntityType.ANTIBODY)) {
-            e = new Anti(antiGen[antibodyType]);
-            e.connectWorld(world);
-        }
-
         int max_X = world.getMapSize()[1];
         int max_Y = world.getMapSize()[0];
 
         int posX = r.nextInt(max_X);
         int posY = r.nextInt(max_Y);
+        if (_type.equals(EntityType.VIRUS)) {
+            int slot = r.nextInt(3);
+            e = new Virus(posX, posY,virusGen[slot]);
+            e.connectWorld(world);
+        } else if (_type.equals(EntityType.ANTIBODY)) {
+            e = new Anti(posX, posY,antiGen[antibodyType]);
+            e.connectWorld(world);
+        }
+
+
         if (world.slotIsFree(posX, posY)) {
             world.addNewEntity(posX, posY, e);
         }

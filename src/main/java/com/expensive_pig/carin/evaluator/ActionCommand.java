@@ -20,7 +20,7 @@ public class ActionCommand implements Statement {
         return command;
     }
 
-    public String getDirection() {
-        return direction.toString();
+    public Direction  getDirection() {
+        return direction;
     }
 }
