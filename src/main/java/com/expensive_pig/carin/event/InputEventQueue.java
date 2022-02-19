@@ -10,8 +10,8 @@ public class InputEventQueue {
         eventQueue.add(e);
     }
 
-    public void removeEvent() {
-        eventQueue.poll();
+    public InputEvent removeEvent() {
+        return eventQueue.poll();
     }
 
     public InputEvent peekEvent() {

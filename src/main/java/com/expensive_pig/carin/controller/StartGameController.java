@@ -1,9 +1,12 @@
-package com.expensive_pig.carin.core;
+package com.expensive_pig.carin.controller;
 
+import com.expensive_pig.carin.core.Game;
+import com.expensive_pig.carin.core.InitGame;
 import com.expensive_pig.carin.game_data.GameSetup;
 import com.expensive_pig.carin.game_data.GameStartResp;
 import com.expensive_pig.carin.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -12,6 +15,9 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class StartGameController {
+
+    @Autowired
+    private TaskExecutor taskExecutor;
 
     private SimpMessagingTemplate template;
 
@@ -37,9 +43,10 @@ public class StartGameController {
             game = InitGame.createNewGame(sessionId, setup);
             gameRepository.addNewGame(game);
 
-            resp = new GameStartResp("SUCCESS", null, game.getGameConfiguration());
+            resp = new GameStartResp("SUCCESS", null, game.getConfig());
             template.convertAndSend("/queue/game-" + sessionId, resp);
-//            game.start();
+
+            taskExecutor.execute(game);
         } catch (RuntimeException e) {
             resp = new GameStartResp("FAIL", e.getMessage(), null);
             System.out.println(resp);

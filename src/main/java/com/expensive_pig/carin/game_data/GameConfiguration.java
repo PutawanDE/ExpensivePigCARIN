@@ -2,7 +2,6 @@ package com.expensive_pig.carin.game_data;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 
 @Getter
 @Builder

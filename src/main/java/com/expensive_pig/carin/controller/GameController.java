@@ -1,5 +1,6 @@
-package com.expensive_pig.carin.core;
+package com.expensive_pig.carin.controller;
 
+import com.expensive_pig.carin.core.Game;
 import com.expensive_pig.carin.event.InputEvent;
 import com.expensive_pig.carin.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;

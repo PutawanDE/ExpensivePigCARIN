@@ -49,7 +49,7 @@ public class Entity {
     }
 
 
-    public void reduceAntiHp(int damage,int kind, Program program) {
+    public void reduceAntiHp(int damage, int kind, Program program) {
 
     }
 
@@ -72,7 +72,7 @@ public class Entity {
         } else return false;
     }
 
-    public void dieTransferToVirus(int virusKind , Program virusProgram) {
+    public void dieTransferToVirus(int virusKind, Program virusProgram) {
         // add new virus in die pos of this!
         world.converseEntity(posX, posY, virusKind, virusProgram);
     }
@@ -106,6 +106,15 @@ public class Entity {
         world.movePosEntity(tempposX, tempposY, posX, posY);
     }
 
+    public void moveByUser(int toposX, int toposY, int hpCost) {
+        if (this.getType().equals(EntityType.ANTIBODY)) {
+            // reduce hp
+            hp -= hpCost;
+            isDie();
+            world.movePosEntity(posX, posY, toposX, toposY);
+        }
+    }
+
     public void shoot(Direction direction) {
         Entity taget = null;
         switch (direction) {
@@ -119,9 +128,9 @@ public class Entity {
             case UP_LEFT -> taget = world.getTarget(posX - 1, posY + 1);
         }
 
-        if(world.getTarget(posX,posY).getType().equals(EntityType.VIRUS)){  // cheack who shoot
-            taget.reduceAntiHp(damage,kind,program);
-        }else {
+        if (world.getTarget(posX, posY).getType().equals(EntityType.VIRUS)) {  // cheack who shoot
+            taget.reduceAntiHp(damage, kind, program);
+        } else {
             taget.reduceVirusHp(damage);
         }
 

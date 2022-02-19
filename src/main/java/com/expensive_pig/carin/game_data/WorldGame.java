@@ -48,22 +48,21 @@ public class WorldGame {
     public Entity getTarget(int posX, int posY) {
         return mapField[posY][posX];
     }
+
     public void addNewEntity(int posX, int posY, Entity obj) {
         mapField[posY][posX] = obj;
     }
 
-    public void movePosEntity(int posX, int posY, int toposX, int toposY) throws SyntaxError {
-        if (mapField[toposY][toposX] != null) {
-            System.out.println("มีตัวอยู๋");
-            throw new SyntaxError();
+    public void movePosEntity(int posX, int posY, int toposX, int toposY) {
+        if (mapField[toposY][toposX] == null) {
+            mapField[toposY][toposX] = mapField[posY][posX];
+            clearPosEntity(posX, posY);
         }
-        mapField[toposY][toposX] = mapField[posY][posX];
-        clearPosEntity(posX, posY);
     }
 
     public void clearPosEntity(int posX, int posY) {
         mapField[posY][posX] = null;
-        freeField.remove(new Pair(n,m));
+        freeField.remove(new Pair(n, m));
     }
 
     public int searchNearby(int posX, int posY, EntityType entity, Direction direction) {
