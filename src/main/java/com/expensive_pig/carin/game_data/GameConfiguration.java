@@ -7,43 +7,18 @@ import lombok.NonNull;
 @Getter
 @Builder
 public class GameConfiguration {
-    @NonNull
     private int m;
-
-    @NonNull
     private int n;
-
-    @NonNull
     private float virusSpawnRate;
-
-    @NonNull
     private int initialAntibodyCredits;
-
-    @NonNull
     private int antibodyPlacementCost;
-
-    @NonNull
     private int initialVirusHp;
-
-    @NonNull
     private int initialAntibodyHp;
-
-    @NonNull
     private int virusAttackDamage;
-
-    @NonNull
     private int virusAttackGain;
-
-    @NonNull
     private int antibodyAttackDamage;
-
-    @NonNull
     private int antibodyKillHpGain;
-
-    @NonNull
     private int antibodyMoveHpCost;
-
-    @NonNull
     private int antibodyKillCreditGain;
 
     /**
