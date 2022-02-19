@@ -1,11 +1,13 @@
 package com.expensive_pig.carin.entity;
 
 import com.expensive_pig.carin.core.Direction;
-import com.expensive_pig.carin.core.EntityFactory;
 import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
-import com.expensive_pig.carin.game_data.WorldGame;
+import com.expensive_pig.carin.core.WorldGame;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Entity {
     protected Program program;
@@ -21,13 +23,15 @@ public class Entity {
     int posX;
     int posY;
 
+    private final Map<String, Integer> variableMap = new HashMap<>();
+
     public void connectWorld(WorldGame _world) {
         world = _world;
     }
 
-    public void ealuated() throws SyntaxError {
+    public void evaluate() throws SyntaxError {
         evaluator = new GeneticCodeEvaluator();
-        evaluator.evaluateProgram(program, this);
+        evaluator.evaluateProgram(program, this, variableMap);
     }
 
 
@@ -108,10 +112,11 @@ public class Entity {
 
     public void moveByUser(int toposX, int toposY, int hpCost) {
         if (this.getType().equals(EntityType.ANTIBODY)) {
-            // reduce hp
-            hp -= hpCost;
-            isDie();
-            world.movePosEntity(posX, posY, toposX, toposY);
+            int newHp = hp - hpCost;
+            if (newHp > 0) {
+                hp = newHp;
+                world.movePosEntity(posX, posY, toposX, toposY);
+            }
         }
     }
 

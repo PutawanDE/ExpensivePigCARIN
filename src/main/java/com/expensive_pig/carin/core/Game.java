@@ -5,27 +5,24 @@ import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.event.InputEvent;
 import com.expensive_pig.carin.event.InputEventQueue;
-import com.expensive_pig.carin.game_data.Credit;
 import com.expensive_pig.carin.game_data.GameConfiguration;
-import com.expensive_pig.carin.game_data.WorldGame;
-import lombok.Getter;
 
 import java.util.Map;
 
-@Getter
 public class Game implements Runnable {
     private String sessionId;
     private volatile boolean isGameRunning = true;
 
-    private GameConfiguration config;
+    private final GameConfiguration config;
     private InputEventQueue inputEventQueue;
     private WorldGame world;
     private Credit credit;
     private EntityFactory entityFactory;
-    private GameLoop gameLoop;
 
-    private Program[] antiPrograms;
-    private Program[] virusPrograms;
+    private boolean isPause = false;
+
+    private final Program[] antiPrograms;
+    private final Program[] virusPrograms;
 
     private long timeUnitInMs = 5000;
 
@@ -34,20 +31,26 @@ public class Game implements Runnable {
         this.sessionId = sessionId;
         this.antiPrograms = antiPrograms;
         this.virusPrograms = virusPrograms;
-        configGame(config);
+        this.config = config;
     }
 
-    private void configGame(GameConfiguration config) {
-        this.config = config;
-        world.setMapSize(config.getM(), config.getN());
-        credit.setMoney(config.getInitialAntibodyCredits());
+    public void setTimeUnit(long timeUnitInMs) {
+        this.timeUnitInMs = timeUnitInMs;
+    }
+
+    public void pauseResume() {
+        isPause = !isPause;
     }
 
     @Override
     public void run() {
-        world.connect(entityFactory);
-        entityFactory.connect(world);
-        entityFactory.importGen(virusPrograms, antiPrograms);
+        entityFactory = new EntityFactory(virusPrograms, antiPrograms);
+        world = new WorldGame(config.getM(), config.getN());
+        entityFactory.setWorld(world);
+        world.setEntityFactory(entityFactory);
+
+        inputEventQueue = new InputEventQueue();
+        credit = new Credit();
 
         try {
             gameLoop();
@@ -56,25 +59,17 @@ public class Game implements Runnable {
         }
     }
 
-    public void setTimeUnit(long timeUnitInMs) {
-        this.timeUnitInMs = timeUnitInMs;
-    }
-
     private void gameLoop() throws SyntaxError {
-        long lastTime = System.currentTimeMillis();
+        long lastGameLogicTime = System.currentTimeMillis();
         while (isGameRunning) {
             long currentTime = System.currentTimeMillis();
-            long deltaTime = currentTime - lastTime;
+            long gameLogicDeltaTime = currentTime - lastGameLogicTime;
 
-            if (deltaTime > timeUnitInMs) {
-                lastTime = currentTime;
+            if (gameLogicDeltaTime >= timeUnitInMs) {
+                lastGameLogicTime = currentTime;
 
-                // input stuff
-                processInput();
-
-                // spawn entity
-
-                // evaluate
+                entityFactory.spawnVirus(config.getVirusSpawnRate());
+                evaluateEntities();
             }
         }
     }
@@ -96,6 +91,16 @@ public class Game implements Runnable {
 
                 toMove.moveByUser((int)data.get("newPosX"), (int)data.get("newPosY"),
                         config.getAntibodyMoveHpCost());
+            }
+        }
+    }
+
+    private void evaluateEntities() {
+        for (Entity e : entityFactory.entities) {
+            try {
+                e.evaluate();
+            } catch (SyntaxError ex) {
+                // get rid of e
             }
         }
     }

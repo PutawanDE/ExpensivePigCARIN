@@ -1,4 +1,4 @@
-package com.expensive_pig.carin.game_data;
+package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.core.Direction;
 
@@ -7,6 +7,7 @@ import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
+import com.expensive_pig.carin.game_data.Pair;
 
 import java.util.*;
 
@@ -17,7 +18,13 @@ public class WorldGame {
     Entity[][] mapField;
     public Set<Pair> freeField = new HashSet<>();
 
-    public void connect(EntityFactory entityFactory) {
+    public WorldGame(int m, int n) {
+        this.m = m;
+        this.n = n;
+        setMapSize();
+    }
+
+    public void setEntityFactory(EntityFactory entityFactory) {
         factory = entityFactory;
     }
 
@@ -25,9 +32,7 @@ public class WorldGame {
         factory.converseAntiToVirus(posX, posY, kind, rna);
     }
 
-    public void setMapSize(int m, int n) {
-        this.m = m;
-        this.n = n;
+    private void setMapSize() {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 freeField.add(new Pair(n, m));

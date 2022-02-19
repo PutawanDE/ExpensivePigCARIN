@@ -12,14 +12,15 @@ public class GeneticCodeEvaluator {
     private final Random rand = new Random();
 
     private Entity host;
-    private final Map<String, Integer> variableMap = new HashMap<>();
+    private Map<String, Integer> variableMap = new HashMap<>();
     private boolean isActionPerformed = false;
 
     private int loopCounter = 0;
 
     private StringBuilder commandsCall;
 
-    public String evaluateProgram(Program program, Entity host) throws SyntaxError {
+    public String evaluateProgram(Program program, Entity host, Map<String, Integer> variableMap) throws SyntaxError {
+        this.variableMap = variableMap;
         commandsCall = new StringBuilder();
         this.host = host;
         isActionPerformed = false;
@@ -31,6 +32,11 @@ public class GeneticCodeEvaluator {
         return commandsCall.toString();
     }
 
+    /**
+     * TODO: refactor this part, evaluation would better be done in their own
+     *        respective class. --> against OOP principle, tons of if and typing checking
+     *        ---> slower
+     **/
     private int evalStatement(Statement statement) throws SyntaxError {
         if (statement == null || loopCounter > MAX_ITERATION) return 0;
 
@@ -73,7 +79,7 @@ public class GeneticCodeEvaluator {
                 // todo
                 if (actionCommand.getActionCmd().equals("move")) {
 
-                     host.move(actionCommand.getDirection());
+                    host.move(actionCommand.getDirection());
 
                 } else if (actionCommand.getActionCmd().equals("shoot")) {
 
@@ -105,7 +111,7 @@ public class GeneticCodeEvaluator {
             String varName = identifier.string_val();
             if (varName.equals("random")) {
                 return rand.nextInt(MAX_RAND_BOUND);
-            } else if(variableMap.containsKey(varName)){
+            } else if (variableMap.containsKey(varName)) {
                 return variableMap.get(varName);
             } else {
                 throw new SyntaxError();

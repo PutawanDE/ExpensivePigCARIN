@@ -6,25 +6,22 @@ import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.entity.Virus;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.Pair;
-import com.expensive_pig.carin.game_data.WorldGame;
 
 import java.util.LinkedList;
 import java.util.Random;
 
 public class EntityFactory {
+    private static final int NUM_VIRUS_KINDS = 3;
     public final LinkedList<Entity> entities = new LinkedList<>();
+
     private WorldGame world;
-    private Program[] virusGen;
-    private Program[] antiGen;
+    private final Program[] virusGene;
+    private final Program[] antiGene;
     private final Random r = new Random();
 
-    public void importGen(Program[] virusGen, Program[] antiGen) {
-        this.virusGen = virusGen;
-        this.antiGen = antiGen;
-    }
-
-    public void connect(WorldGame _world) {
-        world = _world;
+    public EntityFactory(Program[] virusGene, Program[] antiGene) {
+        this.virusGene = virusGene;
+        this.antiGene = antiGene;
     }
 
     public void converseAntiToVirus(int posX, int posY, int kind, Program rna) {
@@ -37,35 +34,46 @@ public class EntityFactory {
         entities.add(e);
     }
 
-    public void createEntity(EntityType _type, Integer antiKind) {
-        Entity e = null;
+    public void setWorld(WorldGame _world) {
+        world = _world;
+    }
 
-        int posX = 0;
-        int posY = 0;
-
-        int size = world.freeField.size();
-        int item = r.nextInt(size); // In real life, the Random object should be rather more shared than this
-        int i = 0;
-        for (Pair tile : world.freeField) {
-            if (i == item) {
-                posX = tile.getX();
-                posY = tile.getY();
-                break;
-            }
-            i++;
-        }
-
-        if (_type.equals(EntityType.VIRUS)) {
-            int kind = r.nextInt(3);
-            e = new Virus(posX, posY, kind, virusGen[kind]);
+    public Entity createEntity(EntityType type, int posX, int posY, int kind) {
+        Entity e = new Entity();
+        if (type.equals(EntityType.ANTIBODY)) {
+            e = new Anti(posX, posY, kind, antiGene[kind]);
             e.connectWorld(world);
-        } else if (_type.equals(EntityType.ANTIBODY)) {
-            e = new Anti(posX, posY, antiKind, antiGen[antiKind]);
+        } else if (type.equals(EntityType.VIRUS)) {
+            e = new Virus(posX, posY, kind, virusGene[kind]);
             e.connectWorld(world);
         }
 
         world.addNewEntity(posX, posY, e);
+        return e;
+    }
 
-        entities.add(e);
+    public void spawnVirus(float spawnRate) {
+        int posX = 0;
+        int posY = 0;
+
+        float spawnOrNot = r.nextFloat();
+
+        if (spawnOrNot <= spawnRate) {
+            int size = world.freeField.size();
+            int item = r.nextInt(size); // In real life, the Random object should be rather more shared than this
+            int i = 0;
+            for (Pair tile : world.freeField) {
+                if (i == item) {
+                    posX = tile.getX();
+                    posY = tile.getY();
+                    break;
+                }
+                i++;
+            }
+
+            int randKind = r.nextInt(NUM_VIRUS_KINDS);
+
+            createEntity(EntityType.VIRUS, posX, posY, randKind);
+        }
     }
 }
