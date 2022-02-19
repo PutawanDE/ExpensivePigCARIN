@@ -11,6 +11,7 @@ class GameConfigParserTest {
     @Test
     public void TestGameConfigParser_FromText_ShouldPass() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        StringBuilder errorMsg = new StringBuilder();
 
         String test = "10 10 " +
                 "0.5 " +
@@ -32,7 +33,7 @@ class GameConfigParserTest {
                 .antibodyKillCreditGain(500)
                 .build();
 
-        GameConfiguration actual = GameConfigParser.parseConfigFromText(test);
+        GameConfiguration actual = GameConfigParser.parseConfigFromText(test, errorMsg);
 
         String expectedJson = objectMapper.writeValueAsString(expected);
         String actualJson = objectMapper.writeValueAsString(actual);

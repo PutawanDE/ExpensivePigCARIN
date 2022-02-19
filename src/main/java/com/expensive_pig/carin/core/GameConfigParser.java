@@ -6,21 +6,23 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class GameConfigParser {
-    public static GameConfiguration parseConfigFromText(String textConfig) {
+    public static GameConfiguration parseConfigFromText(String textConfig, StringBuilder errorMsg) {
         try (Scanner s = new Scanner(textConfig)) {
             return parseConfigUsingScanner(s);
         } catch (Exception e) {
+            errorMsg.append("Game Config error: ").append(e.getMessage()).append("\n");
             e.printStackTrace();
         }
 
         return null;
     }
 
-    public static GameConfiguration parseConfigFromFile(String filename) {
+    public static GameConfiguration parseConfigFromFile(String filename, StringBuilder errorMsg) {
         try (FileReader fr = new FileReader(filename);
              Scanner s = new Scanner(fr)) {
             return parseConfigUsingScanner(s);
         } catch (Exception e) {
+            errorMsg.append("Game Config error: ").append(e.getMessage()).append("\n");
             e.printStackTrace();
         }
 
