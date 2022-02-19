@@ -34,13 +34,14 @@ public class GameConfigParser {
                 .virusSpawnRate(s.nextFloat())
                 .initialAntibodyCredits(s.nextInt())
                 .antibodyPlacementCost(s.nextInt())
-                .initialVirusHealth(s.nextInt())
-                .initialAntibodyHealth(s.nextInt())
+                .initialVirusHp(s.nextInt())
+                .initialAntibodyHp(s.nextInt())
                 .virusAttackDamage(s.nextInt())
                 .virusAttackGain(s.nextInt())
                 .antibodyAttackDamage(s.nextInt())
-                .antibodyKillGain(s.nextInt())
+                .antibodyKillHpGain(s.nextInt())
                 .antibodyMoveHpCost(s.nextInt())
+                .antibodyKillCreditGain(s.nextInt())
                 .build();
     }
 }

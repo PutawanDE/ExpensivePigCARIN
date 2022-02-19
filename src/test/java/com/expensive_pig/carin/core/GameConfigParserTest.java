@@ -18,16 +18,18 @@ class GameConfigParserTest {
                 "100 100 " +
                 "10  4 " +
                 "15 1 " +
-                "20";
+                "20 " +
+                "500";
 
         GameConfiguration expected = GameConfiguration.builder()
                 .m(10).n(10)
                 .virusSpawnRate(0.5f)
                 .initialAntibodyCredits(5000).antibodyPlacementCost(1000)
-                .initialVirusHealth(100).initialAntibodyHealth(100)
+                .initialVirusHp(100).initialAntibodyHp(100)
                 .virusAttackDamage(10).virusAttackGain(4)
-                .antibodyAttackDamage(15).antibodyKillGain(1)
+                .antibodyAttackDamage(15).antibodyKillHpGain(1)
                 .antibodyMoveHpCost(20)
+                .antibodyKillCreditGain(500)
                 .build();
 
         GameConfiguration actual = GameConfigParser.parseConfigFromText(test);

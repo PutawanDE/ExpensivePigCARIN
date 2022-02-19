@@ -2,22 +2,49 @@ package com.expensive_pig.carin.game_data;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 
 @Getter
 @Builder
 public class GameConfiguration {
+    @NonNull
     private int m;
+
+    @NonNull
     private int n;
+
+    @NonNull
     private float virusSpawnRate;
+
+    @NonNull
     private int initialAntibodyCredits;
+
+    @NonNull
     private int antibodyPlacementCost;
-    private int initialVirusHealth;
-    private int initialAntibodyHealth;
+
+    @NonNull
+    private int initialVirusHp;
+
+    @NonNull
+    private int initialAntibodyHp;
+
+    @NonNull
     private int virusAttackDamage;
+
+    @NonNull
     private int virusAttackGain;
+
+    @NonNull
     private int antibodyAttackDamage;
-    private int antibodyKillGain;
+
+    @NonNull
+    private int antibodyKillHpGain;
+
+    @NonNull
     private int antibodyMoveHpCost;
+
+    @NonNull
+    private int antibodyKillCreditGain;
 
     /**
      * Override the builder() method to return our custom build
@@ -51,7 +78,7 @@ public class GameConfiguration {
                         "Initial Antibody Credits");
             }
 
-            if (super.initialVirusHealth <= 0 || super.initialAntibodyHealth <= 0) {
+            if (super.initialVirusHp <= 0 || super.initialAntibodyHp <= 0) {
                 throw new RuntimeException("HP must be a positive integer.");
             }
 
@@ -60,16 +87,21 @@ public class GameConfiguration {
                         "must be a positive integer.");
             }
 
-            if (super.antibodyAttackDamage <= 0 || super.antibodyKillGain <= 0) {
+            if (super.antibodyAttackDamage <= 0 || super.antibodyKillHpGain <= 0) {
                 throw new RuntimeException("Antibody's Attack Damage and Kill " +
                         "Gain must be a positive integer.");
             }
 
             if (super.antibodyMoveHpCost < 0 ||
-                    super.antibodyMoveHpCost > super.initialAntibodyCredits) {
+                    super.antibodyMoveHpCost > super.initialAntibodyHp) {
                 throw new RuntimeException("Antibody Move Cost must be a positive" +
                         " integer and must not be more than the Antibody " +
-                        "initial credits.");
+                        "initial HP.");
+            }
+
+            if (super.antibodyKillCreditGain < 0) {
+                throw new RuntimeException("Antibody Kill Credit Gain must be " +
+                        "a positive integer.");
             }
 
             return super.build();
