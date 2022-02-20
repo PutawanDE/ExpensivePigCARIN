@@ -3,21 +3,18 @@ package com.expensive_pig.carin.core;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
-import com.expensive_pig.carin.event.InputEvent;
-import com.expensive_pig.carin.event.InputEventQueue;
+import com.expensive_pig.carin.event.*;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import lombok.Getter;
 
-import java.util.Map;
-
 public class Game implements Runnable {
+    @Getter
     private String sessionId;
     private volatile boolean isGameRunning = true;
 
     @Getter
     private final GameConfiguration config;
 
-    private InputEventQueue inputEventQueue;
     private WorldGame world;
     private CreditSystem creditSystem;
     private EntityFactory entityFactory;
@@ -26,6 +23,9 @@ public class Game implements Runnable {
 
     private final Program[] antiPrograms;
     private final Program[] virusPrograms;
+
+    private EventQueue<InputEvent> inputEventQueue;
+    private EventQueue<OutputEvent> outputEventQueue;
 
     private float timeScale = 1.0f;
     private final int maxTimeUnitInMs = 5000;
@@ -52,7 +52,7 @@ public class Game implements Runnable {
         creditSystem = new CreditSystem(config.getInitialAntibodyCredits(), config.getAntibodyPlacementCost(),
                 entityFactory);
 
-        inputEventQueue = new InputEventQueue();
+        inputEventQueue = new EventQueue<>();
 
         try {
             gameLoop();
@@ -89,14 +89,12 @@ public class Game implements Runnable {
     private void processInput() {
         if (!inputEventQueue.isEmpty()) {
             InputEvent event = inputEventQueue.removeEvent();
-            Map<String, Integer> data = event.getData();
 
-            if (event.getAction().equals("buy")) {
-                creditSystem.buyAndPlace(data.get("posX"), data.get("posY"), data.get("type"));
-            } else if (event.getAction().equals("move")) {
-                Entity toMove = world.getTarget(data.get("oldPosX"), data.get("newPosY"));
-
-                toMove.moveByUser(data.get("newPosX"), data.get("newPosY"), config.getAntibodyMoveHpCost());
+            if (event instanceof BuyEvent buyEvent) {
+                creditSystem.buyAndPlace(buyEvent.getPosX(), buyEvent.getPosY(), buyEvent.getKind());
+            } else if (event instanceof MoveEvent moveEvent) {
+                Entity toMove = world.getTarget(moveEvent.getOldPosX(), moveEvent.getOldPosY());
+                toMove.moveByUser(moveEvent.getNewPosX(), moveEvent.getNewPosY(), config.getAntibodyMoveHpCost());
             }
         }
     }

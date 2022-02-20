@@ -1,19 +1,13 @@
 package com.expensive_pig.carin.event;
 
-import java.util.Map;
+import lombok.Getter;
 
-public class InputEvent extends Event {
-    private Map<String, Integer> data;
+@Getter
+public abstract class InputEvent extends Event {
+    private String action;
 
-    public String getEventType() {
-        return eventType;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public Map<String, Integer> getData() {
-        return data;
+    public InputEvent(String action) {
+        super("input");
+        this.action = action;
     }
 }
