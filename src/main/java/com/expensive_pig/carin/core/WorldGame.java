@@ -1,12 +1,8 @@
 package com.expensive_pig.carin.core;
 
-import com.expensive_pig.carin.core.Direction;
-
-import com.expensive_pig.carin.core.EntityFactory;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.evaluator.Program;
-import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.game_data.Pair;
 
 import java.util.*;
@@ -24,11 +20,12 @@ public class WorldGame {
         setMapSize();
     }
 
-    public void setEntityFactory(EntityFactory entityFactory) {
+    public void injectEntityFactory(EntityFactory entityFactory) {
         factory = entityFactory;
     }
 
     public void converseEntity(int posX, int posY, int kind, Program rna) {
+
         factory.converseAntiToVirus(posX, posY, kind, rna);
     }
 
@@ -65,9 +62,14 @@ public class WorldGame {
         }
     }
 
-    public void clearPosEntity(int posX, int posY) {
+    public void clearPosEntity(int posX, int posY ) {
         mapField[posY][posX] = null;
-        freeField.remove(new Pair(n, m));
+        freeField.add(new Pair(n, m));
+    }
+    public void killPosEntity(int posX, int posY,Entity obj) {
+        mapField[posY][posX] = null;
+        factory.entities.remove(obj);
+        freeField.add(new Pair(n, m));
     }
 
     public int searchNearby(int posX, int posY, EntityType entity, Direction direction) {

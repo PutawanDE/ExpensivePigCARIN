@@ -6,6 +6,7 @@ import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.event.InputEvent;
 import com.expensive_pig.carin.event.InputEventQueue;
 import com.expensive_pig.carin.game_data.GameConfiguration;
+import lombok.Getter;
 
 import java.util.Map;
 
@@ -13,10 +14,12 @@ public class Game implements Runnable {
     private String sessionId;
     private volatile boolean isGameRunning = true;
 
+    @Getter
     private final GameConfiguration config;
+
     private InputEventQueue inputEventQueue;
     private WorldGame world;
-    private Credit credit;
+    private CreditSystem creditSystem;
     private EntityFactory entityFactory;
 
     private boolean isPause = false;
@@ -24,7 +27,8 @@ public class Game implements Runnable {
     private final Program[] antiPrograms;
     private final Program[] virusPrograms;
 
-    private long timeUnitInMs = 5000;
+    private float timeScale = 1.0f;
+    private final int maxTimeUnitInMs = 5000;
 
     public Game(String sessionId, GameConfiguration config,
                 Program[] antiPrograms, Program[] virusPrograms) {
@@ -34,23 +38,21 @@ public class Game implements Runnable {
         this.config = config;
     }
 
-    public void setTimeUnit(long timeUnitInMs) {
-        this.timeUnitInMs = timeUnitInMs;
-    }
-
-    public void pauseResume() {
-        isPause = !isPause;
+    public void setTimeScale(int timeScale) {
+        this.timeScale = timeScale;
     }
 
     @Override
     public void run() {
-        entityFactory = new EntityFactory(virusPrograms, antiPrograms);
+        entityFactory = new EntityFactory(virusPrograms, antiPrograms, config);
         world = new WorldGame(config.getM(), config.getN());
-        entityFactory.setWorld(world);
-        world.setEntityFactory(entityFactory);
+        entityFactory.injectWorld(world);
+        world.injectEntityFactory(entityFactory);
+
+        creditSystem = new CreditSystem(config.getInitialAntibodyCredits(), config.getAntibodyPlacementCost(),
+                entityFactory);
 
         inputEventQueue = new InputEventQueue();
-        credit = new Credit();
 
         try {
             gameLoop();
@@ -60,16 +62,22 @@ public class Game implements Runnable {
     }
 
     private void gameLoop() throws SyntaxError {
-        long lastGameLogicTime = System.currentTimeMillis();
+        long lastTime = System.currentTimeMillis();
+        long deltaTime;
+
         while (isGameRunning) {
             long currentTime = System.currentTimeMillis();
-            long gameLogicDeltaTime = currentTime - lastGameLogicTime;
+            deltaTime = currentTime - lastTime;
 
-            if (gameLogicDeltaTime >= timeUnitInMs) {
-                lastGameLogicTime = currentTime;
+            if (deltaTime * timeScale >= maxTimeUnitInMs) {
+                lastTime = currentTime;
 
+                processInput();
                 entityFactory.spawnVirus(config.getVirusSpawnRate());
                 evaluateEntities();
+
+                // update entity list
+                //send output
             }
         }
     }
@@ -81,16 +89,14 @@ public class Game implements Runnable {
     private void processInput() {
         if (!inputEventQueue.isEmpty()) {
             InputEvent event = inputEventQueue.removeEvent();
+            Map<String, Integer> data = event.getData();
 
             if (event.getAction().equals("buy")) {
-
+                creditSystem.buyAndPlace(data.get("posX"), data.get("posY"), data.get("type"));
             } else if (event.getAction().equals("move")) {
-                Map<String, Object> data = event.getData();
-                Entity toMove = world.getTarget((int) data.get("oldPosX"),
-                        (int) data.get("newPosY"));
+                Entity toMove = world.getTarget(data.get("oldPosX"), data.get("newPosY"));
 
-                toMove.moveByUser((int)data.get("newPosX"), (int)data.get("newPosY"),
-                        config.getAntibodyMoveHpCost());
+                toMove.moveByUser(data.get("newPosX"), data.get("newPosY"), config.getAntibodyMoveHpCost());
             }
         }
     }

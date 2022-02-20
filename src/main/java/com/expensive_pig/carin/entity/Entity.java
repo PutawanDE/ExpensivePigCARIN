@@ -19,11 +19,18 @@ public class Entity {
     int hp;  // get form config
     int damage; // get form config
     boolean live = true;
-    int killcout;
+    int killCount;
     int posX;
     int posY;
 
-    private final Map<String, Integer> variableMap = new HashMap<>();
+    protected final Map<String, Integer> variableMap = new HashMap<>();
+
+    public Entity(int posX, int posY, int kind, Program program) {
+        this.posX = posX;
+        this.posY = posY;
+        this.kind = kind;
+        this.program = program;
+    }
 
     public void connectWorld(WorldGame _world) {
         world = _world;
@@ -63,14 +70,14 @@ public class Entity {
     }
 
     public void status() {
-        System.out.println(maxhp + " " + hp + " " + damage + " " + killcout);
+        System.out.println(maxhp + " " + hp + " " + damage + " " + killCount);
     }
 
     public boolean isDie() {
         if (hp <= 0) {
             System.out.println("die");
             if (!live) {
-                world.clearPosEntity(posX, posY);
+                world.killPosEntity(posX, posY, this);
             }
             return true;
         } else return false;

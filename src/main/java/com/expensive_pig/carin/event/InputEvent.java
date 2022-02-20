@@ -3,7 +3,7 @@ package com.expensive_pig.carin.event;
 import java.util.Map;
 
 public class InputEvent extends Event {
-    private Map<String, Object> data;
+    private Map<String, Integer> data;
 
     public String getEventType() {
         return eventType;
@@ -13,7 +13,7 @@ public class InputEvent extends Event {
         return action;
     }
 
-    public Map<String, Object> getData() {
+    public Map<String, Integer> getData() {
         return data;
     }
 }
