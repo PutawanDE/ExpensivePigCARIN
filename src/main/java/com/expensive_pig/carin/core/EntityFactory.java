@@ -45,6 +45,7 @@ public class EntityFactory {
         if (world.slotIsFree(posX, posY)) {
             Anti e = new Anti(posX, posY, kind, antiGene[kind], config, creditSystem);
             e.connectWorld(world);
+            entities.add(e);
             world.addNewEntity(posX, posY, e);
             return e;
         } else {
@@ -56,6 +57,7 @@ public class EntityFactory {
         if (world.slotIsFree(posX, posY)) {
             Virus e = new Virus(posX, posY, kind, virusGene[kind], config);
             e.connectWorld(world);
+            entities.add(e);
             world.addNewEntity(posX, posY, e);
         }
     }

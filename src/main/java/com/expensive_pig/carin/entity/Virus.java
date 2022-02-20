@@ -33,6 +33,7 @@ public class Virus extends Entity {
             System.out.println("die");
             if (!live) {
                 world.killPosEntity(posX, posY, this);
+                live = false;
             }
             return true;
         } else return false;

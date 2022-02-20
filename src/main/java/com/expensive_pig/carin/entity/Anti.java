@@ -56,6 +56,7 @@ public class Anti extends Entity {
             if (!live) {
                 super.world.killPosEntity(super.posX, super.posY, this);
                 super.dieTransferToVirus(infectedKind, infectedProgram);
+                live = false;
             }
             return true;
         } else return false;
