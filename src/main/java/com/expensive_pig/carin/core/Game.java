@@ -44,7 +44,7 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        entityFactory = new EntityFactory(virusPrograms, antiPrograms, config);
+        entityFactory = new EntityFactory(virusPrograms, antiPrograms, config, creditSystem);
         world = new WorldGame(config.getM(), config.getN());
         entityFactory.injectWorld(world);
         world.injectEntityFactory(entityFactory);

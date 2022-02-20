@@ -9,21 +9,23 @@ import com.expensive_pig.carin.core.WorldGame;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Entity {
-    protected Program program;
-    protected int kind; // get form config
+public abstract class Entity {
     private GeneticCodeEvaluator evaluator;
     protected WorldGame world;
 
-    int maxhp; // get form config
-    int hp;  // get form config
-    int damage; // get form config
-    boolean live = true;
-    int killCount;
-    int posX;
-    int posY;
+    private final Map<String, Integer> variableMap = new HashMap<>();
+    protected boolean live = true;
+    protected int killCount;
 
-    protected final Map<String, Integer> variableMap = new HashMap<>();
+    protected Program program;
+
+    // from config
+    protected int kind;
+    protected int maxHp;
+    protected int hp;
+    protected int attackDamage;
+    protected int posX;
+    protected int posY;
 
     public Entity(int posX, int posY, int kind, Program program) {
         this.posX = posX;
@@ -46,51 +48,40 @@ public class Entity {
      * - move()
      * - attack()
      * - status()
-     *
-     * @param damage
      */
 
-    public void reduceVirusHp(int damage) {
-        if (!isDie()) {
-            hp -= damage;
+    protected void infected(int kind, Program program) {
+    }
+
+    protected abstract void attack(Entity target, int dmg);
+
+    public void reduceHp(int dmgReceive) {
+        if (!dead()) {
+            hp -= dmgReceive;
             if (hp <= 0) {
                 live = false;
             }
         }
     }
 
-
-    public void reduceAntiHp(int damage, int kind, Program program) {
-
-    }
-
-
-    public void earnHp(int damage) {
-        hp += damage;
+    public void earnHp(int hpGain) {
+        hp += hpGain;
     }
 
     public void status() {
-        System.out.println(maxhp + " " + hp + " " + damage + " " + killCount);
+        System.out.println(maxHp + " " + hp + " " + attackDamage + " " + killCount);
     }
 
-    public boolean isDie() {
-        if (hp <= 0) {
-            System.out.println("die");
-            if (!live) {
-                world.killPosEntity(posX, posY, this);
-            }
-            return true;
-        } else return false;
-    }
+    public abstract boolean dead();
 
     public void dieTransferToVirus(int virusKind, Program virusProgram) {
         // add new virus in die pos of this!
         world.converseEntity(posX, posY, virusKind, virusProgram);
     }
 
-    public void move(Direction direction) throws SyntaxError {
-        int tempposX = posX;
-        int tempposY = posY;
+    public void move(Direction direction) {
+        int tempPosX = posX;
+        int tempPosY = posY;
         switch (direction) {
             case UP -> posY++;
             case UP_RIGHT -> {
@@ -112,47 +103,31 @@ public class Entity {
                 posY++;
                 posX--;
             }
-
         }
-        world.movePosEntity(tempposX, tempposY, posX, posY);
+
+        world.movePosEntity(tempPosX, tempPosY, posX, posY);
     }
 
-    public void moveByUser(int toposX, int toposY, int hpCost) {
-        if (this.getType().equals(EntityType.ANTIBODY)) {
-            int newHp = hp - hpCost;
-            if (newHp > 0) {
-                hp = newHp;
-                world.movePosEntity(posX, posY, toposX, toposY);
-            }
-        }
+    public void moveByUser(int toPosX, int toPosY, int hpCost) {
     }
 
     public void shoot(Direction direction) {
-        Entity taget = null;
+        Entity target = null;
         switch (direction) {
-            case UP -> taget = world.getTarget(posX, posY + 1);
-            case UP_RIGHT -> taget = world.getTarget(posX + 1, posY + 1);
-            case RIGHT -> taget = world.getTarget(posX + 1, posY);
-            case DOWN_RIGHT -> taget = world.getTarget(posX + 1, posY - 1);
-            case DOWN -> taget = world.getTarget(posX, posY - 1);
-            case DOWN_LEFT -> taget = world.getTarget(posX - 1, posY - 1);
-            case LEFT -> taget = world.getTarget(posX - 1, posY);
-            case UP_LEFT -> taget = world.getTarget(posX - 1, posY + 1);
+            case UP -> target = world.getTarget(posX, posY + 1);
+            case UP_RIGHT -> target = world.getTarget(posX + 1, posY + 1);
+            case RIGHT -> target = world.getTarget(posX + 1, posY);
+            case DOWN_RIGHT -> target = world.getTarget(posX + 1, posY - 1);
+            case DOWN -> target = world.getTarget(posX, posY - 1);
+            case DOWN_LEFT -> target = world.getTarget(posX - 1, posY - 1);
+            case LEFT -> target = world.getTarget(posX - 1, posY);
+            case UP_LEFT -> target = world.getTarget(posX - 1, posY + 1);
         }
 
-        if (world.getTarget(posX, posY).getType().equals(EntityType.VIRUS)) {  // cheack who shoot
-            taget.reduceAntiHp(damage, kind, program);
-        } else {
-            taget.reduceVirusHp(damage);
-        }
-
-        earnHp(damage);
-
+        attack(target, attackDamage);
     }
 
-    public EntityType getType() {
-        return EntityType.ENTITY;
-    }
+    public abstract EntityType getType();
 
     //Sensor ability
     public int getAntibody() {
@@ -162,7 +137,6 @@ public class Entity {
     public int getVirus() {
         return world.search(posX, posY, EntityType.VIRUS);
     }
-
 
     public int nearby(Direction direction) {
         return world.searchNearby(posX, posY, EntityType.ENTITY, direction);

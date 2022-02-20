@@ -2,7 +2,6 @@ package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.entity.Entity;
-import com.expensive_pig.carin.entity.EntityType;
 import com.expensive_pig.carin.entity.Virus;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.GameConfiguration;
@@ -21,7 +20,8 @@ public class EntityFactory {
     private final Program[] antiGene;
     private final Random r = new Random();
 
-    public EntityFactory(Program[] virusGene, Program[] antiGene, GameConfiguration config) {
+    public EntityFactory(Program[] virusGene, Program[] antiGene, GameConfiguration config,
+                         CreditSystem creditSystem) {
         this.virusGene = virusGene;
         this.antiGene = antiGene;
         this.config = config;
@@ -41,22 +41,22 @@ public class EntityFactory {
         world = _world;
     }
 
-    public Entity createEntity(EntityType type, int posX, int posY, int kind) {
-        if (world.slotIsFree(posX, posY) &&
-                (type.equals(EntityType.ANTIBODY) || type.equals(EntityType.VIRUS))) {
-
-            Entity e;
-            if (type.equals(EntityType.ANTIBODY)) {
-                e = new Anti(posX, posY, kind, antiGene[kind], config);
-            } else {
-                e = new Virus(posX, posY, kind, virusGene[kind], config);
-            }
-
+    public Anti createAntibody(int posX, int posY, int kind, CreditSystem creditSystem) {
+        if (world.slotIsFree(posX, posY)) {
+            Anti e = new Anti(posX, posY, kind, antiGene[kind], config, creditSystem);
             e.connectWorld(world);
             world.addNewEntity(posX, posY, e);
             return e;
         } else {
             return null;
+        }
+    }
+
+    public void createVirus(int posX, int posY, int kind) {
+        if (world.slotIsFree(posX, posY)) {
+            Virus e = new Virus(posX, posY, kind, virusGene[kind], config);
+            e.connectWorld(world);
+            world.addNewEntity(posX, posY, e);
         }
     }
 
@@ -80,8 +80,7 @@ public class EntityFactory {
             }
 
             int randKind = r.nextInt(NUM_VIRUS_KINDS);
-
-            createEntity(EntityType.VIRUS, posX, posY, randKind);
+            createVirus(posX, posY, randKind);
         }
     }
 }

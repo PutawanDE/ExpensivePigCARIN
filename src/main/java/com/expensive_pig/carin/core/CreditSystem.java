@@ -1,5 +1,6 @@
 package com.expensive_pig.carin.core;
 
+import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
 import lombok.AllArgsConstructor;
@@ -13,8 +14,8 @@ public class CreditSystem {
 
     public void buyAndPlace(int posX, int posY, int kind) {
         if (canBuy()) {
-            Entity e = entityFactory.createEntity(EntityType.ANTIBODY, posX, posY, kind);
-            if (e != null) {
+            Anti anti = entityFactory.createAntibody(posX, posY, kind, this);
+            if (anti != null) {
                 credit -= cost;
             }
         }
