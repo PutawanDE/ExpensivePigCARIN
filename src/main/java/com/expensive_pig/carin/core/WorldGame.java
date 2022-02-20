@@ -62,11 +62,12 @@ public class WorldGame {
         }
     }
 
-    public void clearPosEntity(int posX, int posY ) {
+    public void clearPosEntity(int posX, int posY) {
         mapField[posY][posX] = null;
         freeField.add(new Pair(n, m));
     }
-    public void killPosEntity(int posX, int posY,Entity obj) {
+
+    public void killPosEntity(int posX, int posY, Entity obj) {
         mapField[posY][posX] = null;
         factory.entities.remove(obj);
         freeField.add(new Pair(n, m));
@@ -77,7 +78,7 @@ public class WorldGame {
     }
 
     public int search(int posX, int posY, EntityType type) {
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>(8);
         list.add(lineOfSight(posX, posY, Direction.UP, type));
         list.add(lineOfSight(posX, posY, Direction.UP_RIGHT, type));
         list.add(lineOfSight(posX, posY, Direction.RIGHT, type));
@@ -151,7 +152,9 @@ public class WorldGame {
                         break;
                     }
                 }
-            } else break;
+            } else {
+                return 0;
+            }
         }
         return distance * 10 + indicateDirection;
     }
