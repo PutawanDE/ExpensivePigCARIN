@@ -2,7 +2,7 @@ package com.expensive_pig.carin.controller;
 
 import com.expensive_pig.carin.core.Game;
 import com.expensive_pig.carin.event.BuyEvent;
-import com.expensive_pig.carin.event.MoveEvent;
+import com.expensive_pig.carin.event.InputMoveEvent;
 import com.expensive_pig.carin.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -18,7 +18,7 @@ public class GameController {
 
     @MessageMapping("/move/{id}")
     public void receiveMoveEvent(@DestinationVariable String id,
-                                 MoveEvent event) {
+                                 InputMoveEvent event) {
         Game game = gameStateRepository.getBySessionId(id);
         game.addInputEvent(event);
     }

@@ -10,8 +10,8 @@ public class EventJsonMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = "{\"eventType\":\"input\", \"action\":\"move\"," +
                 "\"oldPos\": [50,50], \"newPos\":[1,5]}";
-        MoveEvent actual = objectMapper.readValue(json, MoveEvent.class);
-        System.out.println("");
+        InputMoveEvent actual = objectMapper.readValue(json, InputMoveEvent.class);
+        System.out.println();
     }
 
     @Test
@@ -19,6 +19,6 @@ public class EventJsonMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = "{\"kind\": 1,\"pos\": [50,50]}";
         BuyEvent actual = objectMapper.readValue(json, BuyEvent.class);
-        System.out.println("");
+        System.out.println();
     }
 }

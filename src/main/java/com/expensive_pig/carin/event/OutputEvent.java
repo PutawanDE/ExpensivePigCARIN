@@ -1,6 +1,9 @@
 package com.expensive_pig.carin.event;
 
-public class OutputEvent extends Event {
+import lombok.Getter;
+
+@Getter
+public abstract class OutputEvent extends Event {
     private String action;
 
     public OutputEvent(String action) {

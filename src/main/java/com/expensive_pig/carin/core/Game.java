@@ -92,9 +92,9 @@ public class Game implements Runnable {
 
             if (event instanceof BuyEvent buyEvent) {
                 creditSystem.buyAndPlace(buyEvent.getPosX(), buyEvent.getPosY(), buyEvent.getKind());
-            } else if (event instanceof MoveEvent moveEvent) {
-                Entity toMove = world.getTarget(moveEvent.getOldPosX(), moveEvent.getOldPosY());
-                toMove.moveByUser(moveEvent.getNewPosX(), moveEvent.getNewPosY(), config.getAntibodyMoveHpCost());
+            } else if (event instanceof InputMoveEvent inputMoveEvent) {
+                Entity toMove = world.getTarget(inputMoveEvent.getPosX(), inputMoveEvent.getPosY());
+                toMove.moveByUser(inputMoveEvent.getToPosX(), inputMoveEvent.getToPosY(), config.getAntibodyMoveHpCost());
             }
         }
     }
