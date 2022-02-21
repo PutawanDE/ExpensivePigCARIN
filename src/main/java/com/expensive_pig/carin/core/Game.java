@@ -17,7 +17,7 @@ public class Game implements Runnable {
 
     private WorldGame world;
     private CreditSystem creditSystem;
-    private EntityFactory entityFactory;
+    private EntityManager entityManager;
 
     private boolean isPause = false;
 
@@ -44,13 +44,11 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        entityFactory = new EntityFactory(virusPrograms, antiPrograms, config, creditSystem);
         world = new WorldGame(config.getM(), config.getN());
-        entityFactory.injectWorld(world);
-        world.injectEntityFactory(entityFactory);
+        entityManager = new EntityManager(virusPrograms, antiPrograms, config, world);
 
         creditSystem = new CreditSystem(config.getInitialAntibodyCredits(), config.getAntibodyPlacementCost(),
-                entityFactory);
+                entityManager);
 
         inputEventQueue = new EventQueue<>();
 
@@ -73,11 +71,13 @@ public class Game implements Runnable {
                 lastTime = currentTime;
 
                 processInput();
-                entityFactory.spawnVirus(config.getVirusSpawnRate());
+                entityManager.spawnVirus();
                 evaluateEntities();
 
                 // update entity list
-                //send output
+                entityManager.clearDeadAndSpawnInfected();
+
+                //TODO:send output
             }
         }
     }
@@ -100,11 +100,12 @@ public class Game implements Runnable {
     }
 
     private void evaluateEntities() {
-        for (Entity e : entityFactory.entities) {
+        for (Entity e : entityManager.entities) {
             try {
                 e.evaluate();
             } catch (SyntaxError ex) {
                 // get rid of e
+                e.dead();
             }
         }
     }

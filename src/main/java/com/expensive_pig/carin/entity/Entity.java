@@ -1,16 +1,20 @@
 package com.expensive_pig.carin.entity;
 
 import com.expensive_pig.carin.core.Direction;
+import com.expensive_pig.carin.core.EntityManager;
 import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.core.WorldGame;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Entity {
     private GeneticCodeEvaluator evaluator;
+    protected EntityManager entityManager;
+
     protected WorldGame world;
 
     private final Map<String, Integer> variableMap = new HashMap<>();
@@ -24,23 +28,27 @@ public abstract class Entity {
     protected int maxHp;
     protected int hp;
     protected int attackDamage;
+
+    @Getter
     protected int posX;
+    @Getter
     protected int posY;
 
-    public Entity(int posX, int posY, int kind, Program program) {
+    public Entity(int posX, int posY, int kind, Program program,
+                  EntityManager entityManager, WorldGame world) {
         this.posX = posX;
         this.posY = posY;
         this.kind = kind;
         this.program = program;
-    }
-
-    public void connectWorld(WorldGame _world) {
-        world = _world;
+        this.entityManager = entityManager;
+        this.world = world;
     }
 
     public void evaluate() throws SyntaxError {
-        evaluator = new GeneticCodeEvaluator();
-        evaluator.evaluateProgram(program, this, variableMap);
+        if (live) {
+            evaluator = new GeneticCodeEvaluator();
+            evaluator.evaluateProgram(program, this, variableMap);
+        }
     }
 
 
@@ -50,21 +58,11 @@ public abstract class Entity {
      * - status()
      */
 
-    protected void infected(int kind, Program program) {
-    }
-
     protected abstract void attack(Entity target, int dmg);
 
-    public void reduceHp(int dmgReceive) {
-        if (!dead()) {
-            hp -= dmgReceive;
-            if (hp <= 0) {
-                live = false;
-            }
-        }
-    }
+    protected abstract void receiveDmg(int dmgReceive, int attackerKind);
 
-    public void earnHp(int hpGain) {
+    protected void earnHp(int hpGain) {
         hp += hpGain;
     }
 
@@ -72,12 +70,7 @@ public abstract class Entity {
         System.out.println(maxHp + " " + hp + " " + attackDamage + " " + killCount);
     }
 
-    public abstract boolean dead();
-
-    public void dieTransferToVirus(int virusKind, Program virusProgram) {
-        // add new virus in die pos of this!
-        world.converseEntity(posX, posY, virusKind, virusProgram);
-    }
+    public abstract void dead();
 
     public void move(Direction direction) {
         int tempPosX = posX;
@@ -124,7 +117,9 @@ public abstract class Entity {
             case UP_LEFT -> target = world.getTarget(posX - 1, posY + 1);
         }
 
-        attack(target, attackDamage);
+        if (target != null) {
+            attack(target, attackDamage);
+        }
     }
 
     public abstract EntityType getType();

@@ -1,13 +1,16 @@
 package com.expensive_pig.carin.entity;
 
+import com.expensive_pig.carin.core.EntityManager;
+import com.expensive_pig.carin.core.WorldGame;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 
 public class Virus extends Entity {
     private final int attackHpGain;
 
-    public Virus(int posX, int posY, int kind, Program program, GameConfiguration config) {
-        super(posX, posY, kind, program);
+    public Virus(int posX, int posY, int kind, Program program, GameConfiguration config,
+                 EntityManager entityManager, WorldGame world) {
+        super(posX, posY, kind, program, entityManager, world);
         super.attackDamage = config.getVirusAttackDamage();
         super.maxHp = config.getInitialVirusHp();
         super.hp = maxHp;
@@ -17,31 +20,33 @@ public class Virus extends Entity {
 
     @Override
     protected void attack(Entity target, int dmg) {
-        target.reduceHp(dmg);
+        target.receiveDmg(dmg, kind);
         if (!target.getType().equals(EntityType.VIRUS)) {
             earnHp(attackHpGain);
-            target.infected(kind, program);
-            if (target.dead()) {
+            if (target.live) {
                 killCount++;
             }
         }
     }
 
     @Override
-    public boolean dead() {
-        if (hp <= 0) {
-            System.out.println("die");
-            if (!live) {
-                world.killPosEntity(posX, posY, this);
-                live = false;
+    protected void receiveDmg(int dmgReceive, int attackerKind) {
+        if (live) {
+            hp -= dmgReceive;
+            if (hp <= 0) {
+                dead();
             }
-            return true;
-        } else return false;
+        }
+    }
+
+    @Override
+    public void dead() {
+        live = false;
+        entityManager.dead(this);
     }
 
     @Override
     public EntityType getType() {
         return EntityType.VIRUS;
     }
-
 }

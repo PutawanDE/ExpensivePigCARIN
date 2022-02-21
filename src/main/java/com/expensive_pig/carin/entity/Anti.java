@@ -1,20 +1,23 @@
 package com.expensive_pig.carin.entity;
 
 import com.expensive_pig.carin.core.CreditSystem;
+import com.expensive_pig.carin.core.EntityManager;
+import com.expensive_pig.carin.core.WorldGame;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.GameConfiguration;
+import lombok.Getter;
 
 public class Anti extends Entity {
+    @Getter
     private int infectedKind;
-    private Program infectedProgram;
     private final CreditSystem creditSystem;
 
     private final int killCreditGain;
     private final int killHpGain;
 
     public Anti(int posX, int posY, int kind, Program program, GameConfiguration config,
-                CreditSystem creditSystem) {
-        super(posX, posY, kind, program);
+                CreditSystem creditSystem, EntityManager entityManager, WorldGame world) {
+        super(posX, posY, kind, program, entityManager, world);
         super.attackDamage = config.getAntibodyAttackDamage();
         super.maxHp = config.getInitialAntibodyHp();
         super.hp = super.maxHp;
@@ -25,15 +28,9 @@ public class Anti extends Entity {
     }
 
     @Override
-    protected void infected(int kind, Program program) {
-        infectedKind = kind;
-        infectedProgram = program;
-    }
-
-    @Override
     protected void attack(Entity target, int dmg) {
-        target.reduceHp(dmg);
-        if (target.dead() && target.getType().equals(EntityType.VIRUS)) {
+        target.receiveDmg(dmg, kind);
+        if (target.live && target.getType().equals(EntityType.VIRUS)) {
             creditSystem.gainCredit(killCreditGain);
             earnHp(killHpGain);
             killCount++;
@@ -50,16 +47,21 @@ public class Anti extends Entity {
     }
 
     @Override
-    public boolean dead() {
-        if (hp <= 0) {
-            System.out.println("die");
-            if (!live) {
-                super.world.killPosEntity(super.posX, super.posY, this);
-                super.dieTransferToVirus(infectedKind, infectedProgram);
+    protected void receiveDmg(int dmgReceive, int attackerKind) {
+        if (live) {
+            hp -= dmgReceive;
+            infectedKind = attackerKind;
+            if (hp <= 0) {
+                dead();
                 live = false;
             }
-            return true;
-        } else return false;
+        }
+    }
+
+    @Override
+    public void dead() {
+        live = false;
+        entityManager.dieConvertToVirus(this);
     }
 
     @Override

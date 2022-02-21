@@ -10,9 +10,12 @@ import com.expensive_pig.carin.game_data.Pair;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class EntityFactory {
+public class EntityManager {
     private static final int NUM_VIRUS_KINDS = 3;
+
     public final LinkedList<Entity> entities = new LinkedList<>();
+    private final LinkedList<Entity> deathEntities = new LinkedList<>();
+    private final LinkedList<Anti> infectedAnti = new LinkedList<>();
 
     private WorldGame world;
     private GameConfiguration config;
@@ -20,31 +23,18 @@ public class EntityFactory {
     private final Program[] antiGene;
     private final Random r = new Random();
 
-    public EntityFactory(Program[] virusGene, Program[] antiGene, GameConfiguration config,
-                         CreditSystem creditSystem) {
+    public EntityManager(Program[] virusGene, Program[] antiGene, GameConfiguration config,
+                         WorldGame world) {
         this.virusGene = virusGene;
         this.antiGene = antiGene;
         this.config = config;
-    }
-
-    public void converseAntiToVirus(int posX, int posY, int kind, Program rna) {
-        Entity e;
-        e = new Virus(posX, posY, kind, rna, config);
-        e.connectWorld(world);
-        if (world.slotIsFree(posX, posY)) {
-            world.addNewEntity(posX, posY, e);
-        }
-        entities.add(e);
-    }
-
-    public void injectWorld(WorldGame _world) {
-        world = _world;
+        this.world = world;
     }
 
     public Anti createAntibody(int posX, int posY, int kind, CreditSystem creditSystem) {
         if (world.slotIsFree(posX, posY)) {
-            Anti e = new Anti(posX, posY, kind, antiGene[kind], config, creditSystem);
-            e.connectWorld(world);
+            Anti e = new Anti(posX, posY, kind, antiGene[kind], config,
+                    creditSystem, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
             return e;
@@ -55,20 +45,19 @@ public class EntityFactory {
 
     public void createVirus(int posX, int posY, int kind) {
         if (world.slotIsFree(posX, posY)) {
-            Virus e = new Virus(posX, posY, kind, virusGene[kind], config);
-            e.connectWorld(world);
+            Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
         }
     }
 
-    public void spawnVirus(float spawnRate) {
+    public void spawnVirus() {
         int posX = 0;
         int posY = 0;
 
         float spawnOrNot = r.nextFloat();
 
-        if (spawnOrNot <= spawnRate) {
+        if (spawnOrNot <= config.getVirusSpawnRate()) {
             int size = world.freeField.size();
             int item = r.nextInt(size); // In real life, the Random object should be rather more shared than this
             int i = 0;
@@ -84,5 +73,25 @@ public class EntityFactory {
             int randKind = r.nextInt(NUM_VIRUS_KINDS);
             createVirus(posX, posY, randKind);
         }
+    }
+
+    public void dead(Virus virus) {
+        world.clearPosEntity(virus.getPosX(), virus.getPosY());
+        deathEntities.add(virus);
+    }
+
+    public void dieConvertToVirus(Anti anti) {
+        world.clearPosEntity(anti.getPosX(), anti.getPosY());
+        deathEntities.add(anti);
+        infectedAnti.add(anti);
+    }
+
+    public void clearDeadAndSpawnInfected() {
+        entities.removeAll(deathEntities);
+        for (Anti a : infectedAnti) {
+            createVirus(a.getPosX(), a.getPosY(), a.getInfectedKind());
+        }
+        deathEntities.clear();
+        infectedAnti.clear();
     }
 }

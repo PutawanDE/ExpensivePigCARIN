@@ -2,31 +2,21 @@ package com.expensive_pig.carin.core;
 
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
-import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.game_data.Pair;
 
 import java.util.*;
 
 public class WorldGame {
-    private EntityFactory factory;
-    int m;
-    int n;
-    Entity[][] mapField;
+    private int m;
+    private int n;
+    private Entity[][] mapField;
+
     public Set<Pair> freeField = new HashSet<>();
 
     public WorldGame(int m, int n) {
         this.m = m;
         this.n = n;
         setMapSize();
-    }
-
-    public void injectEntityFactory(EntityFactory entityFactory) {
-        factory = entityFactory;
-    }
-
-    public void converseEntity(int posX, int posY, int kind, Program rna) {
-
-        factory.converseAntiToVirus(posX, posY, kind, rna);
     }
 
     private void setMapSize() {
@@ -51,26 +41,22 @@ public class WorldGame {
         return mapField[posY][posX];
     }
 
-    public void addNewEntity(int posX, int posY, Entity obj) {
-        mapField[posY][posX] = obj;
+    public void addNewEntity(int posX, int posY, Entity e) {
+        mapField[posY][posX] = e;
+        freeField.remove(new Pair(posX, posY));
     }
 
     public void movePosEntity(int posX, int posY, int toposX, int toposY) {
         if (mapField[toposY][toposX] == null) {
             mapField[toposY][toposX] = mapField[posY][posX];
             clearPosEntity(posX, posY);
+            freeField.remove(new Pair(posX, posY));
         }
     }
 
     public void clearPosEntity(int posX, int posY) {
         mapField[posY][posX] = null;
-        freeField.add(new Pair(n, m));
-    }
-
-    public void killPosEntity(int posX, int posY, Entity obj) {
-        mapField[posY][posX] = null;
-        factory.entities.remove(obj);
-        freeField.add(new Pair(n, m));
+        freeField.add(new Pair(posX, posY));
     }
 
     public int searchNearby(int posX, int posY, EntityType entity, Direction direction) {
@@ -96,7 +82,7 @@ public class WorldGame {
         int nowY = posY;
         int indicateDirection = 0;
         int distance = 0;
-        while ((0 <= nowX && nowX <= n) && (0 <= nowY && nowY <= m)) {
+        while ((0 <= nowX && nowX < n) && (0 <= nowY && nowY < m)) {
             switch (direction) {
                 case UP -> {
                     nowY++;
@@ -144,7 +130,7 @@ public class WorldGame {
                 }
             }
 
-            if ((0 <= nowX && nowX <= n) && (0 <= nowY && nowY <= m)) {
+            if ((0 <= nowX && nowX < n) && (0 <= nowY && nowY < m)) {
                 if (mapField[nowY][nowX] != null) {
                     if (_type.equals(EntityType.ENTITY)) {
                         break;
