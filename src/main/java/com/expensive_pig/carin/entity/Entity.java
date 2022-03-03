@@ -1,12 +1,17 @@
 package com.expensive_pig.carin.entity;
 
+import com.expensive_pig.carin.controller.GameController;
 import com.expensive_pig.carin.core.Direction;
 import com.expensive_pig.carin.core.EntityManager;
 import com.expensive_pig.carin.evaluator.GeneticCodeEvaluator;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.core.WorldGame;
+import com.expensive_pig.carin.event.HpEvent;
+import com.expensive_pig.carin.event.OutputMoveEvent;
+import com.expensive_pig.carin.event.ShootEvent;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +19,9 @@ import java.util.Map;
 public abstract class Entity {
     private GeneticCodeEvaluator evaluator;
     protected EntityManager entityManager;
+
+    @Autowired
+    protected GameController gameController;
 
     protected WorldGame world;
 
@@ -62,8 +70,13 @@ public abstract class Entity {
 
     protected abstract void receiveDmg(int dmgReceive, int attackerKind);
 
-    protected void earnHp(int hpGain) {
-        hp += hpGain;
+    protected void changeHp(int hpChange) {
+        if (hp + hpChange <= 0) {
+            hpChange = hp;
+        }
+        hp += hpChange;
+        gameController.sendOutputEvent(entityManager.getSessionId(),
+                new HpEvent(posX, posY, hpChange));
     }
 
     public void status() {
@@ -73,53 +86,61 @@ public abstract class Entity {
     public abstract void dead();
 
     public void move(Direction direction) {
-        int tempPosX = posX;
-        int tempPosY = posY;
-        switch (direction) {
-            case UP -> posY++;
-            case UP_RIGHT -> {
-                posY++;
-                posX++;
-            }
-            case RIGHT -> posX++;
-            case DOWN_RIGHT -> {
-                posY--;
-                posX++;
-            }
-            case DOWN -> posY--;
-            case DOWN_LEFT -> {
-                posY--;
-                posX--;
-            }
-            case LEFT -> posX--;
-            case UP_LEFT -> {
-                posY++;
-                posX--;
-            }
-        }
+        int[] toPos = getPosFromDirection(direction);
+        int toPosX = toPos[0];
+        int toPosY = toPos[1];
 
-        world.movePosEntity(tempPosX, tempPosY, posX, posY);
+        if (world.movePosEntity(posX, posY, toPosX, toPosY)) {
+            posX = toPosX;
+            posY = toPosY;
+            gameController.sendOutputEvent(entityManager.getSessionId(),
+                    new OutputMoveEvent(posX, posY, toPosX, toPosY));
+        }
     }
 
     public void moveByUser(int toPosX, int toPosY, int hpCost) {
     }
 
     public void shoot(Direction direction) {
-        Entity target = null;
-        switch (direction) {
-            case UP -> target = world.getTarget(posX, posY + 1);
-            case UP_RIGHT -> target = world.getTarget(posX + 1, posY + 1);
-            case RIGHT -> target = world.getTarget(posX + 1, posY);
-            case DOWN_RIGHT -> target = world.getTarget(posX + 1, posY - 1);
-            case DOWN -> target = world.getTarget(posX, posY - 1);
-            case DOWN_LEFT -> target = world.getTarget(posX - 1, posY - 1);
-            case LEFT -> target = world.getTarget(posX - 1, posY);
-            case UP_LEFT -> target = world.getTarget(posX - 1, posY + 1);
-        }
+        int[] toPos = getPosFromDirection(direction);
+        int toPosX = toPos[0];
+        int toPosY = toPos[1];
+        gameController.sendOutputEvent(entityManager.getSessionId(),
+                new ShootEvent(posX, toPosY, toPosX, toPosY));
+
+        Entity target = world.getTarget(toPosX, toPosY);
 
         if (target != null) {
             attack(target, attackDamage);
         }
+    }
+
+    private int[] getPosFromDirection(Direction direction) {
+        int toPosX = posX;
+        int toPosY = posY;
+        switch (direction) {
+            case UP -> toPosY++;
+            case UP_RIGHT -> {
+                toPosY++;
+                toPosX++;
+            }
+            case RIGHT -> toPosX++;
+            case DOWN_RIGHT -> {
+                toPosY--;
+                toPosX++;
+            }
+            case DOWN -> toPosY--;
+            case DOWN_LEFT -> {
+                toPosY--;
+                toPosX--;
+            }
+            case LEFT -> toPosX--;
+            case UP_LEFT -> {
+                toPosY++;
+                toPosX--;
+            }
+        }
+        return new int[]{toPosX, toPosY};
     }
 
     public abstract EntityType getType();
