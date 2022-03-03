@@ -11,8 +11,10 @@ function SelectAntigen() {
 
   return (
     <div className="background">
-      <div className="container mx-auto py-12 text-center text-3xl font-bold">
-        EDIT GENETIC CODE
+      <div className="container mx-auto py-10 text-center text-3xl font-bold">
+            <h1 className="text-3xl font-bold underline">
+              EDIT GENETIC CODE
+            </h1>
       </div>
       <div className="flex flex-row ">
         <div className="basis-1/3">
@@ -25,7 +27,7 @@ function SelectAntigen() {
           <button className="center"><img src={AGC} alt="" className="geneticbuttonpicture " /></button>
         </div>
       </div>
-      <div className="right pr-12 py-12">
+      <div className="right pr-12 pt-4">
         <button className="nextBTN"><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
       </div>
     </div>
