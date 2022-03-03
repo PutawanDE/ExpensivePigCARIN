@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReadGeneticCode {
     Parser_Expr parser = new Parser_Expr();
@@ -21,8 +23,9 @@ public class ReadGeneticCode {
     }
     // for test genetic dont use
     public String geneticEvaluateTest(String data) throws SyntaxError {
+        Map<String, Integer> variableMap = new HashMap<>();
         Program p = parser.parse(data);
-        return evaluator.evaluateProgram(p, null);
+        return evaluator.evaluateProgram(p, null, variableMap);
     }
 
 

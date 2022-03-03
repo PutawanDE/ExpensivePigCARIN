@@ -3,11 +3,11 @@ package com.expensive_pig.carin.event;
 import lombok.Getter;
 
 @Getter
-public abstract class InputEvent extends Event {
+public abstract class OutputEvent extends Event {
     private String action;
 
-    public InputEvent(String action) {
-        super("input");
+    public OutputEvent(String action) {
+        super("output");
         this.action = action;
     }
 }

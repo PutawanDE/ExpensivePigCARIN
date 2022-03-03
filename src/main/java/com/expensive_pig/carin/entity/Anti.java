@@ -1,47 +1,72 @@
 package com.expensive_pig.carin.entity;
 
+import com.expensive_pig.carin.core.CreditSystem;
+import com.expensive_pig.carin.core.EntityManager;
+import com.expensive_pig.carin.core.WorldGame;
 import com.expensive_pig.carin.evaluator.Program;
+import com.expensive_pig.carin.game_data.GameConfiguration;
+import lombok.Getter;
 
 public class Anti extends Entity {
-    int virusKind;
-    Program virusProgram;
+    @Getter
+    private int infectedKind;
+    private final CreditSystem creditSystem;
 
-    public Anti(int posX, int posY,int kind , Program program) {
-        super.posX = posX;
-        super.posY = posY;
-        super.kind = kind;
-        super.program = program;
-    }
+    private final int killCreditGain;
+    private final int killHpGain;
 
-    private void antiInfected(int kind , Program program){
-        virusKind = kind;
-        virusProgram = program;
+    public Anti(int posX, int posY, int kind, Program program, GameConfiguration config,
+                CreditSystem creditSystem, EntityManager entityManager, WorldGame world) {
+        super(posX, posY, kind, program, entityManager, world);
+        super.attackDamage = config.getAntibodyAttackDamage();
+        super.maxHp = config.getInitialAntibodyHp();
+        super.hp = super.maxHp;
+
+        this.creditSystem = creditSystem;
+        this.killHpGain = config.getAntibodyKillHpGain();
+        this.killCreditGain = config.getAntibodyKillCreditGain();
     }
 
     @Override
-    public void reduceAntiHp(int damage,int kind, Program program) {
-        antiInfected(kind,program);
-        if (!isDie()) {
-            hp -= damage;
+    protected void attack(Entity target, int dmg) {
+        target.receiveDmg(dmg, kind);
+        if (target.live && target.getType().equals(EntityType.VIRUS)) {
+            creditSystem.gainCredit(killCreditGain);
+            earnHp(killHpGain);
+            killCount++;
+        }
+    }
+
+    @Override
+    public void moveByUser(int toPosX, int toPosY, int hpCost) {
+        int newHp = hp - hpCost;
+        if (newHp > 0) {
+            hp = newHp;
+            world.movePosEntity(posX, posY, toPosX, toPosY);
+        }
+    }
+
+    @Override
+    protected void receiveDmg(int dmgReceive, int attackerKind) {
+        if (live) {
+            hp -= dmgReceive;
+            infectedKind = attackerKind;
             if (hp <= 0) {
+                dead();
                 live = false;
             }
         }
     }
+
     @Override
-    public boolean isDie() {
-        if (hp <= 0) {
-            System.out.println("die");
-            if(!live) {
-                super.world.clearPosEntity(super.posX, super.posY);
-                super.dieTransferToVirus(virusKind , virusProgram);
-            }
-            return true;
-        } else return false;
+    public void dead() {
+        live = false;
+        entityManager.dieConvertToVirus(this);
     }
 
-
-
-    public EntityType getType(){return EntityType.ANTIBODY;}
+    @Override
+    public EntityType getType() {
+        return EntityType.ANTIBODY;
+    }
 
 }

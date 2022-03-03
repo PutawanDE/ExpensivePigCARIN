@@ -3,51 +3,54 @@ package com.expensive_pig.carin.core;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
-import com.expensive_pig.carin.event.InputEvent;
-import com.expensive_pig.carin.event.InputEventQueue;
-import com.expensive_pig.carin.game_data.Credit;
+import com.expensive_pig.carin.event.*;
 import com.expensive_pig.carin.game_data.GameConfiguration;
-import com.expensive_pig.carin.game_data.WorldGame;
 import lombok.Getter;
 
-import java.util.Map;
-
-@Getter
 public class Game implements Runnable {
+    @Getter
     private String sessionId;
     private volatile boolean isGameRunning = true;
 
-    private GameConfiguration config;
-    private InputEventQueue inputEventQueue;
+    @Getter
+    private final GameConfiguration config;
+
     private WorldGame world;
-    private Credit credit;
-    private EntityFactory entityFactory;
-    private GameLoop gameLoop;
+    private CreditSystem creditSystem;
+    private EntityManager entityManager;
 
-    private Program[] antiPrograms;
-    private Program[] virusPrograms;
+    private boolean isPause = false;
 
-    private long timeUnitInMs = 5000;
+    private final Program[] antiPrograms;
+    private final Program[] virusPrograms;
+
+    private EventQueue<InputEvent> inputEventQueue;
+    private EventQueue<OutputEvent> outputEventQueue;
+
+    private float timeScale = 1.0f;
+    private final int maxTimeUnitInMs = 5000;
 
     public Game(String sessionId, GameConfiguration config,
                 Program[] antiPrograms, Program[] virusPrograms) {
         this.sessionId = sessionId;
         this.antiPrograms = antiPrograms;
         this.virusPrograms = virusPrograms;
-        configGame(config);
+        this.config = config;
     }
 
-    private void configGame(GameConfiguration config) {
-        this.config = config;
-        world.setMapSize(config.getM(), config.getN());
-        credit.setMoney(config.getInitialAntibodyCredits());
+    public void setTimeScale(int timeScale) {
+        this.timeScale = timeScale;
     }
 
     @Override
     public void run() {
-        world.connect(entityFactory);
-        entityFactory.connect(world);
-        entityFactory.importGen(virusPrograms, antiPrograms);
+        world = new WorldGame(config.getM(), config.getN());
+        entityManager = new EntityManager(virusPrograms, antiPrograms, config, world);
+
+        creditSystem = new CreditSystem(config.getInitialAntibodyCredits(), config.getAntibodyPlacementCost(),
+                entityManager);
+
+        inputEventQueue = new EventQueue<>();
 
         try {
             gameLoop();
@@ -56,25 +59,25 @@ public class Game implements Runnable {
         }
     }
 
-    public void setTimeUnit(long timeUnitInMs) {
-        this.timeUnitInMs = timeUnitInMs;
-    }
-
     private void gameLoop() throws SyntaxError {
         long lastTime = System.currentTimeMillis();
+        long deltaTime;
+
         while (isGameRunning) {
             long currentTime = System.currentTimeMillis();
-            long deltaTime = currentTime - lastTime;
+            deltaTime = currentTime - lastTime;
 
-            if (deltaTime > timeUnitInMs) {
+            if (deltaTime * timeScale >= maxTimeUnitInMs) {
                 lastTime = currentTime;
 
-                // input stuff
                 processInput();
+                entityManager.spawnVirus();
+                evaluateEntities();
 
-                // spawn entity
+                // update entity list
+                entityManager.clearDeadAndSpawnInfected();
 
-                // evaluate
+                //TODO:send output
             }
         }
     }
@@ -87,15 +90,22 @@ public class Game implements Runnable {
         if (!inputEventQueue.isEmpty()) {
             InputEvent event = inputEventQueue.removeEvent();
 
-            if (event.getAction().equals("buy")) {
+            if (event instanceof BuyEvent buyEvent) {
+                creditSystem.buyAndPlace(buyEvent.getPosX(), buyEvent.getPosY(), buyEvent.getKind());
+            } else if (event instanceof InputMoveEvent inputMoveEvent) {
+                Entity toMove = world.getTarget(inputMoveEvent.getPosX(), inputMoveEvent.getPosY());
+                toMove.moveByUser(inputMoveEvent.getToPosX(), inputMoveEvent.getToPosY(), config.getAntibodyMoveHpCost());
+            }
+        }
+    }
 
-            } else if (event.getAction().equals("move")) {
-                Map<String, Object> data = event.getData();
-                Entity toMove = world.getTarget((int) data.get("oldPosX"),
-                        (int) data.get("newPosY"));
-
-                toMove.moveByUser((int)data.get("newPosX"), (int)data.get("newPosY"),
-                        config.getAntibodyMoveHpCost());
+    private void evaluateEntities() {
+        for (Entity e : entityManager.entities) {
+            try {
+                e.evaluate();
+            } catch (SyntaxError ex) {
+                // get rid of e
+                e.dead();
             }
         }
     }

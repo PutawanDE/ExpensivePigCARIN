@@ -1,33 +1,25 @@
-package com.expensive_pig.carin.game_data;
+package com.expensive_pig.carin.core;
 
-import com.expensive_pig.carin.core.Direction;
-
-import com.expensive_pig.carin.core.EntityFactory;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.EntityType;
-import com.expensive_pig.carin.evaluator.Program;
-import com.expensive_pig.carin.evaluator.SyntaxError;
+import com.expensive_pig.carin.game_data.Pair;
 
 import java.util.*;
 
 public class WorldGame {
-    private EntityFactory factory;
-    int m;
-    int n;
-    Entity[][] mapField;
+    private int m;
+    private int n;
+    private Entity[][] mapField;
+
     public Set<Pair> freeField = new HashSet<>();
 
-    public void connect(EntityFactory entityFactory) {
-        factory = entityFactory;
-    }
-
-    public void converseEntity(int posX, int posY, int kind, Program rna) {
-        factory.converseAntiToVirus(posX, posY, kind, rna);
-    }
-
-    public void setMapSize(int m, int n) {
+    public WorldGame(int m, int n) {
         this.m = m;
         this.n = n;
+        setMapSize();
+    }
+
+    private void setMapSize() {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 freeField.add(new Pair(n, m));
@@ -49,20 +41,22 @@ public class WorldGame {
         return mapField[posY][posX];
     }
 
-    public void addNewEntity(int posX, int posY, Entity obj) {
-        mapField[posY][posX] = obj;
+    public void addNewEntity(int posX, int posY, Entity e) {
+        mapField[posY][posX] = e;
+        freeField.remove(new Pair(posX, posY));
     }
 
     public void movePosEntity(int posX, int posY, int toposX, int toposY) {
         if (mapField[toposY][toposX] == null) {
             mapField[toposY][toposX] = mapField[posY][posX];
             clearPosEntity(posX, posY);
+            freeField.remove(new Pair(posX, posY));
         }
     }
 
     public void clearPosEntity(int posX, int posY) {
         mapField[posY][posX] = null;
-        freeField.remove(new Pair(n, m));
+        freeField.add(new Pair(posX, posY));
     }
 
     public int searchNearby(int posX, int posY, EntityType entity, Direction direction) {
@@ -70,7 +64,7 @@ public class WorldGame {
     }
 
     public int search(int posX, int posY, EntityType type) {
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>(8);
         list.add(lineOfSight(posX, posY, Direction.UP, type));
         list.add(lineOfSight(posX, posY, Direction.UP_RIGHT, type));
         list.add(lineOfSight(posX, posY, Direction.RIGHT, type));
@@ -88,7 +82,7 @@ public class WorldGame {
         int nowY = posY;
         int indicateDirection = 0;
         int distance = 0;
-        while ((0 <= nowX && nowX <= n) && (0 <= nowY && nowY <= m)) {
+        while ((0 <= nowX && nowX < n) && (0 <= nowY && nowY < m)) {
             switch (direction) {
                 case UP -> {
                     nowY++;
@@ -136,7 +130,7 @@ public class WorldGame {
                 }
             }
 
-            if ((0 <= nowX && nowX <= n) && (0 <= nowY && nowY <= m)) {
+            if ((0 <= nowX && nowX < n) && (0 <= nowY && nowY < m)) {
                 if (mapField[nowY][nowX] != null) {
                     if (_type.equals(EntityType.ENTITY)) {
                         break;
@@ -144,7 +138,9 @@ public class WorldGame {
                         break;
                     }
                 }
-            } else break;
+            } else {
+                return 0;
+            }
         }
         return distance * 10 + indicateDirection;
     }
