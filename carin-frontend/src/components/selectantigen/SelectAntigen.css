@@ -25,6 +25,7 @@ html {
 }
 
 .background {
+    height: 100vh;
     position: relative;
     padding: 0;
     margin: 0;
@@ -33,6 +34,7 @@ html {
     display: block;
     margin: center;
     align-items: center;
+    align-content: space-around;
 }
 
 .background .startbutton {
@@ -47,7 +49,7 @@ html {
 
 .geneticbuttonpicture {
     object-fit: cover;
-    width: 400px;
+    width: 350px;
     height: auto;
 }
 
