@@ -20,7 +20,7 @@ public class Virus extends Entity {
 
     @Override
     protected void attack(Entity target, int dmg) {
-        if (target.live) {
+        if (target.isAlive) {
             target.receiveDmg(dmg, kind);
             if (!target.getType().equals(EntityType.VIRUS)) {
                 changeHp(attackHpGain);
@@ -31,18 +31,18 @@ public class Virus extends Entity {
 
     @Override
     protected void receiveDmg(int dmgReceive, int attackerKind) {
-        if (live) {
+        if (isAlive) {
             changeHp(dmgReceive);
             if (hp <= 0) {
-                dead();
+                die();
             }
         }
     }
 
     @Override
-    public void dead() {
-        live = false;
-        entityManager.dead(this);
+    public void die() {
+        isAlive = false;
+        entityManager.die(this);
     }
 
     @Override

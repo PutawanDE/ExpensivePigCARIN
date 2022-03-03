@@ -26,7 +26,10 @@ public abstract class Entity {
     protected WorldGame world;
 
     private final Map<String, Integer> variableMap = new HashMap<>();
-    protected boolean live = true;
+
+    @Getter
+    protected boolean isAlive = true;
+
     protected int killCount;
 
     protected Program program;
@@ -53,7 +56,7 @@ public abstract class Entity {
     }
 
     public void evaluate() throws SyntaxError {
-        if (live) {
+        if (isAlive) {
             evaluator = new GeneticCodeEvaluator();
             evaluator.evaluateProgram(program, this, variableMap);
         }
@@ -83,7 +86,7 @@ public abstract class Entity {
         System.out.println(maxHp + " " + hp + " " + attackDamage + " " + killCount);
     }
 
-    public abstract void dead();
+    public abstract void die();
 
     public void move(Direction direction) {
         int[] toPos = getPosFromDirection(direction);

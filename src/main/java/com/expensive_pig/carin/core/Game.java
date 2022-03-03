@@ -7,6 +7,8 @@ import com.expensive_pig.carin.event.*;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import lombok.Getter;
 
+import java.util.Iterator;
+
 public class Game implements Runnable {
     @Getter
     private String sessionId;
@@ -72,7 +74,7 @@ public class Game implements Runnable {
                 lastTime = currentTime;
 
                 entityManager.spawnVirus();
-                evaluateEntities();
+                updateEntities();
 
                 // update entity list
                 entityManager.clearDeadAndSpawnInfected();
@@ -80,15 +82,20 @@ public class Game implements Runnable {
         }
     }
 
-    private void evaluateEntities() {
-        for (Entity e : entityManager.entities) {
+    private void updateEntities() {
+        Iterator<Entity> itr = entityManager.entities.listIterator();
+
+        while (itr.hasNext()) {
+            Entity e = itr.next();
             processInput();
             try {
                 e.evaluate();
             } catch (SyntaxError ex) {
                 // get rid of e
-                e.dead();
+                e.die();
             }
+
+            if (!e.isAlive()) itr.remove();
         }
     }
 
