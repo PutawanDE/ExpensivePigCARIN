@@ -14,13 +14,13 @@ type CellProps = {
 const defaultCell: CellProps = {
    
   img: cellnull,
-  x: 0,
-  y: 0,
+  x: -99,
+  y: -99,
   type: "null",
   hp: "null",
   action: "null",
-  toposX: 0,
-  toposY: 0 
+  toposX: -99,
+  toposY: -99 
 }
 
 type BodyStore = {
@@ -35,13 +35,21 @@ type BodyStore = {
 //return an (16 x 16) 2D array filled with "#FFFFFF"
 export const createCell = () => {
  
+   
   const output: CellProps[][] = []
   for (let i = 0; i < row; i++) {
+ 
     output[i] = []
     for (let j = 0; j < colum; j++) {
-      output[i].push(defaultCell);
+ 
+      let tempdefaultCell = {...defaultCell};
+      tempdefaultCell.x = i;
+      tempdefaultCell.y = j;
+      output[i].push(tempdefaultCell);
+      // output[i].push(defaultCell);
     }
   }
+  console.log(output);
   return output
 }
 

@@ -1,7 +1,4 @@
 import { BodyStore } from "../stores/BodyStore"
-import anti1 from "../assets/A1.gif";
-import virus1 from "../assets/V1.gif";
-
 
 
 type CellProps = {
@@ -18,11 +15,11 @@ type CellProps = {
 type SelectColorButtonProps = {
   entitydata: CellProps;
   img: string;
+  type: string;
 }
 
 
-
-const SelectEntity = ({ entitydata, img }: SelectColorButtonProps) => {
+const SelectEntity = ({entitydata, type ,img }: SelectColorButtonProps) => {
 
 
 
@@ -31,7 +28,7 @@ const SelectEntity = ({ entitydata, img }: SelectColorButtonProps) => {
   const state = BodyStore.useState()
 
   const computeRingSize = () => {
-    if (entitydata.img === state.SelectEntity.img) {
+    if ( entitydata.img === state.SelectEntity.img ) {
       return "ring-8 ring-green-400"
     }
     return ""
@@ -40,13 +37,13 @@ const SelectEntity = ({ entitydata, img }: SelectColorButtonProps) => {
 
 
   const selectedEntity = () => {
-    BodyStore.update(state => {    state.SelectEntity = entitydata;})
+    BodyStore.update(state => { state.SelectEntity =  entitydata})
     console.log("SelectEntity");
     console.log(state.SelectEntity);
   }
 
   const dataShow = () => {
-    return < >{entitydata.type} </> 
+    return < >{type} </> 
        
   }
 
