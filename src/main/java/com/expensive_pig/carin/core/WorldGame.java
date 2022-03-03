@@ -46,11 +46,14 @@ public class WorldGame {
         freeField.remove(new Pair(posX, posY));
     }
 
-    public void movePosEntity(int posX, int posY, int toposX, int toposY) {
-        if (mapField[toposY][toposX] == null) {
-            mapField[toposY][toposX] = mapField[posY][posX];
+    public boolean movePosEntity(int posX, int posY, int toPosX, int toPosY) {
+        if (mapField[toPosY][toPosX] == null) {
+            mapField[toPosY][toPosX] = mapField[posY][posX];
             clearPosEntity(posX, posY);
             freeField.remove(new Pair(posX, posY));
+            return true;
+        } else {
+            return false;
         }
     }
 

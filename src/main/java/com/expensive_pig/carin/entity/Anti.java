@@ -4,6 +4,7 @@ import com.expensive_pig.carin.core.CreditSystem;
 import com.expensive_pig.carin.core.EntityManager;
 import com.expensive_pig.carin.core.WorldGame;
 import com.expensive_pig.carin.evaluator.Program;
+import com.expensive_pig.carin.event.OutputMoveEvent;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import lombok.Getter;
 
@@ -29,11 +30,13 @@ public class Anti extends Entity {
 
     @Override
     protected void attack(Entity target, int dmg) {
-        target.receiveDmg(dmg, kind);
-        if (target.live && target.getType().equals(EntityType.VIRUS)) {
-            creditSystem.gainCredit(killCreditGain);
-            earnHp(killHpGain);
-            killCount++;
+        if (target.live) {
+            target.receiveDmg(dmg, kind);
+            if (target.getType().equals(EntityType.VIRUS)) {
+                creditSystem.gainCredit(posX, posY, killCreditGain);
+                changeHp(killHpGain);
+                killCount++;
+            }
         }
     }
 
@@ -41,15 +44,18 @@ public class Anti extends Entity {
     public void moveByUser(int toPosX, int toPosY, int hpCost) {
         int newHp = hp - hpCost;
         if (newHp > 0) {
-            hp = newHp;
-            world.movePosEntity(posX, posY, toPosX, toPosY);
+            if (world.movePosEntity(posX, posY, toPosX, toPosY)) {
+                changeHp(hpCost);
+                gameController.sendOutputEvent(entityManager.getSessionId(),
+                        new OutputMoveEvent(posX, posY, toPosX, toPosY));
+            }
         }
     }
 
     @Override
     protected void receiveDmg(int dmgReceive, int attackerKind) {
         if (live) {
-            hp -= dmgReceive;
+            changeHp(dmgReceive);
             infectedKind = attackerKind;
             if (hp <= 0) {
                 dead();

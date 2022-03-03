@@ -25,7 +25,6 @@ public class Game implements Runnable {
     private final Program[] virusPrograms;
 
     private EventQueue<InputEvent> inputEventQueue;
-    private EventQueue<OutputEvent> outputEventQueue;
 
     private float timeScale = 1.0f;
     private final int maxTimeUnitInMs = 5000;
@@ -45,10 +44,10 @@ public class Game implements Runnable {
     @Override
     public void run() {
         world = new WorldGame(config.getM(), config.getN());
-        entityManager = new EntityManager(virusPrograms, antiPrograms, config, world);
+        entityManager = new EntityManager(virusPrograms, antiPrograms, config, world, sessionId);
 
-        creditSystem = new CreditSystem(config.getInitialAntibodyCredits(), config.getAntibodyPlacementCost(),
-                entityManager);
+        creditSystem = new CreditSystem(sessionId, config.getInitialAntibodyCredits(),
+                config.getAntibodyPlacementCost(), entityManager);
 
         inputEventQueue = new EventQueue<>();
 
@@ -67,17 +66,28 @@ public class Game implements Runnable {
             long currentTime = System.currentTimeMillis();
             deltaTime = currentTime - lastTime;
 
+            //TODO: process input 30hz
+
             if (deltaTime * timeScale >= maxTimeUnitInMs) {
                 lastTime = currentTime;
 
-                processInput();
                 entityManager.spawnVirus();
                 evaluateEntities();
 
                 // update entity list
                 entityManager.clearDeadAndSpawnInfected();
+            }
+        }
+    }
 
-                //TODO:send output
+    private void evaluateEntities() {
+        for (Entity e : entityManager.entities) {
+            processInput();
+            try {
+                e.evaluate();
+            } catch (SyntaxError ex) {
+                // get rid of e
+                e.dead();
             }
         }
     }
@@ -95,17 +105,6 @@ public class Game implements Runnable {
             } else if (event instanceof InputMoveEvent inputMoveEvent) {
                 Entity toMove = world.getTarget(inputMoveEvent.getPosX(), inputMoveEvent.getPosY());
                 toMove.moveByUser(inputMoveEvent.getToPosX(), inputMoveEvent.getToPosY(), config.getAntibodyMoveHpCost());
-            }
-        }
-    }
-
-    private void evaluateEntities() {
-        for (Entity e : entityManager.entities) {
-            try {
-                e.evaluate();
-            } catch (SyntaxError ex) {
-                // get rid of e
-                e.dead();
             }
         }
     }

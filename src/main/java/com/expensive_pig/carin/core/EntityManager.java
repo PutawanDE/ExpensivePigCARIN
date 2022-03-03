@@ -1,11 +1,17 @@
 package com.expensive_pig.carin.core;
 
+import com.expensive_pig.carin.controller.GameController;
 import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.entity.Virus;
 import com.expensive_pig.carin.evaluator.Program;
+import com.expensive_pig.carin.event.DieEvent;
+import com.expensive_pig.carin.event.InfectEvent;
+import com.expensive_pig.carin.event.SpawnEvent;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import com.expensive_pig.carin.game_data.Pair;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -19,16 +25,23 @@ public class EntityManager {
 
     private WorldGame world;
     private GameConfiguration config;
+
+    @Autowired
+    private GameController gameController;
+    @Getter
+    private final String sessionId;
+
     private final Program[] virusGene;
     private final Program[] antiGene;
     private final Random r = new Random();
 
     public EntityManager(Program[] virusGene, Program[] antiGene, GameConfiguration config,
-                         WorldGame world) {
+                         WorldGame world, String sessionId) {
         this.virusGene = virusGene;
         this.antiGene = antiGene;
         this.config = config;
         this.world = world;
+        this.sessionId = sessionId;
     }
 
     public Anti createAntibody(int posX, int posY, int kind, CreditSystem creditSystem) {
@@ -37,6 +50,7 @@ public class EntityManager {
                     creditSystem, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + kind));
             return e;
         } else {
             return null;
@@ -48,6 +62,7 @@ public class EntityManager {
             Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + kind));
         }
     }
 
@@ -76,11 +91,16 @@ public class EntityManager {
     }
 
     public void dead(Virus virus) {
+        gameController.sendOutputEvent(sessionId, new DieEvent(virus.getPosX(), virus.getPosY()));
         world.clearPosEntity(virus.getPosX(), virus.getPosY());
         deathEntities.add(virus);
     }
 
     public void dieConvertToVirus(Anti anti) {
+        gameController.sendOutputEvent(sessionId, new DieEvent(anti.getPosX(), anti.getPosY()));
+        gameController.sendOutputEvent(sessionId, new InfectEvent(anti.getPosX(), anti.getPosY(),
+                anti.getInfectedKind()));
+
         world.clearPosEntity(anti.getPosX(), anti.getPosY());
         deathEntities.add(anti);
         infectedAnti.add(anti);
