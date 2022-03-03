@@ -29,7 +29,7 @@ public class Game implements Runnable {
     private EventQueue<InputEvent> inputEventQueue;
 
     private float timeScale = 1.0f;
-    private final int maxTimeUnitInMs = 5000;
+    private final long maxTimeUnitInMs = 5000;
 
     public Game(String sessionId, GameConfiguration config,
                 Program[] antiPrograms, Program[] virusPrograms) {
@@ -61,30 +61,32 @@ public class Game implements Runnable {
     }
 
     private void gameLoop() throws SyntaxError {
-        long lastTime = System.currentTimeMillis();
-        long deltaTime;
+        long gameLastTime = System.nanoTime();
+        long inputLastTime = System.nanoTime();
+        long gameDeltaTime, inputDeltaTime;
 
         while (isGameRunning) {
-            long currentTime = System.currentTimeMillis();
-            deltaTime = currentTime - lastTime;
+            long currentTime = System.nanoTime();
+            gameDeltaTime = currentTime - gameLastTime;
+            inputDeltaTime = currentTime - inputLastTime;
 
-            //TODO: process input 30hz
+            //process input once every 30 ms
+            if (inputDeltaTime - inputLastTime >= 30 * 1000000) {
+                inputLastTime = currentTime;
+                processInput();
+            }
 
-            if (deltaTime * timeScale >= maxTimeUnitInMs) {
-                lastTime = currentTime;
-
-                entityManager.spawnVirus();
-                updateEntities();
-
-                // update entity list
-                entityManager.clearDeadAndSpawnInfected();
+            if (gameDeltaTime * timeScale >= maxTimeUnitInMs * 1000000) {
+                gameLastTime = currentTime;
+                update();
             }
         }
     }
 
-    private void updateEntities() {
-        Iterator<Entity> itr = entityManager.entities.listIterator();
+    private void update() {
+        entityManager.spawnVirus();
 
+        Iterator<Entity> itr = entityManager.entities.listIterator();
         while (itr.hasNext()) {
             Entity e = itr.next();
             processInput();
@@ -97,6 +99,8 @@ public class Game implements Runnable {
 
             if (!e.isAlive()) itr.remove();
         }
+
+        entityManager.spawnInfected();
     }
 
     public void addInputEvent(InputEvent event) {

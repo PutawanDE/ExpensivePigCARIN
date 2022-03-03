@@ -103,7 +103,7 @@ public class EntityManager {
         infectedAnti.add(anti);
     }
 
-    public void clearDeadAndSpawnInfected() {
+    public void spawnInfected() {
         for (Anti a : infectedAnti) {
             createVirus(a.getPosX(), a.getPosY(), a.getInfectedKind());
         }
