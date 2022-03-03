@@ -14,6 +14,7 @@
     "pullstate": "^1.23.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "sockjs-client": "^1.5.2",
     "typescript": "^4.1.2",

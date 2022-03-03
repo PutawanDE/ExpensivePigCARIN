@@ -12,9 +12,7 @@ function SelectAntigen() {
   return (
     <div className="background">
       <div className="container mx-auto py-10 text-center text-3xl font-bold">
-            <h1 className="text-3xl font-bold underline">
               EDIT GENETIC CODE
-            </h1>
       </div>
       <div className="flex flex-row ">
         <div className="basis-1/3">
