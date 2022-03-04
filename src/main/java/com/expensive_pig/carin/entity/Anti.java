@@ -30,7 +30,7 @@ public class Anti extends Entity {
 
     @Override
     protected void attack(Entity target, int dmg) {
-        if (target.live) {
+        if (target.isAlive) {
             target.receiveDmg(dmg, kind);
             if (target.getType().equals(EntityType.VIRUS)) {
                 creditSystem.gainCredit(posX, posY, killCreditGain);
@@ -54,19 +54,19 @@ public class Anti extends Entity {
 
     @Override
     protected void receiveDmg(int dmgReceive, int attackerKind) {
-        if (live) {
+        if (isAlive) {
             changeHp(dmgReceive);
             infectedKind = attackerKind;
             if (hp <= 0) {
-                dead();
-                live = false;
+                die();
+                isAlive = false;
             }
         }
     }
 
     @Override
-    public void dead() {
-        live = false;
+    public void die() {
+        isAlive = false;
         entityManager.dieConvertToVirus(this);
     }
 

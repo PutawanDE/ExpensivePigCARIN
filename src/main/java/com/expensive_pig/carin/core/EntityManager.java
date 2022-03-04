@@ -20,7 +20,6 @@ public class EntityManager {
     private static final int NUM_VIRUS_KINDS = 3;
 
     public final LinkedList<Entity> entities = new LinkedList<>();
-    private final LinkedList<Entity> deathEntities = new LinkedList<>();
     private final LinkedList<Anti> infectedAnti = new LinkedList<>();
 
     private WorldGame world;
@@ -90,10 +89,9 @@ public class EntityManager {
         }
     }
 
-    public void dead(Virus virus) {
+    public void die(Virus virus) {
         gameController.sendOutputEvent(sessionId, new DieEvent(virus.getPosX(), virus.getPosY()));
         world.clearPosEntity(virus.getPosX(), virus.getPosY());
-        deathEntities.add(virus);
     }
 
     public void dieConvertToVirus(Anti anti) {
@@ -102,16 +100,13 @@ public class EntityManager {
                 anti.getInfectedKind()));
 
         world.clearPosEntity(anti.getPosX(), anti.getPosY());
-        deathEntities.add(anti);
         infectedAnti.add(anti);
     }
 
-    public void clearDeadAndSpawnInfected() {
-        entities.removeAll(deathEntities);
+    public void spawnInfected() {
         for (Anti a : infectedAnti) {
             createVirus(a.getPosX(), a.getPosY(), a.getInfectedKind());
         }
-        deathEntities.clear();
         infectedAnti.clear();
     }
 }
