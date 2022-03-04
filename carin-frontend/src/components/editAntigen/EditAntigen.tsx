@@ -1,4 +1,4 @@
-import './EditAntibody.css';
+import './EditAntigen.css';
 
 import AGA from "../../elements/editAntibody/AGA.gif";
 import AGB from "../../elements/editAntibody/AGB.gif";
@@ -10,7 +10,7 @@ function EditAntigen() {
   return (
     <div className="background">
       <div className="container mx-auto py-10 text-center text-5xl font-bold">
-              EDIT GENETIC CODE
+              EDIT ANTIGEN GENETIC CODE
       </div>
       <div className="flex flex-row ">
         <div className="basis-1/3 px-20">

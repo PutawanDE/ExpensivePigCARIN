@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import StartMenu from './components/start/Start'
-import SelectAntigen from './components/editAntibody/EditAntibody'
-import Start from "./components/start/Start";
+import SelectAntibody from './components/editAntibody/EditAntibody'
+import SelectAntigen from './components/editAntigen/EditAntigen'
 
 function App() {
 
@@ -23,7 +23,8 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element = {<StartMenu/>}/>
-        <Route path="/editantibody" element = {<SelectAntigen/>}/>
+        <Route path="/editantibody" element = {<SelectAntibody/>}/>
+        <Route path="/editantigen" element = {<SelectAntigen/>}/>
       </Routes>
     </div>
 
