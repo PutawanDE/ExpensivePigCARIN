@@ -49,7 +49,7 @@ html {
 
 .geneticbuttonpicture {
     object-fit: cover;
-    width: 350px;
+    width: auto;
     height: auto;
 }
 
@@ -60,7 +60,7 @@ html {
 }
 
 .container{
-    -webkit-text-stroke: 2px black; /* width and color */
+    -webkit-text-stroke: 3px black; /* width and color */
 
     color: white;
 }
