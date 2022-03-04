@@ -1,13 +1,11 @@
-import './SelectAntigen.css';
-import Background from "../../elements/start/NormalBackground.gif";
-import StartBtn from "../../elements/start/StartBtn.gif";
+import './EditAntibody.css';
 
-import AGA from "../../elements/selectantigen/AGA.gif";
-import AGB from "../../elements/selectantigen/AGB.gif";
-import AGC from "../../elements/selectantigen/AGC.gif";
-import NextBTN from "../../elements/selectantigen/NextBTN.png";
+import AGA from "../../elements/editAntibody/AGA.gif";
+import AGB from "../../elements/editAntibody/AGB.gif";
+import AGC from "../../elements/editAntibody/AGC.gif";
+import NextBTN from "../../elements/editAntibody/NextBTN.png";
 
-function SelectAntigen() {
+function EditAntibody() {
 
   return (
     <div className="background">
@@ -32,4 +30,4 @@ function SelectAntigen() {
   );
 }
 
-export default SelectAntigen;
+export default EditAntibody;

@@ -9,7 +9,7 @@ function Start() {
 
     return (
         <div className="background">
-            <Link to="/editantigen">
+            <Link to="/editantibody">
                 <button className="content-center startbutton">
                     <img src={StartBtn} alt="my image" className="startbuttonpicture" />
                 </button>

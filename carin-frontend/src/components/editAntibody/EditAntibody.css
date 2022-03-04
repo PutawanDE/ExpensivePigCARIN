@@ -9,7 +9,7 @@
 }
 
 html {
-    background-image: url("../../elements/selectantigen/NormalBackground.gif");
+    background-image: url("../../elements/editAntibody/NormalBackground.gif");
   }
 .fit { /* set relative picture size */
     max-width: 100%;
