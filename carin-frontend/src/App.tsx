@@ -4,24 +4,31 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
 import StartMenu from './components/start/Start'
 import SelectAntigen from './components/selectantigen/SelectAntigen'
+import Start from "./components/start/Start";
 
 function App() {
 
   return (
-    <Router>
+    // <Router>
+    //   <Routes>
+    //     <Route  path="/">
+    //       <StartMenu />
+    //     </Route>
+    //     <Route  path="/editantigen">
+    //       <StartMenu />
+    //     </Route>
+    //   </Routes>
+    // </Router>
+
+    <div>
       <Routes>
-        <Route  path="/">
-          <StartMenu />
-        </Route>
-        <Route  path="/editantigen">
-          <StartMenu />
-        </Route>
+        <Route path="/" element = {<StartMenu/>}/>
+        <Route path="/editantigen" element = {<SelectAntigen/>}/>
       </Routes>
-    </Router>
+    </div>
 
 
 
-    // <SelectAntigen/>
 
   );
 }
