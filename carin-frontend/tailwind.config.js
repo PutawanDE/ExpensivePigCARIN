@@ -1,7 +1,7 @@
 module.exports = {
-  content: ["./src/App.tsx","./src/components/start/Start.tsx","./src/components/selectantigen/SelectAntigen.tsx"],
+  content: ['./src/App.tsx', './src/components/**/*.{html,tsx}'],
   theme: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
-}
+  plugins: []
+};
