@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+  .backgroundResult{
     background-image: url("../../elements/result/ResultBG.gif");
   }
 
-  .background {
+  .resultbackground {
     height: 100vh;
     position: relative;
     padding: 0;
@@ -26,7 +26,7 @@ html {
   margin-right: auto;
 }
 
-.textborder{
+.textborder-pink{
   text-align: center;
   -webkit-text-stroke: 3px pink; /* width and color */
   color: #991b1b;
