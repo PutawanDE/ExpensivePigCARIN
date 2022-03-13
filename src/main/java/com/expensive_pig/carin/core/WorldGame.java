@@ -22,7 +22,7 @@ public class WorldGame {
     private void setMapSize() {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                freeField.add(new Pair(n, m));
+                freeField.add(new Pair(j, i));
             }
         }
         mapField = new Entity[m][n];
