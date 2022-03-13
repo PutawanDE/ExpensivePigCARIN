@@ -18,7 +18,7 @@ function Start() {
                 {/*// on Start setup sockjs session id */}
 
                 <button className="content-center startbutton">
-                    <img src={StartBtn} alt="my image" className="startbuttonpicture" />
+                    <img src={StartBtn} className="startbuttonpicture" />
                 </button>
             </Link>
             <img src={Background} className="center fit" alt="Hello World" />

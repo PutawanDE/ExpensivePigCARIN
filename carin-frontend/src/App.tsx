@@ -20,6 +20,7 @@ function App() {
         <Route path="/editVirus" element = {<SelectVirus/>}/>
         <Route path="/game" element = {<InGame/>}/>
       </Routes>
+      
     </div>
 
 

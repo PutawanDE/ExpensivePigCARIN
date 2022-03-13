@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    background-image: url("../../elements/editAntibody/NormalBackground.gif");
+  .backgroundResult{
+    background-image: url("../../elements/result/ResultBG.gif");
   }
 
-  .background {
+  .resultbackground {
     height: 100vh;
     position: relative;
     padding: 0;
@@ -17,4 +17,22 @@ html {
     margin: center;
     align-items: center;
     align-content: space-around;
+}
+.trophy {
+  border: none;
+  height: 600px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.textborder-pink{
+  text-align: center;
+  -webkit-text-stroke: 3px pink; /* width and color */
+  color: #991b1b;
+
+}
+
+.center {
+  text-align: center;
 }
