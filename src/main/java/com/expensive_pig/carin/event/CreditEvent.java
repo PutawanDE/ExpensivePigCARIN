@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class CreditEvent extends OutputEvent {
-    private int[] pos;
+    private int[] pos = new int[2];
     private int change;
 
     public CreditEvent(int posX, int posY, int change) {

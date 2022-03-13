@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class InputMoveEvent extends InputEvent {
-    private int[] pos;
-    private int[] toPos;
+    private int[] pos = new int[2];;
+    private int[] toPos = new int[2];;
 
     public InputMoveEvent() {
         super("move");

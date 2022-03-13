@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class DieEvent extends OutputEvent {
-    private int[] pos;
+    private int[] pos = new int[2];
 
     public DieEvent(int posX, int posY) {
         super("die");
