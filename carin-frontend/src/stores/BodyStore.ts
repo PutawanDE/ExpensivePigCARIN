@@ -27,6 +27,7 @@ type BodyStore = {
   //we save painted color as hex code (string) in 2D array
   Cell: CellProps[][];
   SelectEntity: CellProps;
+  pointer:[number,number],
 }
 
 
@@ -56,4 +57,5 @@ export const createCell = () => {
 export const BodyStore = new Store<BodyStore>({
   Cell: createCell(),
   SelectEntity: defaultCell,
+  pointer:[-1,-1],
 })
