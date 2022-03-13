@@ -1,0 +1,72 @@
+
+#draggable {
+     width: 100px; 
+     height: 100px; 
+     padding: 0.5em; 
+
+    }
+
+ 
+table {
+    height: 80vh;
+    width: 80vh;
+    overflow: hidden;
+   
+    position: relative;
+ 
+}
+
+.box {
+    display: inline-block;
+    color: white;
+    height: 100%;
+    width: 100%;
+    /* position: absolute */
+    /* transform: scale(1.5); */
+}
+
+.btn {
+    z-index: 999;
+    width: 60px;
+    height: 60px;
+    background: #FFF;
+    border: 1px solid #005bac;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    color: #005bac;
+    padding: 15px 10px 5px;
+    position: fixed;
+    text-align: center;
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+    .btn:hover {
+        background: #eef;
+    }
+
+.zoom {
+    bottom: 190px;
+}
+
+.zoom-out {
+    bottom: 120px;
+}
+
+.zoom-init {
+    bottom: 50px;
+}
+
+.show {
+    bottom: 400px;
+}
+
+.hide {
+    bottom: 330px;
+}

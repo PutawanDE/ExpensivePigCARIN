@@ -3,17 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.2.0",
     "@stomp/stompjs": "^6.1.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^26.0.15",
+    "@types/jquery": "^3.5.13",
+    "@types/jqueryui": "^1.12.16",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "jquery": "^3.6.0",
     "pullstate": "^1.23.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-fps": "^1.0.6",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "sockjs-client": "^1.5.2",
@@ -49,6 +54,10 @@
     "@types/sockjs-client": "^1.5.1",
     "@types/websocket": "^1.0.5",
     "prettier": "^2.5.1",
-    "tailwindcss": "^3.0.23"
-  }
+    "tailwindcss": "^3.0.23",
+    "autoprefixer": "^9.8.6",
+    "jqueryui": "^1.11.1",
+    "postcss": "^8.1.0"
+  },
+  "allowSyntheticDefaultImports": true
 }

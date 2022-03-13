@@ -1,8 +1,11 @@
 package com.expensive_pig.carin.evaluator;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class Tokenizer {
     private static final Pattern splitPattern =
             Pattern.compile("([\\s]++)|(?<=[=+-\\-*/%(){}^])|(?=[=+\\-*/%(){}^])");
@@ -20,7 +23,7 @@ public class Tokenizer {
                 tokens.add(s);
             }
         }
-        System.out.println(tokens);
+        log.trace("Tokens: " + tokens);
     }
 
     public String peek() throws SyntaxError {

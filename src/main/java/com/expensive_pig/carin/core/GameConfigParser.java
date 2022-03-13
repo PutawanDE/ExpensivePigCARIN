@@ -10,7 +10,7 @@ public class GameConfigParser {
         try (Scanner s = new Scanner(textConfig)) {
             return parseConfigUsingScanner(s);
         } catch (Exception e) {
-            errorMsg.append("Game Config error: ").append(e.getMessage()).append("\n");
+            errorMsg.append("Game Config error: ").append(e).append("\n");
             e.printStackTrace();
         }
 
@@ -22,7 +22,7 @@ public class GameConfigParser {
              Scanner s = new Scanner(fr)) {
             return parseConfigUsingScanner(s);
         } catch (Exception e) {
-            errorMsg.append("Game Config error: ").append(e.getMessage()).append("\n");
+            errorMsg.append("Game Config error: ").append(e).append("\n");
             e.printStackTrace();
         }
 

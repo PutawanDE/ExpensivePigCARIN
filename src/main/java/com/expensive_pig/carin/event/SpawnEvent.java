@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class SpawnEvent extends OutputEvent {
-    private int[] pos;
+    private int[] pos = new int[2];
     private String type;
 
     public SpawnEvent(int posX, int posY, String type) {

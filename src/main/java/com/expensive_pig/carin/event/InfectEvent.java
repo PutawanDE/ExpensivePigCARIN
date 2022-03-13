@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class InfectEvent extends OutputEvent {
-    private int[] pos;
+    private int[] pos = new int[2];
     private int kind;
 
     public InfectEvent(int posX, int posY, int kind) {

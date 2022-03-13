@@ -10,7 +10,8 @@ public class InitGame {
     private static final int NUM_ANTI_KINDS = 3;
     private static final int NUM_VIRUS_KINDS = 3;
 
-    private static final String GAME_CONFIG_FILENAMES = "";
+    private static final String GAME_CONFIG_FILENAMES = "src/main/java/com/expensive_pig/carin/game_config/" +
+            "DefaultGameConfig.txt";
 
     private static final String[] ANTI_PROGRAM_FILENAMES = {
             "src/main/java/com/expensive_pig/carin/dev_genetic/Anti1.txt",
@@ -73,7 +74,7 @@ public class InitGame {
                 }
             } catch (Exception e) {
                 errorMsg.append("Antibody Type ").append(i).append(" error: ")
-                        .append(e.getMessage()).append("\n");
+                        .append(e).append("\n");
             }
         }
         return antiPrograms;
@@ -93,7 +94,7 @@ public class InitGame {
                 }
             } catch (Exception e) {
                 errorMsg.append("Virus Type ").append(i).append(" error: ")
-                        .append(e.getMessage()).append("\n");
+                        .append(e).append("\n");
             }
         }
 

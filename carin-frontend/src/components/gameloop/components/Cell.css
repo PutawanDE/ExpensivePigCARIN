@@ -1,0 +1,84 @@
+.eachcell {
+    min-height: 100px;
+    min-width: 100px;
+    height: auto;
+    width: auto;
+    /* border: 0.5px solid black; */
+}
+
+ 
+
+
+
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0.4); /* Black see-through */
+    color: #f1f1f1;
+    width: 100%;
+    transition: .5s ease;
+    opacity: 1;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+.container:hover .overlay {
+    opacity: 1;
+}
+.div {
+    width: 100%;
+    height: auto;
+}
+
+
+.has-details:hover span   {
+    transform: translateY(-10%) translateX(  -5%) scale(1);
+  }
+
+.font{
+    color: rgb(255, 255, 255);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+    font-family:  sans-serif;
+}
+
+.details  {
+    position: absolute;
+    transform: translateY(0%) translateX(  -10%) scale(0);
+    transition: transform 0.1s ease-in;
+    transform-origin: left;
+    display: inline;
+    z-index: 20;
+    width: 100%;
+    /* border: 1px solid black; */
+    /* font-family:  sans-serif; */
+   
+  }
+  .selinfo {
+    position: absolute;
+    transform: translateY(0%) translateX(  -10%) scale(0);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: rgb(255, 255, 255);
+    font-family:  sans-serif;
+    transform-origin: left;
+  }
+  .Show:hover + .selinfo{
+   
+    transform: translateY(0%) translateX(  -10%) scale(1);
+  
+    
+  }
+ 

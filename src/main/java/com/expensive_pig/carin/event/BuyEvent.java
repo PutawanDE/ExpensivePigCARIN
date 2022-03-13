@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class BuyEvent extends InputEvent {
     private int kind;
-    private int[] pos;
+    private int[] pos = new int[2];
 
     public BuyEvent() {
         super("buy");

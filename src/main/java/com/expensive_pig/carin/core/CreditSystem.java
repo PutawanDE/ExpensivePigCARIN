@@ -1,9 +1,9 @@
 package com.expensive_pig.carin.core;
 
+import com.expensive_pig.carin.SpringContext;
 import com.expensive_pig.carin.controller.GameController;
 import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.event.CreditEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreditSystem {
     private int credit;
@@ -12,7 +12,6 @@ public class CreditSystem {
 
     private EntityManager entityManager;
 
-    @Autowired
     private GameController gameController;
 
     public CreditSystem(String sessionId, int credit, int cost, EntityManager entityManager) {
@@ -20,6 +19,7 @@ public class CreditSystem {
         this.credit = credit;
         this.cost = cost;
         this.entityManager = entityManager;
+        gameController = SpringContext.getBean(GameController.class);
     }
 
     public void buyAndPlace(int posX, int posY, int kind) {

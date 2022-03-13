@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class OutputMoveEvent extends OutputEvent {
-    private int[] pos;
-    private int[] toPos;
+    private int[] pos = new int[2];
+    private int[] toPos = new int[2];
 
     public OutputMoveEvent(int posX, int posY, int toPosX, int toPosY) {
         super("move");
