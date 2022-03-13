@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-    background-image: url("../../elements/editAntibody/NormalBackground.gif");
+    background-image: url("../../elements/result/ResultBG.gif");
   }
 
   .background {
@@ -17,4 +17,22 @@ html {
     margin: center;
     align-items: center;
     align-content: space-around;
+}
+.trophy {
+  border: none;
+  height: 600px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.textborder{
+  text-align: center;
+  -webkit-text-stroke: 3px pink; /* width and color */
+  color: #991b1b;
+
+}
+
+.center {
+  text-align: center;
 }
