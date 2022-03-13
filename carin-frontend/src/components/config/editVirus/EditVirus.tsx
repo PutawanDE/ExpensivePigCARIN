@@ -1,3 +1,5 @@
+import { GameSetup, startGame } from '../../../api/GameAPI';
+
 import './EditVirus.css';
 import { Link } from "react-router-dom";
 
@@ -5,6 +7,16 @@ import V1 from "../../../elements/editAntibody/AGA.gif";
 import V2 from "../../../elements/editAntibody/AGB.gif";
 import V3 from "../../../elements/editAntibody/AGC.gif";
 import NextBTN from "../../../elements/editAntibody/NextBTN.png";
+
+const start = () : void => {
+  const setup : GameSetup = {
+    antiGeneticCodes: ["", "", ""],
+    virusGeneticCodes: ["", "", ""],
+    gameConfig: ""
+  };
+
+  startGame(setup);
+}
 
 function EditVirus() {
 
@@ -31,7 +43,9 @@ function EditVirus() {
               then send anti&virus genetic 
             */}
 
-        <button className="nextBTN"><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
+        <button className="nextBTN" onClick={() => start()}>
+          <img src={NextBTN} alt="" className="geneticbuttonpicture " />
+        </button>
         </Link>
       </div>
     </div>

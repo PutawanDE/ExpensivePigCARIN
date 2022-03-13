@@ -1,4 +1,7 @@
-import { BodyStore } from "../stores/BodyStore"
+import { EventTypes } from '../../../api/EventTypes';
+import { sendInput } from '../../../api/GameAPI';
+
+import { CellProps, BodyStore } from "../stores/BodyStore"
 import { commandStore } from "../eventCenter"
 import Cell from "./Cell"
 import './BodyMap.css';
@@ -80,6 +83,14 @@ const Body = () => {
             tcommand.commandData.action = "move";
             ////////////  sent data
             console.log(tcommand.commandData);
+            const pos = tcommand.commandData.pos;
+            const toPos = tcommand.commandData.topos;
+
+            if(toPos && pos) {
+                const moveEvent : EventTypes.InputMoveEvent = { pos,toPos };
+                sendInput(moveEvent);
+            }
+
             /////////////////////
             tcommand.commandData = defaultCommand;
             tcommand.commandData.pos_use = false;
@@ -90,6 +101,18 @@ const Body = () => {
        
         //    { "action": "move", "pos": [1, 7], "toPos": [2, 7] },
     }
+    // const canBuy(x: Number, y: Number, entity: CellProps){
+    //     spawnNewEntity(x,y,entity)
+    // }
+
+    const spawnNewEntity = (x: number, y: number, entity: CellProps) => {
+        BodyStore.update(state => {
+            state.Cell[y][x] = entity;
+            state.Cell[y][x].x = x;
+            state.Cell[y][x].y = y
+        });
+    }
+
     return (
         <div className="BodyMap" >
 

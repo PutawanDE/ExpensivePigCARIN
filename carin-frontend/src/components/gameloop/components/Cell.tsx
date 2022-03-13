@@ -18,7 +18,7 @@ type CellProps = {
   callmove?: (x: number, y: number, order: number) => void;
 }
 
-const dataMove = {
+const resetToMoveMode = {
   img: cellnull,
   x: -1,
   y: -1,
@@ -47,19 +47,25 @@ const Cell = ({ x, y, type, hp, action, toposX, toposY, callmove }: CellProps) =
     else if (state.SelectEntity.type === "MOVE" && state.Cell[y][x].img === cellnull) { // drop move entity  
       if (callmove) callmove(x, y, 1);
     }
-    else if (state.SelectEntity.type !== "MOVE" && state.Cell[y][x].img === cellnull) { // ask want place
+    else if (state.SelectEntity.type !== "MOVE" && state.Cell[y][x].img === cellnull) { // ask want buy&place
       // update      
-      BodyStore.update(state => {
-        state.Cell[y][x] = state.SelectEntity;
-        state.Cell[y][x].x = x;
-        state.Cell[y][x].y = y
-      })
+// sent SelectEntity x y credit
+
+
+
+
+      // BodyStore.update(state => {
+      //   state.Cell[y][x] = state.SelectEntity;
+      //   state.Cell[y][x].x = x;
+      //   state.Cell[y][x].y = y
+      // })
       // sent pos
-      BodyStore.update(state => { state.SelectEntity = dataMove })
+      BodyStore.update(state => { state.SelectEntity = resetToMoveMode })
+      BodyStore.update(state => { state.pointer = [x,y] })
       console.log("new")
 
     }
-    BodyStore.update(state => { state.pointer = [x,y] })
+    
     // console.log({ x, y })
     // console.log("select")
     console.log(state.pointer);
