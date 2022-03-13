@@ -1,6 +1,8 @@
 import { CompatClient, Frame, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
+import { EventTypes } from './EventTypes';
+
 export type GameSetup = {
   antiGeneticCodes: string[];
   virusGeneticCodes: string[];
@@ -43,13 +45,13 @@ const connect = async (): Promise<void> => {
       const transportUrl = socket._transport.url as string;
 
       // from https://stackoverflow.com/a/43430736/11968036
-      sessionId = /\/([^\/]+)\/websocket\/?$/.exec(transportUrl)![1];
+      sessionId = /\/([^/]+)\/websocket\/?$/.exec(transportUrl)![1];
 
       console.log('connected, session id: ' + sessionId);
       resolve();
 
-      client.subscribe('/queue/game-' + sessionId, (frame: Frame) => {
-        // game output event
+      client.subscribe('/queue/game-' + sessionId, (event: Frame) => {
+        console.log(JSON.parse(event.body));
       });
 
       client.subscribe('/queue/start-' + sessionId, (resp: Frame) => {
@@ -59,15 +61,25 @@ const connect = async (): Promise<void> => {
   });
 };
 
+export const sendInput = (input: EventTypes.MoveEvent | EventTypes.BuyEvent): void => {
+  if (client) {
+    if (client.connected) {
+      client.publish({
+        destination: '/move/' + sessionId,
+        body: JSON.stringify(input)
+      });
+    }
+  }
+};
+
 // function that runs when game sucessfully starts
 const handleGameStart = (resp: GameStartResp): void => {
-  console.log('sadasd');
-
   const status = resp.status;
+  console.log(resp);
 
   if (status === 'SUCCESS') {
     // start game
-    console.log('Start game with config: ' + resp.config);
+    console.log('Successfully start game');
   } else if (status === 'FAIL') {
     // retry
     console.log('Fail to start game: ' + resp.msg);
