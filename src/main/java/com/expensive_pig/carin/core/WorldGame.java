@@ -7,8 +7,8 @@ import com.expensive_pig.carin.game_data.Pair;
 import java.util.*;
 
 public class WorldGame {
-    private int m;
-    private int n;
+    private int m; // Max Y position
+    private int n; // Max X position
     private Entity[][] mapField;
 
     public Set<Pair> freeField = new HashSet<>();
@@ -33,12 +33,19 @@ public class WorldGame {
         return new int[]{m, n};
     }
 
+    private boolean isWithinMapBound(int posX, int posY) {
+        return posX >= 0 && posX < n && posY >= 0 && posY < m;
+    }
+
     public boolean slotIsFree(int posX, int posY) {
         return mapField[posY][posX] == null;
     }
 
     public Entity getTarget(int posX, int posY) {
-        return mapField[posY][posX];
+        if (isWithinMapBound(posX, posY)) {
+            return mapField[posY][posX];
+        }
+        return null;
     }
 
     public void addNewEntity(int posX, int posY, Entity e) {
@@ -47,6 +54,10 @@ public class WorldGame {
     }
 
     public boolean movePosEntity(int posX, int posY, int toPosX, int toPosY) {
+        if (!isWithinMapBound(toPosX, toPosY)) {
+            return false;
+        }
+
         if (mapField[toPosY][toPosX] == null) {
             mapField[toPosY][toPosX] = mapField[posY][posX];
             clearPosEntity(posX, posY);

@@ -90,6 +90,8 @@ public abstract class Entity {
 
     public void move(Direction direction) {
         int[] toPos = getPosFromDirection(direction);
+        int oldPosX = posX;
+        int oldPosY = posY;
         int toPosX = toPos[0];
         int toPosY = toPos[1];
 
@@ -97,7 +99,7 @@ public abstract class Entity {
             posX = toPosX;
             posY = toPosY;
             gameController.sendOutputEvent(entityManager.getSessionId(),
-                    new OutputMoveEvent(posX, posY, toPosX, toPosY));
+                    new OutputMoveEvent(oldPosX, oldPosY, toPosX, toPosY));
         }
     }
 
