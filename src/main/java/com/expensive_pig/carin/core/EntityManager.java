@@ -1,5 +1,6 @@
 package com.expensive_pig.carin.core;
 
+import com.expensive_pig.carin.SpringContext;
 import com.expensive_pig.carin.controller.GameController;
 import com.expensive_pig.carin.entity.Anti;
 import com.expensive_pig.carin.entity.Entity;
@@ -11,7 +12,6 @@ import com.expensive_pig.carin.event.SpawnEvent;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import com.expensive_pig.carin.game_data.Pair;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -25,8 +25,8 @@ public class EntityManager {
     private WorldGame world;
     private GameConfiguration config;
 
-    @Autowired
     private GameController gameController;
+
     @Getter
     private final String sessionId;
 
@@ -41,6 +41,7 @@ public class EntityManager {
         this.config = config;
         this.world = world;
         this.sessionId = sessionId;
+        gameController = SpringContext.getBean(GameController.class);
     }
 
     public Anti createAntibody(int posX, int posY, int kind, CreditSystem creditSystem) {

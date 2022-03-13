@@ -1,5 +1,6 @@
 package com.expensive_pig.carin.entity;
 
+import com.expensive_pig.carin.SpringContext;
 import com.expensive_pig.carin.controller.GameController;
 import com.expensive_pig.carin.core.Direction;
 import com.expensive_pig.carin.core.EntityManager;
@@ -11,7 +12,6 @@ import com.expensive_pig.carin.event.HpEvent;
 import com.expensive_pig.carin.event.OutputMoveEvent;
 import com.expensive_pig.carin.event.ShootEvent;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,6 @@ public abstract class Entity {
     private GeneticCodeEvaluator evaluator;
     protected EntityManager entityManager;
 
-    @Autowired
     protected GameController gameController;
 
     protected WorldGame world;
@@ -53,6 +52,7 @@ public abstract class Entity {
         this.program = program;
         this.entityManager = entityManager;
         this.world = world;
+        gameController = SpringContext.getBean(GameController.class);
     }
 
     public void evaluate() throws SyntaxError {
