@@ -73,7 +73,7 @@ public class InitGame {
                 }
             } catch (Exception e) {
                 errorMsg.append("Antibody Type ").append(i).append(" error: ")
-                        .append(e.getMessage()).append("\n");
+                        .append(e).append("\n");
             }
         }
         return antiPrograms;
@@ -93,7 +93,7 @@ public class InitGame {
                 }
             } catch (Exception e) {
                 errorMsg.append("Virus Type ").append(i).append(" error: ")
-                        .append(e.getMessage()).append("\n");
+                        .append(e).append("\n");
             }
         }
 

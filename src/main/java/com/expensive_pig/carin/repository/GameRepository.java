@@ -17,4 +17,8 @@ public class GameRepository {
     public Game getBySessionId(String sessionId) {
         return sessionIdGameMap.get(sessionId);
     }
+
+    public boolean containGame(String sessionId) {
+        return sessionIdGameMap.containsKey(sessionId);
+    }
 }
