@@ -46,7 +46,7 @@ public class EntityManager {
 
     public Anti createAntibody(int posX, int posY, int kind, CreditSystem creditSystem) {
         if (world.slotIsFree(posX, posY)) {
-            Anti e = new Anti(posX, posY, kind, antiGene[kind], config,
+            Anti e = new Anti(posX, posY, kind, antiGene[kind - 1], config,
                     creditSystem, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
@@ -59,7 +59,7 @@ public class EntityManager {
 
     public void createVirus(int posX, int posY, int kind) {
         if (world.slotIsFree(posX, posY)) {
-            Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
+            Virus e = new Virus(posX, posY, kind, virusGene[kind - 1], config, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
             gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + kind));
@@ -85,7 +85,7 @@ public class EntityManager {
                 i++;
             }
 
-            int randKind = r.nextInt(NUM_VIRUS_KINDS);
+            int randKind = r.nextInt(1 , NUM_VIRUS_KINDS + 1);
             createVirus(posX, posY, randKind);
         }
     }
