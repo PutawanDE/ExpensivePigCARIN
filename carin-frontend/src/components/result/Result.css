@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    background-image: url("../../elements/editAntibody/NormalBackground.gif");
+  }
+
+  .background {
+    height: 100vh;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: center;
+    align-items: center;
+    align-content: space-around;
+}
