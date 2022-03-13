@@ -5,6 +5,7 @@ import './App.css';
 import StartMenu from './components/start/Start'
 import SelectAntibody from './components/editAntibody/EditAntibody'
 import SelectAntigen from './components/editAntigen/EditAntigen'
+import AntigenResult from './components/result/AntigenResult'
 
 function App() {
 
@@ -25,7 +26,9 @@ function App() {
         <Route path="/" element = {<StartMenu/>}/>
         <Route path="/editantibody" element = {<SelectAntibody/>}/>
         <Route path="/editantigen" element = {<SelectAntigen/>}/>
+        <Route path="/AntigenResult" element = {<AntigenResult/>}/>
       </Routes>
+      
     </div>
 
 
