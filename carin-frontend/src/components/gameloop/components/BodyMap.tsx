@@ -97,20 +97,6 @@ const Body = () => {
             tcommand.commandData.topos_use = false;
    
         }
-
-       
-        //    { "action": "move", "pos": [1, 7], "toPos": [2, 7] },
-    }
-    // const canBuy(x: Number, y: Number, entity: CellProps){
-    //     spawnNewEntity(x,y,entity)
-    // }
-
-    const spawnNewEntity = (x: number, y: number, entity: CellProps) => {
-        BodyStore.update(state => {
-            state.Cell[y][x] = entity;
-            state.Cell[y][x].x = x;
-            state.Cell[y][x].y = y
-        });
     }
 
     return (

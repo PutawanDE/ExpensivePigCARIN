@@ -1,7 +1,7 @@
 import { Store } from 'pullstate'
 import cellnull from "../assets/bk.png";
  
-type CellProps = {
+export type CellProps = {
   img: string;
   x: number;
   y: number ;
@@ -11,7 +11,7 @@ type CellProps = {
   toposX: number ;
   toposY: number ;
 }
-const defaultCell: CellProps = {
+export const defaultCell: CellProps = {
    
   img: cellnull,
   x: -99,

@@ -2,6 +2,7 @@ import { CompatClient, Frame, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 import { EventTypes } from './EventTypes';
+import { handleGameOutput } from './GameController';
 
 export type GameSetup = {
   antiGeneticCodes: string[];
@@ -52,6 +53,7 @@ const connect = async (): Promise<void> => {
 
       client.subscribe('/queue/game-' + sessionId, (event: Frame) => {
         console.log(JSON.parse(event.body));
+        handleGameOutput(JSON.parse(event.body));
       });
 
       client.subscribe('/queue/start-' + sessionId, (resp: Frame) => {
@@ -61,7 +63,7 @@ const connect = async (): Promise<void> => {
   });
 };
 
-export const sendInput = (input: EventTypes.MoveEvent | EventTypes.BuyEvent): void => {
+export const sendInput = (input: EventTypes.InputMoveEvent | EventTypes.BuyEvent): void => {
   if (client) {
     if (client.connected) {
       client.publish({

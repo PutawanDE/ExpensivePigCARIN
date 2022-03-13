@@ -10,7 +10,7 @@ export namespace EventTypes {
   };
 
   export interface OutputEvent {
-    action: String;
+    action: string;
   }
 
   export interface OutputMoveEvent extends OutputEvent {
@@ -34,7 +34,7 @@ export namespace EventTypes {
   }
 
   export interface DieEvent extends OutputEvent {
-    action: String;
+    action: string;
     pos: number[];
   }
 
@@ -44,6 +44,6 @@ export namespace EventTypes {
 
   export interface SpawnEvent extends OutputEvent {
     pos: number[];
-    type: String;
+    type: string;
   }
 }
