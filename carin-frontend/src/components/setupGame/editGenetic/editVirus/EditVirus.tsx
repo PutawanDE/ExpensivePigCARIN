@@ -54,9 +54,17 @@ function EditVirus() {
       virusGeneticCodes: ["", "", ""],
       gameConfig: ""
     };
+    // var antiGeneticCodes:string = Object.values(setup.setupData)[1] as  string
+    // var virusGeneticCodes:string = Object.values(setup.setupData)[2] as  string
 
+
+    // const testSetup : GameSetup = {
+    //   antiGeneticCodes: Object.values(antiGeneticCodes),
+    //   virusGeneticCodes: Object.values(virusGeneticCodes),
+    //   gameConfig: Object.values(setup.setupData)[0] as string
+    // };
+    // console.log(testSetup)
  
-
     startGame(Setup);
   }  
 

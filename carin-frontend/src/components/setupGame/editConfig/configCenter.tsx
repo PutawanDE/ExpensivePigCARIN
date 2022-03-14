@@ -16,11 +16,10 @@ function ConfigSetup() {
     setConfig(event.target.value)
   }
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
+   
+  const save = (event: any) => {
+    // event.preventDefault();
     console.log(config);
-  }
-  const save = () => {
     setup.setupData.config = config
   }
 
@@ -33,9 +32,7 @@ function ConfigSetup() {
           cols={150} />
       </div>
 
-      <button className="content-center startbutton" onClick={handleSubmit} >
-        <img src={NextBTN} alt="my image" className="startbuttonpicture" />
-      </button>
+  
       <Link to="/editAnti">
 
         {/*// on Start setup sockjs session id */}
