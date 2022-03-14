@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import StartMenu from './components/start/Start'
-import ConfigSetup from './components/setupGame/editConfig/configCenter'
+import ConfigSetup from './components/setupGame/editConfig/ConfigSetup'
 import SelectAntibody from './components/setupGame/editGenetic/editAntibody/EditAntibody'
 import SelectVirus from './components/setupGame/editGenetic/editVirus/EditVirus'
 import InGame from './components/gameloop/GameLoop'
