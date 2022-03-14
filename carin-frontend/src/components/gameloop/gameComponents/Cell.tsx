@@ -1,3 +1,6 @@
+import { EventTypes } from '../../../api/EventTypes';
+import { sendInput } from '../../../api/GameAPI';
+
 import { BodyStore } from "../stores/BodyStore"
 import cell from "../assets/cell.png";
 import $ from 'jquery';
@@ -34,7 +37,7 @@ const Cell = ({ x, y, type, hp, action, toposX, toposY, callmove }: CellProps) =
   const state = BodyStore.useState()
   const tcommand = commandStore.useState()
   const compute = BodyStore.useState()
-  
+
 
 
 
@@ -49,23 +52,26 @@ const Cell = ({ x, y, type, hp, action, toposX, toposY, callmove }: CellProps) =
     }
     else if (state.SelectEntity.type !== "MOVE" && state.Cell[y][x].img === cellnull) { // ask want buy&place
       // update      
-// sent SelectEntity x y credit
+      // sent SelectEntity x y credit
+      let kind: number
+      switch (state.SelectEntity.type) {
+        case "A1": kind = 1; break;
+        case "A2": kind = 2; break;
+        case "A3": kind = 3; break;
+        default: kind = 0;
+      }
+      const pos = [x, y];
 
+      const BuyEvent: EventTypes.BuyEvent = { kind, pos };
+      sendInput(BuyEvent);
 
-
-
-      // BodyStore.update(state => {
-      //   state.Cell[y][x] = state.SelectEntity;
-      //   state.Cell[y][x].x = x;
-      //   state.Cell[y][x].y = y
-      // })
       // sent pos
       BodyStore.update(state => { state.SelectEntity = resetToMoveMode })
-      BodyStore.update(state => { state.pointer = [x,y] })
+      BodyStore.update(state => { state.pointer = [x, y] })
       console.log("new")
 
     }
-    
+
     // console.log({ x, y })
     // console.log("select")
     console.log(state.pointer);
@@ -76,10 +82,10 @@ const Cell = ({ x, y, type, hp, action, toposX, toposY, callmove }: CellProps) =
   }
 
   const computeRingSize = () => {
-    if (state.SelectEntity.type === "MOVE" && state.pointer[0] === x &&  state.pointer[1] === y ) {
-      if (  state.Cell[y][x].img !== cellnull ) {
+    if (state.SelectEntity.type === "MOVE" && state.pointer[0] === x && state.pointer[1] === y) {
+      if (state.Cell[y][x].img !== cellnull) {
         return "ring-8 ring-red-400"
-      }else if(state.Cell[y][x].img === cellnull &&  tcommand.commandData.pos_use ){
+      } else if (state.Cell[y][x].img === cellnull && tcommand.commandData.pos_use) {
         console.log("red")
         return "ring-8 ring-green-400"
       }
@@ -105,7 +111,7 @@ const Cell = ({ x, y, type, hp, action, toposX, toposY, callmove }: CellProps) =
 
   return (
 
-    <td className={ `${computeRingSize()} eachcell cursor-pointer font `}
+    <td className={`${computeRingSize()} eachcell cursor-pointer font `}
       draggable="false" onClick={addEntity}
     >
 

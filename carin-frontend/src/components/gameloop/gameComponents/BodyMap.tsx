@@ -44,7 +44,7 @@ const zoomReset = () => {
     $('.target').css('transform', 'scale(' + zoomLv + ')');
 }
 
- 
+
 
 const showDetails = () => {
     $('.details').css('transform', 'scale(' + 1 + ')');
@@ -53,32 +53,32 @@ const hideDetails = () => {
     $('.details').css('transform', 'scale(' + 0 + ')');
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     $(function () {
         $("#draggable").draggable();
     })
 })
 
- 
+
 
 const Body = () => {
 
 
     const state = BodyStore.useState()
     const tcommand = commandStore.useState()
-    const movefn = (x: number, y: number,order:number) => {
-         
-        if(order===0){
+    const movefn = (x: number, y: number, order: number) => {
+
+        if (order === 0) {
             console.log("pick entity");
             tcommand.commandData.pos = [x, y];
             tcommand.commandData.pos_use = true;
-        }if(order===1 && tcommand.commandData.pos_use ){
-            console.log("drop entity");console.log(tcommand.commandData);
+        } if (order === 1 && tcommand.commandData.pos_use) {
+            console.log("drop entity"); console.log(tcommand.commandData);
             tcommand.commandData.topos = [x, y];
             tcommand.commandData.topos_use = true;
         }
-        
-        if(tcommand.commandData.pos_use && tcommand.commandData.topos_use){
+
+        if (tcommand.commandData.pos_use && tcommand.commandData.topos_use) {
             console.log("action move");
             tcommand.commandData.action = "move";
             ////////////  sent data
@@ -86,8 +86,8 @@ const Body = () => {
             const pos = tcommand.commandData.pos;
             const toPos = tcommand.commandData.topos;
 
-            if(toPos && pos) {
-                const moveEvent : EventTypes.InputMoveEvent = { pos,toPos };
+            if (toPos && pos) {
+                const moveEvent: EventTypes.InputMoveEvent = { pos, toPos };
                 sendInput(moveEvent);
             }
 
@@ -95,10 +95,11 @@ const Body = () => {
             tcommand.commandData = defaultCommand;
             tcommand.commandData.pos_use = false;
             tcommand.commandData.topos_use = false;
-   
+
         }
     }
-
+ 
+ 
     return (
         <div className="BodyMap" >
 

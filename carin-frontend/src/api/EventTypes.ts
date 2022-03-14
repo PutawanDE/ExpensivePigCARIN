@@ -39,7 +39,7 @@ export namespace EventTypes {
   }
 
   export interface CreditEvent extends OutputEvent {
-    change: number;
+    remain: number;
   }
 
   export interface SpawnEvent extends OutputEvent {
