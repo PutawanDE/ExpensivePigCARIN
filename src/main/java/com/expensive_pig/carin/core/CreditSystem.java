@@ -27,14 +27,14 @@ public class CreditSystem {
             Anti anti = entityManager.createAntibody(posX, posY, kind, this);
             if (anti != null) {
                 credit -= cost;
-                gameController.sendOutputEvent(sessionId, new CreditEvent(posX, posY, -cost));
+                gameController.sendOutputEvent(sessionId, new CreditEvent(posX, posY, credit));
             }
         }
     }
 
     public void gainCredit(int posX, int posY, int gain) {
         credit += gain;
-        gameController.sendOutputEvent(sessionId, new CreditEvent(posX, posY, gain));
+        gameController.sendOutputEvent(sessionId, new CreditEvent(posX, posY, credit));
     }
 
     private boolean canBuy() {

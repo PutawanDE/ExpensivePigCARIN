@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class CreditEvent extends OutputEvent {
     private int[] pos = new int[2];
-    private int change;
+    private int remain;
 
-    public CreditEvent(int posX, int posY, int change) {
+    public CreditEvent(int posX, int posY, int remain) {
         super("credit");
         pos[0] = posX;
         pos[1] = posY;
-        this.change = change;
+        this.remain = remain;
     }
 
 }
