@@ -74,6 +74,8 @@ public class EntityManager {
 
         if (spawnOrNot <= config.getVirusSpawnRate()) {
             int size = world.freeField.size();
+            if(size <= 0) return;
+
             int item = r.nextInt(size); // In real life, the Random object should be rather more shared than this
             int i = 0;
             for (Pair tile : world.freeField) {
