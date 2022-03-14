@@ -1,9 +1,9 @@
 import './GameLoop.css';
-import BodyMap from './components/BodyMap';
-import PanelEntity from './components/PanelEntity';
-import Credit from './components/Credit';
+import BodyMap from './gameComponents/BodyMap';
+import PanelEntity from './gameComponents/PanelEntity';
+import Credit from './gameComponents/Credit';
  
-import Utility from './components/Utility';
+import Utility from './gameComponents/Utility';
 import { FpsView } from 'react-fps';
 
  

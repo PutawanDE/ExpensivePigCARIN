@@ -1,0 +1,27 @@
+.SelectEntity {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.panelEntity {
+    height: 50%;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+}
+
+.coin {
+    margin-top: 2%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    align-items: center;
+    align-content: center;
+}
