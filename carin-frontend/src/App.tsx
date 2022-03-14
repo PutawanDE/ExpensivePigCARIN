@@ -7,6 +7,7 @@ import ConfigSetup from './components/gameloop/configCenter'
 import SelectAntibody from './components/config/editAntibody/EditAntibody'
 import SelectVirus from './components/config/editVirus/EditVirus'
 import InGame from './components/gameloop/GameLoop'
+import ResultVirus from './components/result/AntigenResult'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/editAnti" element = {<SelectAntibody/>}/>
         <Route path="/editVirus" element = {<SelectVirus/>}/>
         <Route path="/game" element = {<InGame/>}/>
+        <Route path="/resultVirus" element = {<ResultVirus/>}/>
       </Routes>
       
     </div>
