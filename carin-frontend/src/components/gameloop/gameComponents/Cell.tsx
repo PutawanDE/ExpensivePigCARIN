@@ -1,131 +1,105 @@
-import { EventTypes } from '../../../api/EventTypes';
-import { sendInput } from '../../../api/GameAPI';
-
-import { BodyStore } from "../stores/BodyStore"
-import cell from "../assets/cell.png";
+import React from 'react';
+import { CellProps, BodyStore } from '../stores/BodyStore';
+import bg from '../assets/cell.png';
 import $ from 'jquery';
-import { commandStore } from "../eventCenter"
+import { commandStore } from '../eventCenter';
 import './Cell.css';
-import cellnull from "../assets/bk.png";
-
-
-type CellProps = {
-
-  x: number;
-  y: number;
-  type?: string;
-  hp?: string;
-  action?: string;
-  toposX?: number;
-  toposY?: number;
-  callmove?: (x: number, y: number, order: number) => void;
-}
+import cellnull from '../assets/bk.png';
 
 const resetToMoveMode = {
   img: cellnull,
   x: -1,
   y: -1,
-  type: "MOVE",
-  hp: "null",
-  action: "null",
+  type: 'MOVE',
+  hp: 'null',
+  action: 'null',
   toposX: -1,
   toposY: -1
-}
+};
 
-const Cell = ({ x, y, type, hp, action, toposX, toposY, callmove }: CellProps) => {
+type props = {
+  cellProps: CellProps;
+  callmove?: (x: number, y: number, order: number) => void;
+};
 
-  const state = BodyStore.useState()
-  const tcommand = commandStore.useState()
-  const compute = BodyStore.useState()
+const Cell = (props: props) => {
+  const { x, y, type, hp, action, toposX, toposY, img: entityImg } = props.cellProps;
+  const callmove = props.callmove;
 
+  console.log('Cell render x: ' + x + ' y: ' + y);
 
+  const selectedEntity = BodyStore.useState((s) => s.SelectEntity);
+  const pointer = BodyStore.useState((s) => s.pointer);
+  const tcommand = commandStore.useState();
 
-
-  const addEntity = () => {
-
-
-    if (state.SelectEntity.type === "MOVE" && state.Cell[y][x].img !== cellnull) {   // pick entity move
+  const cellOnClickHandler = () => {
+    if (selectedEntity.type === 'MOVE' && type !== 'null') {
+      // pick entity move
       if (callmove) callmove(x, y, 0);
-    }
-    else if (state.SelectEntity.type === "MOVE" && state.Cell[y][x].img === cellnull) { // drop move entity  
+    } else if (selectedEntity.type === 'MOVE' && type === 'null') {
+      // drop move entity
       if (callmove) callmove(x, y, 1);
-    }
-    else if (state.SelectEntity.type !== "MOVE" && state.Cell[y][x].img === cellnull) { // ask want buy&place
-      // update      
+    } else if (selectedEntity.type !== 'MOVE' && type === 'null') {
+      // ask want buy&place
+      // update
       // sent SelectEntity x y credit
-      let kind: number
-      switch (state.SelectEntity.type) {
-        case "A1": kind = 1; break;
-        case "A2": kind = 2; break;
-        case "A3": kind = 3; break;
-        default: kind = 0;
-      }
-      const pos = [x, y];
-
-      const BuyEvent: EventTypes.BuyEvent = { kind, pos };
-      sendInput(BuyEvent);
 
       // sent pos
-      BodyStore.update(state => { state.SelectEntity = resetToMoveMode })
-      BodyStore.update(state => { state.pointer = [x, y] })
-      console.log("new")
+      BodyStore.update((state) => {
+        state.SelectEntity = resetToMoveMode;
+      });
 
+      BodyStore.update((state) => {
+        state.pointer = [x, y];
+      });
+
+      console.log('new');
     }
-
-    // console.log({ x, y })
-    // console.log("select")
-    console.log(state.pointer);
-    // console.log("cell")
-    // console.log(state.Cell[y][x]);
-
-
-  }
+  };
 
   const computeRingSize = () => {
-    if (state.SelectEntity.type === "MOVE" && state.pointer[0] === x && state.pointer[1] === y) {
-      if (state.Cell[y][x].img !== cellnull) {
-        return "ring-8 ring-red-400"
-      } else if (state.Cell[y][x].img === cellnull && tcommand.commandData.pos_use) {
-        console.log("red")
-        return "ring-8 ring-green-400"
+    if (selectedEntity.type === 'MOVE' && pointer[0] === x && pointer[1] === y) {
+      if (type !== 'null') {
+        // select
+        return 'ring-8 ring-red-400';
+      } else if (type === 'null' && tcommand.commandData.isSelected) {
+        // place
+        return 'ring-8 ring-green-400';
       }
     }
-    return ""
-  }
-
+    return '';
+  };
 
   const dataShow = () => {
-    return < >
-      {state.Cell[y][x].img === cellnull ? (
-        <></>
-      ) : (<>
-        <>{state.Cell[y][x].type + " hp:" + state.Cell[y][x].hp} </>
-        <>{"x:" + state.Cell[y][x].x + " y:" + state.Cell[y][x].y}</>
-        <>{"    a:" + state.Cell[y][x].action}</>
-        <>{"  tx:" + state.Cell[y][x].toposX + " ty:" + state.Cell[y][x].toposY}</>
+    return (
+      <>
+        {type === 'null' ? (
+          <></>
+        ) : (
+          <>
+            <>{type + ' hp:' + hp} </>
+            <>{'x:' + x + ' y:' + y}</>
+            <>{'    a:' + action}</>
+            <>{'  tx:' + toposX + ' ty:' + toposY}</>
+          </>
+        )}
       </>
-      )}
-    </ >
-
-  }
+    );
+  };
 
   return (
-
-    <td className={`${computeRingSize()} eachcell cursor-pointer font `}
-      draggable="false" onClick={addEntity}
-    >
-
+    <td
+      className={`${computeRingSize()} eachcell cursor-pointer font `}
+      draggable="false"
+      onClick={cellOnClickHandler}>
       <div className="container">
         <span className="details  ">{dataShow()} </span>
 
-        <img src={cell} className="image" />
-        <img src={state.Cell[y][x].img} className="overlay" />
+        <img src={bg} className="image" />
+        <img src={entityImg} className="overlay" />
       </div>
+    </td>
+  );
+};
 
-
-    </td >
-
-  )
-}
-
-export default Cell
+export default React.memo(Cell);
