@@ -32,7 +32,7 @@ public class Virus extends Entity {
     @Override
     protected void receiveDmg(int dmgReceive, int attackerKind) {
         if (isAlive) {
-            changeHp(dmgReceive);
+            changeHp(-dmgReceive);
             if (hp <= 0) {
                 die();
             }
