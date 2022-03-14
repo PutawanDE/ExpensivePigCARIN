@@ -30,16 +30,16 @@ type BodyStore = {
 };
 
 const row = 20;
-const colum = 20;
+const column = 20;
 
 export const createCell = () => {
   const output: CellProps[][] = [];
   for (let i = 0; i < row; i++) {
     output[i] = [];
-    for (let j = 0; j < colum; j++) {
+    for (let j = 0; j < column; j++) {
       let tempdefaultCell = { ...defaultCell };
-      tempdefaultCell.x = i;
-      tempdefaultCell.y = j;
+      tempdefaultCell.x = j;
+      tempdefaultCell.y = i;
       output[i].push(tempdefaultCell);
       // output[i].push(defaultCell);
     }

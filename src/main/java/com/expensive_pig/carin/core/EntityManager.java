@@ -47,12 +47,12 @@ public class EntityManager {
 
     public Anti createAntibody(int posX, int posY, int kind, CreditSystem creditSystem) {
         if (world.slotIsFree(posX, posY)) {
-            Anti e = new Anti(posX, posY, kind, antiGene[kind - 1], config,
+            Anti e = new Anti(posX, posY, kind, antiGene[kind], config,
                     creditSystem, this, world);
             entities.add(e);
             increaseNumberAnti();
             world.addNewEntity(posX, posY, e);
-            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + kind));
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + (kind + 1)));
             return e;
         } else {
             return null;
@@ -61,10 +61,10 @@ public class EntityManager {
 
     public void createVirus(int posX, int posY, int kind) {
         if (world.slotIsFree(posX, posY)) {
-            Virus e = new Virus(posX, posY, kind, virusGene[kind - 1], config, this, world);
+            Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
-            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + kind));
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + (kind + 1)));
         }
     }
 
@@ -76,7 +76,7 @@ public class EntityManager {
 
         if (spawnOrNot <= config.getVirusSpawnRate()) {
             int size = world.freeField.size();
-            if(size <= 0) return;
+            if (size <= 0) return;
 
             int item = r.nextInt(size); // In real life, the Random object should be rather more shared than this
             int i = 0;
@@ -89,7 +89,7 @@ public class EntityManager {
                 i++;
             }
 
-            int randKind = r.nextInt(1 , NUM_VIRUS_KINDS + 1);
+            int randKind = r.nextInt(0, NUM_VIRUS_KINDS);
             createVirus(posX, posY, randKind);
         }
     }

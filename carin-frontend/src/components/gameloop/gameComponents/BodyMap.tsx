@@ -1,5 +1,5 @@
 import { EventTypes } from '../../../api/EventTypes';
-import { sendInput } from '../../../api/GameAPI';
+import { sendMove } from '../../../api/GameAPI';
 
 import { BodyStore } from '../stores/BodyStore';
 import { defaultCommand } from '../eventCenter';
@@ -68,7 +68,7 @@ const Body = () => {
 
         if (toPos && pos) {
           const moveEvent: EventTypes.InputMoveEvent = { pos, toPos };
-          sendInput(moveEvent);
+          sendMove(moveEvent);
         }
 
         /////////////////////

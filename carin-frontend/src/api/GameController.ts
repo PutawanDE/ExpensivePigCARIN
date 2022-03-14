@@ -25,7 +25,6 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
   }
 };
 const credit = (remain:number) => {
-
   CreditStore.update((state) => {
     state.creditData.credit = remain;
   });
@@ -45,5 +44,7 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
     const entity: CellProps = { ...state.Cell[y][x] };
     state.Cell[y][x] = defaultCell;
     state.Cell[toY][toX] = entity;
+    state.Cell[toY][toX].x = toX;
+    state.Cell[toY][toX].y = toY;
   });
 };

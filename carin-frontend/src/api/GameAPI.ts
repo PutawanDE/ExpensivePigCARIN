@@ -63,12 +63,25 @@ const connect = async (): Promise<void> => {
   });
 };
 
-export const sendInput = (input: EventTypes.InputMoveEvent | EventTypes.BuyEvent): void => {
+export const sendMove = (move: EventTypes.InputMoveEvent): void => {
+  console.log(move);
   if (client) {
     if (client.connected) {
       client.publish({
-        destination: '/move/' + sessionId,
-        body: JSON.stringify(input)
+        destination: '/app/move/' + sessionId,
+        body: JSON.stringify(move)
+      });
+    }
+  }
+};
+
+export const sendBuy = (buy: EventTypes.BuyEvent): void => {
+  console.log(buy);
+  if (client) {
+    if (client.connected) {
+      client.publish({
+        destination: '/app/buy/' + sessionId,
+        body: JSON.stringify(buy)
       });
     }
   }

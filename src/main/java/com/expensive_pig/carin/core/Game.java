@@ -8,9 +8,11 @@ import com.expensive_pig.carin.evaluator.SyntaxError;
 import com.expensive_pig.carin.event.*;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Iterator;
 
+@Slf4j
 public class Game implements Runnable {
     @Getter
     private String sessionId;
@@ -75,7 +77,7 @@ public class Game implements Runnable {
             inputDeltaTime = currentTime - inputLastTime;
 
             //process input once every 30 ms
-            if (inputDeltaTime - inputLastTime >= 30 * 1000000) {
+            if (inputDeltaTime  >= 30 * 1000000) {
                 inputLastTime = currentTime;
                 processInput();
             }
@@ -98,8 +100,10 @@ public class Game implements Runnable {
             InputEvent event = inputEventQueue.removeEvent();
 
             if (event instanceof BuyEvent buyEvent) {
+                log.info("Receive buy input");
                 creditSystem.buyAndPlace(buyEvent.getPosX(), buyEvent.getPosY(), buyEvent.getKind());
             } else if (event instanceof InputMoveEvent inputMoveEvent) {
+                log.info("Receive move input");
                 Entity toMove = world.getTarget(inputMoveEvent.getPosX(), inputMoveEvent.getPosY());
                 toMove.moveByUser(inputMoveEvent.getToPosX(), inputMoveEvent.getToPosY(), config.getAntibodyMoveHpCost());
             }
@@ -115,7 +119,6 @@ public class Game implements Runnable {
                 Iterator<Entity> itr = entityManager.entities.listIterator();
                 while (itr.hasNext()) {
                     Entity e = itr.next();
-                    processInput();
                     try {
                         e.evaluate();
                     } catch (SyntaxError ex) {

@@ -6,7 +6,10 @@ import { commandStore } from '../eventCenter';
 import './Cell.css';
 import cellnull from '../assets/bk.png';
 
-const resetToMoveMode:CellProps = {
+import { sendBuy } from '../../../api/GameAPI';
+import { EventTypes } from '../../../api/EventTypes';
+
+const resetToMoveMode: CellProps = {
   img: cellnull,
   x: -1,
   y: -1,
@@ -26,7 +29,7 @@ const Cell = (props: props) => {
   const { x, y, type, hp, action, toposX, toposY, img: entityImg } = props.cellProps;
   const callmove = props.callmove;
 
-  console.log('Cell render x: ' + x + ' y: ' + y);
+  // console.log('Cell render x: ' + x + ' y: ' + y);
 
   const selectedEntity = BodyStore.useState((s) => s.SelectEntity);
   const pointer = BodyStore.useState((s) => s.pointer);
@@ -45,6 +48,13 @@ const Cell = (props: props) => {
       // sent SelectEntity x y credit
 
       // sent pos
+      const buyEvent: EventTypes.BuyEvent = {
+        kind: parseInt(selectedEntity.type.substring(1)) - 1,
+        pos: [x, y]
+      };
+
+      sendBuy(buyEvent);
+
       BodyStore.update((state) => {
         state.SelectEntity = resetToMoveMode;
       });
@@ -53,7 +63,7 @@ const Cell = (props: props) => {
         state.pointer = [x, y];
       });
 
-      console.log('new');
+      console.log('new of type ' + selectedEntity.type);
     }
   };
 
@@ -80,7 +90,6 @@ const Cell = (props: props) => {
             <>{type + ' hp:' + hp} </>
             <>{'x:' + x + ' y:' + y}</>
             <>{'    a:' + action}</>
-            <>{'  tx:' + toposX + ' ty:' + toposY}</>
           </>
         )}
       </>
