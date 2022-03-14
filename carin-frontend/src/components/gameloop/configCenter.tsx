@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
-import StartBtn from "../../elements/start/StartBtn.gif";
 import './configCenter.css'
 
 
@@ -53,8 +52,8 @@ function ConfigSetup() {
 
         {/*// on Start setup sockjs session id */}
 
-        <button className="content-center startbutton">
-          <img src={StartBtn} alt="my image" className="startbuttonpicture" />
+        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 rounded-full text-black text-lg">
+          Submit
         </button>
       </Link>
     </>
