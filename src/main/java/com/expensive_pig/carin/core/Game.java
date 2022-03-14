@@ -21,8 +21,6 @@ public class Game implements Runnable {
     private CreditSystem creditSystem;
     private EntityManager entityManager;
 
-    private boolean isPause = false;
-
     private boolean isPlayerPlaceFirstAnti = false;
 
     private final Program[] antiPrograms;
