@@ -12,7 +12,7 @@ const dataAnti1: CellProps = {
   x: -1,
   y: -1,
   type: 'A1',
-  hp: '100',
+  hp: 0,
   action: 'none',
   toposX: -1,
   toposY: -1
@@ -23,7 +23,7 @@ const dataAnti2: CellProps = {
   x: -1,
   y: -1,
   type: 'A2',
-  hp: '100',
+  hp: 0,
   action: 'none',
   toposX: -1,
   toposY: -1
@@ -33,7 +33,7 @@ const dataAnti3: CellProps = {
   x: -1,
   y: -1,
   type: 'A3',
-  hp: '100',
+  hp: 0,
   action: 'none',
   toposX: -1,
   toposY: -1
@@ -44,7 +44,7 @@ const dataVirus1: CellProps = {
   x: -1,
   y: -1,
   type: 'V1',
-  hp: '20',
+  hp: 0,
   action: 'none',
   toposX: -1,
   toposY: -1
@@ -54,7 +54,7 @@ const dataVirus2: CellProps = {
   x: -1,
   y: -1,
   type: 'V2',
-  hp: '30',
+  hp: 0,
   action: 'none',
   toposX: -1,
   toposY: -1
@@ -64,7 +64,7 @@ const dataVirus3: CellProps = {
   x: -1,
   y: -1,
   type: 'V3',
-  hp: '40',
+  hp: 0,
   action: 'none',
   toposX: -1,
   toposY: -1

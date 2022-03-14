@@ -1,16 +1,4 @@
-import { BodyStore } from "../stores/BodyStore"
-
-
-type CellProps = {
-  img: string;
-  x: number;
-  y: number;
-  type: string;
-  hp: string;
-  action: string;
-  toposX: number;
-  toposY: number;
-}
+import { CellProps, BodyStore } from "../stores/BodyStore"
 
 type SelectColorButtonProps = {
   entitydata: CellProps;

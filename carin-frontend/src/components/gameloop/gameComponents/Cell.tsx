@@ -6,12 +6,12 @@ import { commandStore } from '../eventCenter';
 import './Cell.css';
 import cellnull from '../assets/bk.png';
 
-const resetToMoveMode = {
+const resetToMoveMode:CellProps = {
   img: cellnull,
   x: -1,
   y: -1,
   type: 'MOVE',
-  hp: 'null',
+  hp: 0,
   action: 'null',
   toposX: -1,
   toposY: -1

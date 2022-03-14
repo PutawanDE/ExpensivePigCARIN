@@ -10,13 +10,14 @@ import virus3 from "../assets/V3.gif";
 import cellnull from "../assets/bk.png";
 
 import produceEntity from "../EntityFactory";
+import { CellProps } from "../stores/BodyStore";
 
-const dataMove  = {
+const dataMove : CellProps = {
   img: cellnull,
   x: -1,
   y: -1,
   type: "MOVE",
-  hp: "null",
+  hp: 0,
   action: "none",
   toposX: -1,
   toposY: -1 

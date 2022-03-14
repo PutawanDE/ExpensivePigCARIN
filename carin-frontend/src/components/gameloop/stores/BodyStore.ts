@@ -6,7 +6,7 @@ export type CellProps = {
   x: number;
   y: number;
   type: string;
-  hp: string;
+  hp: number;
   action: string;
   toposX: number;
   toposY: number;
@@ -17,7 +17,7 @@ export const defaultCell: CellProps = {
   x: -99,
   y: -99,
   type: 'null',
-  hp: 'null',
+  hp: 0,
   action: 'null',
   toposX: -99,
   toposY: -99
