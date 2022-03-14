@@ -1,11 +1,13 @@
 package com.expensive_pig.carin.evaluator;
 
 import com.expensive_pig.carin.entity.Entity;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+@Slf4j
 public class GeneticCodeEvaluator {
     private static final int MAX_RAND_BOUND = 100;
     private static final int MAX_ITERATION = 1000;
@@ -74,9 +76,10 @@ public class GeneticCodeEvaluator {
         } else if (statement instanceof ActionCommand actionCommand) {
             // Action Command
             if (!isActionPerformed) {
-                System.out.println(actionCommand.string_val());
+                log.info(host.getType() + " at {x: " + host.getPosX() + ",y:" + host.getPosY()
+                        + "} " + actionCommand.string_val());
                 commandsCall.append(actionCommand.string_val()).append("\n");
-                // todo
+
                 if (actionCommand.getActionCmd().equals("move")) {
 
                     host.move(actionCommand.getDirection());
