@@ -1,5 +1,7 @@
 package com.expensive_pig.carin.core;
 
+import com.expensive_pig.carin.SpringContext;
+import com.expensive_pig.carin.controller.GameController;
 import com.expensive_pig.carin.entity.Entity;
 import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.SyntaxError;
@@ -12,7 +14,7 @@ import java.util.Iterator;
 public class Game implements Runnable {
     @Getter
     private String sessionId;
-    private volatile boolean isGameRunning = true;
+    private boolean isGameRunning = true;
 
     @Getter
     private final GameConfiguration config;
@@ -20,6 +22,7 @@ public class Game implements Runnable {
     private WorldGame world;
     private CreditSystem creditSystem;
     private EntityManager entityManager;
+    private GameController gameController;
 
     private boolean isPlayerPlaceFirstAnti = false;
 
@@ -37,6 +40,7 @@ public class Game implements Runnable {
         this.antiPrograms = antiPrograms;
         this.virusPrograms = virusPrograms;
         this.config = config;
+        gameController = SpringContext.getBean(GameController.class);
     }
 
     public void setTimeScale(int timeScale) {
@@ -101,25 +105,29 @@ public class Game implements Runnable {
             }
         }
     }
+
     private void update() {
-        if(!isPlayerPlaceFirstAnti){
-
-            entityManager.spawnVirus();
-            Iterator<Entity> itr = entityManager.entities.listIterator();
-            while (itr.hasNext()) {
-                Entity e = itr.next();
-                processInput();
-                try {
-                    e.evaluate();
-                } catch (SyntaxError ex) {
-                    // get rid of e
-                    e.die();
+        if (!isPlayerPlaceFirstAnti) {
+            if (entityManager.getNumberAnti() <= 0) { // game over
+                gameController.sendOutputEvent(sessionId,new GameOverEvent());
+            } else {
+                entityManager.spawnVirus();
+                Iterator<Entity> itr = entityManager.entities.listIterator();
+                while (itr.hasNext()) {
+                    Entity e = itr.next();
+                    processInput();
+                    try {
+                        e.evaluate();
+                    } catch (SyntaxError ex) {
+                        // get rid of e
+                        entityManager.reduceNumberAnti();
+                        e.die();
+                    }
+                    if (!e.isAlive()) itr.remove();
                 }
-
-                if (!e.isAlive()) itr.remove();
+                entityManager.spawnInfected();
             }
 
-            entityManager.spawnInfected();
         }
 
     }

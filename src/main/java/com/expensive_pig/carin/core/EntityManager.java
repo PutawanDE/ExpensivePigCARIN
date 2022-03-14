@@ -21,7 +21,8 @@ public class EntityManager {
 
     public final LinkedList<Entity> entities = new LinkedList<>();
     private final LinkedList<Anti> infectedAnti = new LinkedList<>();
-
+    @Getter
+    private int numberAnti = 0;
     private WorldGame world;
     private GameConfiguration config;
 
@@ -49,6 +50,7 @@ public class EntityManager {
             Anti e = new Anti(posX, posY, kind, antiGene[kind - 1], config,
                     creditSystem, this, world);
             entities.add(e);
+            increaseNumberAnti();
             world.addNewEntity(posX, posY, e);
             gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + kind));
             return e;
@@ -98,6 +100,7 @@ public class EntityManager {
     }
 
     public void dieConvertToVirus(Anti anti) {
+        reduceNumberAnti();
         gameController.sendOutputEvent(sessionId, new DieEvent(anti.getPosX(), anti.getPosY()));
         gameController.sendOutputEvent(sessionId, new InfectEvent(anti.getPosX(), anti.getPosY(),
                 anti.getInfectedKind()));
@@ -112,4 +115,12 @@ public class EntityManager {
         }
         infectedAnti.clear();
     }
+
+    public void reduceNumberAnti() {
+        numberAnti--;
+    }
+    public void increaseNumberAnti() {
+        numberAnti++;
+    }
+
 }
