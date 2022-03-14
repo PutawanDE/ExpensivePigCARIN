@@ -23,6 +23,8 @@ public class Game implements Runnable {
 
     private boolean isPause = false;
 
+    private boolean isPlayerPlaceFirstAnti = false;
+
     private final Program[] antiPrograms;
     private final Program[] virusPrograms;
 
@@ -83,25 +85,6 @@ public class Game implements Runnable {
         }
     }
 
-    private void update() {
-        entityManager.spawnVirus();
-
-        Iterator<Entity> itr = entityManager.entities.listIterator();
-        while (itr.hasNext()) {
-            Entity e = itr.next();
-            processInput();
-            try {
-                e.evaluate();
-            } catch (SyntaxError ex) {
-                // get rid of e
-                e.die();
-            }
-
-            if (!e.isAlive()) itr.remove();
-        }
-
-        entityManager.spawnInfected();
-    }
 
     public void addInputEvent(InputEvent event) {
         inputEventQueue.addEvent(event);
@@ -109,6 +92,7 @@ public class Game implements Runnable {
 
     private void processInput() {
         if (!inputEventQueue.isEmpty()) {
+            isPlayerPlaceFirstAnti = true;
             InputEvent event = inputEventQueue.removeEvent();
 
             if (event instanceof BuyEvent buyEvent) {
@@ -118,5 +102,27 @@ public class Game implements Runnable {
                 toMove.moveByUser(inputMoveEvent.getToPosX(), inputMoveEvent.getToPosY(), config.getAntibodyMoveHpCost());
             }
         }
+    }
+    private void update() {
+        if(!isPlayerPlaceFirstAnti){
+
+            entityManager.spawnVirus();
+            Iterator<Entity> itr = entityManager.entities.listIterator();
+            while (itr.hasNext()) {
+                Entity e = itr.next();
+                processInput();
+                try {
+                    e.evaluate();
+                } catch (SyntaxError ex) {
+                    // get rid of e
+                    e.die();
+                }
+
+                if (!e.isAlive()) itr.remove();
+            }
+
+            entityManager.spawnInfected();
+        }
+
     }
 }
