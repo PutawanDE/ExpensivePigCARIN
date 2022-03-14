@@ -1,0 +1,10 @@
+.fixedtextarea {
+    resize: none;
+  }
+
+.textboxBackground{
+    background-image: url("../../elements/textInput/textbox.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
