@@ -1,3 +1,5 @@
+import { GameSetup, startGame } from '../../../../api/GameAPI';
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import 'jqueryui';
@@ -41,6 +43,23 @@ function EditVirus() {
     console.log(setup.setupData)
   }
 
+  const sentSetup_Start = () : void => {
+
+    setup.setupData.virus = genetic  
+    console.log(genetic)
+    console.log(setup.setupData)
+    
+    const Setup : GameSetup = {
+      antiGeneticCodes: ["", "", ""],
+      virusGeneticCodes: ["", "", ""],
+      gameConfig: ""
+    };
+
+ 
+
+    startGame(Setup);
+  }  
+
 
   return (
     <div className="background">
@@ -80,7 +99,7 @@ function EditVirus() {
               then send anti&virus genetic 
             */}
 
-        <button className="nextBTN" onClick={save} ><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
+        <button className="nextBTN" onClick={sentSetup_Start} ><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
         </Link>
       </div>
     </div>

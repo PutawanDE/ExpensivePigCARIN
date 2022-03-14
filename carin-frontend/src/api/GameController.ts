@@ -1,6 +1,6 @@
 import produceEntity from '../components/gameloop/EntityFactory';
 import { BodyStore, CellProps, defaultCell } from '../components/gameloop/stores/BodyStore';
-
+import { CreditStore } from "../components/gameloop/stores/CreditStore"
 import { EventTypes } from './EventTypes';
 
 export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
@@ -14,12 +14,21 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
     // case 'hp':
     // case 'infect':
     // case 'die':
-    // case 'credit':
+    case 'credit':
+      const creditEvent = output as EventTypes.CreditEvent;
+      credit(creditEvent.remain);
+      break;
     case 'spawn':
       const spawnEvent = output as EventTypes.SpawnEvent;
       spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type);
       break;
   }
+};
+const credit = (remain:number) => {
+
+  CreditStore.update((state) => {
+    state.creditData.credit = remain;
+  });
 };
 
 const spawnNewEntity = (x: number, y: number, type: string) => {
