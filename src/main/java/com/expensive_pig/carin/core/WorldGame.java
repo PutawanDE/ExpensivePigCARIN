@@ -61,7 +61,7 @@ public class WorldGame {
         if (mapField[toPosY][toPosX] == null) {
             mapField[toPosY][toPosX] = mapField[posY][posX];
             clearPosEntity(posX, posY);
-            freeField.remove(new Pair(posX, posY));
+            freeField.remove(new Pair(toPosX, toPosY));
             return true;
         } else {
             return false;
