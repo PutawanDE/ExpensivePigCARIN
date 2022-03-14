@@ -1,0 +1,13 @@
+.configbox{
+    position: relative;
+    width: 70%;
+    margin: 0 auto;
+    height: auto;
+    max-height: 60vh;
+    margin-top: calc(100vh - 95vh - 20px);
+    background: rgb(253, 211, 211);
+    border-radius: 4px;
+    padding: 20px;
+    border: 1px solid #999;
+    overflow: auto;
+}
