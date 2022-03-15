@@ -40,7 +40,7 @@ function ConfigSetup() {
             <div className="flex flex-row justify-center">
               <div className="px-2">
                 <Link to="/editAnti">
-                  <button
+                  <button type="submit"
                     className="bg-green-500 hover:bg-green-700 text-white 
                 font-bold py-2 px-8 rounded-full text-black text-lg"
                     onClick={handleSubmit}>
