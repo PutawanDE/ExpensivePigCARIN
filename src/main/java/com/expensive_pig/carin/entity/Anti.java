@@ -47,7 +47,7 @@ public class Anti extends Entity {
         int newHp = hp - hpCost;
         if (newHp > 0) {
             if (world.movePosEntity(posX, posY, toPosX, toPosY)) {
-                changeHp(hpCost);
+                changeHp(-hpCost);
                 gameController.sendOutputEvent(entityManager.getSessionId(),
                         new OutputMoveEvent(posX, posY, toPosX, toPosY));
             }
