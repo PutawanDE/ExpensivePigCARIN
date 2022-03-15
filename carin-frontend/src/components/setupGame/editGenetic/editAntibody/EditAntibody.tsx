@@ -90,14 +90,13 @@ function EditAntibody() {
           <div className="center">
             <div className="flex flex-row justify-center">
               <div className="px-2">
-                <Link to="/editAnti">
-                  <button
+               
+                  <button   type="submit"
                     className="bg-green-500 hover:bg-green-700 text-white 
                 font-bold py-2 px-8 rounded-full text-black text-lg"
-                    onClick={handleChange}>
+                    onClick={handleSave}>
                     Submit
                   </button>
-                </Link>
               </div>
 
               <div className="px-2">
@@ -110,7 +109,7 @@ function EditAntibody() {
             </div>
           </div>
         </div>
-        <input type="submit" />
+         
       </div>
       </>
       }
