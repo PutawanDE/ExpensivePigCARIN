@@ -5,8 +5,8 @@ import { EventTypes } from './EventTypes';
 import { handleGameOutput } from './GameController';
 
 export type GameSetup = {
-  antiGeneticCodes: string[];
-  virusGeneticCodes: string[];
+  antiGeneticCodes: {};
+  virusGeneticCodes: {};
   gameConfig: string;
 };
 

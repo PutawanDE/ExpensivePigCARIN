@@ -50,8 +50,8 @@ function EditVirus() {
     console.log(setup.setupData)
     
     const Setup : GameSetup = {
-      antiGeneticCodes: ["", "", ""],
-      virusGeneticCodes: ["", "", ""],
+      antiGeneticCodes: {},
+      virusGeneticCodes: {},
       gameConfig: ""
     };
     // var antiGeneticCodes:string = Object.values(setup.setupData)[1] as  string
