@@ -1,0 +1,19 @@
+.selectModeSize{
+    width: 600px;
+}
+
+.parent{
+    background-color: #afce86;
+    display: flex;
+    min-height: 100vh;
+  }
+
+.child{
+  margin: auto;
+}
+
+.configBorder{
+  -webkit-text-stroke: 2px #2d3e14; /* width and color */
+
+  color: #7eaf3b;
+}
