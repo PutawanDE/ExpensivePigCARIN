@@ -45,18 +45,8 @@ public class InitGame {
         } else {
             config = GameConfigParser.parseConfigFromText(setup.getGameConfig(), errorMsg);
         }
-
-        if (uploadedAntiCodes.keySet().size() == NUM_ANTI_KINDS) {
-            antiPrograms = createAntiPrograms(uploadedAntiCodes, errorMsg);
-        } else {
-            errorMsg.append("Provided genetic codes do not match with number of Antibody Kinds\n");
-        }
-
-        if (uploadedVirusCodes.keySet().size() == NUM_VIRUS_KINDS) {
-            virusPrograms = createVirusPrograms(uploadedVirusCodes, errorMsg);
-        } else {
-            errorMsg.append("Provided genetic codes do not match with number of Virus Kinds\n");
-        }
+        antiPrograms = createAntiPrograms(uploadedAntiCodes, errorMsg);
+        virusPrograms = createVirusPrograms(uploadedVirusCodes, errorMsg);
 
         if (!errorMsg.isEmpty()) {
             throw new RuntimeException(errorMsg.toString());
