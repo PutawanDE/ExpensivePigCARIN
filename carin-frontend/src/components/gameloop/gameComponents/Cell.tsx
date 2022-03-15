@@ -49,13 +49,12 @@ const Cell = (props: props) => {
       };
 
       sendBuy(buyEvent);
-
-      BodyStore.update((state) => {
-        state.pointer = [x, y];
-      });
-
+      
       console.log('new of type ' + input);
     }
+    BodyStore.update((state) => {
+      state.pointer = [x, y];
+    });
   };
 
   const getRingColor = () => {
