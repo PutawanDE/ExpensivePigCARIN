@@ -21,7 +21,6 @@ public class EntityManager {
 
     public final LinkedList<Entity> entities = new LinkedList<>();
     private final LinkedList<Anti> infectedAnti = new LinkedList<>();
-    @Getter
     private int numberAnti = 0;
     private WorldGame world;
     private GameConfiguration config;
@@ -123,4 +122,10 @@ public class EntityManager {
         numberAnti++;
     }
 
+    public int getNumberAnti(){
+        return numberAnti;
+    }
+    public int getNumberVirus(){
+        return entities.size() - numberAnti;
+    }
 }

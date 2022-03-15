@@ -140,6 +140,6 @@ public class Game implements Runnable {
             }
 
         }
-
+        gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(),entityManager.getNumberVirus()));
     }
 }
