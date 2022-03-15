@@ -1,5 +1,6 @@
 import { CompatClient, Frame, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { gotoGame, showError } from '../components/selectModes/SelectModes';
 
 import { EventTypes } from './EventTypes';
 import { handleGameOutput } from './GameController';
@@ -115,8 +116,10 @@ const handleGameStart = (resp: GameStartResp): void => {
   if (status === 'SUCCESS') {
     // start game
     console.log('Successfully start game');
+    gotoGame();
   } else if (status === 'FAIL') {
     // retry
     console.log('Fail to start game: ' + resp.msg);
+    showError(resp.msg);
   }
 };
