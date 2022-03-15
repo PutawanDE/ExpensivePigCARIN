@@ -51,7 +51,7 @@ public class EntityManager {
             entities.add(e);
             increaseNumberAnti();
             world.addNewEntity(posX, posY, e);
-            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + (kind + 1)));
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + (kind + 1), config.getInitialAntibodyHp()));
             return e;
         } else {
             return null;
@@ -63,7 +63,7 @@ public class EntityManager {
             Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
-            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + (kind + 1)));
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + (kind + 1),config.getInitialVirusHp()));
         }
     }
 
@@ -102,7 +102,7 @@ public class EntityManager {
         reduceNumberAnti();
         gameController.sendOutputEvent(sessionId, new DieEvent(anti.getPosX(), anti.getPosY()));
         gameController.sendOutputEvent(sessionId, new InfectEvent(anti.getPosX(), anti.getPosY(),
-                anti.getInfectedKind()));
+                "V" + (anti.getInfectedKind() + 1)));
 
         world.clearPosEntity(anti.getPosX(), anti.getPosY());
         infectedAnti.add(anti);
@@ -118,14 +118,16 @@ public class EntityManager {
     public void reduceNumberAnti() {
         numberAnti--;
     }
+
     public void increaseNumberAnti() {
         numberAnti++;
     }
 
-    public int getNumberAnti(){
+    public int getNumberAnti() {
         return numberAnti;
     }
-    public int getNumberVirus(){
+
+    public int getNumberVirus() {
         return entities.size() - numberAnti;
     }
 }

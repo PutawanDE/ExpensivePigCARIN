@@ -19,7 +19,10 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       const HpEvent = output as EventTypes.HpEvent;
       hpEntity(HpEvent.pos[0], HpEvent.pos[1], HpEvent.change);
       break;
-    // case 'infect':
+    case 'infect':
+      const infectEvent = output as EventTypes.InfectEvent;
+      infect(infectEvent.pos[0], infectEvent.pos[1], infectEvent.type);
+      break;
     case 'die':
       const DieEvent = output as EventTypes.DieEvent;
       killEntity(DieEvent.pos[0], DieEvent.pos[1]);
@@ -30,18 +33,14 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       break;
     case 'spawn':
       const spawnEvent = output as EventTypes.SpawnEvent;
-      spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type);
+      spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type,spawnEvent.hp);
       break;   
-       case 'remain':
+    case 'remain':
       const remainEvent = output as EventTypes.RemainEvent;
-      remainEntity(remainEvent.remain[0],remainEvent.remain[1]);
+      remainEntity(remainEvent.remain[0], remainEvent.remain[1]);
       break;
-      
   }
 };
-
-
-
 
 const moveEntity = (x: number, y: number, toX: number, toY: number) => {
   BodyStore.update((state) => {
@@ -55,7 +54,13 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
 
 const shootEntity = (x: number, y: number, direction: string) => {
   BodyStore.update((state) => {
-    state.Cell[y][x].action = "shoot";
+    const action = state.Cell[y][x].action;
+    if(action === "shoot0") {
+      state.Cell[y][x].action = "shoot1";
+    } else {
+      state.Cell[y][x].action = "shoot0";
+    }
+
     state.Cell[y][x].shootDir = direction;
   });
 };
@@ -67,13 +72,18 @@ const hpEntity = (x: number, y: number, change: number) => {
 };
 
 const killEntity = (x: number, y: number) => {
-  console.log("clear");
-  
+  console.log('clear');
+
   BodyStore.update((state) => {
     state.Cell[y][x] = produceEmptyCell(x, y);
   });
 };
 
+const infect = (x: number, y: number, type: string) => {
+  BodyStore.update((state) => {
+    state.Cell[y][x] = produceEntityCell(type, x, y, 'infected');
+  });
+};
 
 const credit = (remain: number) => {
   CreditStore.update((state) => {
@@ -81,8 +91,8 @@ const credit = (remain: number) => {
   });
 };
 
-const spawnNewEntity = (x: number, y: number, type: string) => {
-  const entity = produceEntityCell(type, x, y, 'spawn');
+const spawnNewEntity = (x: number, y: number, type: string , hp:number) => {
+  const entity = produceEntityCell(type, x, y, 'spawn',hp);
   BodyStore.update((state) => {
     state.Cell[y][x] = entity;
     state.Cell[y][x].x = x;
@@ -90,16 +100,9 @@ const spawnNewEntity = (x: number, y: number, type: string) => {
   });
 };
 
-
 const remainEntity = (antiRemain: number, virusRemain: number) => {
   RemainStore.update((state) => {
     state.RemainData.antiRemain = antiRemain;
     state.RemainData.virusRemain = virusRemain;
-
   });
 };
-
-
-
-
-

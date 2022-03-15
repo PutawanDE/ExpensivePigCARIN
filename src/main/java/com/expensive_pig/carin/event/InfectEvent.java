@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public class InfectEvent extends OutputEvent {
     private int[] pos = new int[2];
-    private int kind;
+    private String type;
 
-    public InfectEvent(int posX, int posY, int kind) {
+    public InfectEvent(int posX, int posY, String type) {
         super("infect");
         pos[0] = posX;
         pos[1] = posY;
-        this.kind = kind;
+        this.type = type;
     }
 }

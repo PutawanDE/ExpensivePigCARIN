@@ -99,7 +99,8 @@ export const produceEntityCell = (
   type: string,
   x: number,
   y: number,
-  action: string
+  action: string,
+  hp:number
 ): CellProps => {
   const entitiy = { ...allCell[type as keyof typeof allCell] };
   entitiy.x = x;
@@ -107,7 +108,7 @@ export const produceEntityCell = (
 
   if (type !== 'empty') {
     entitiy.action = action;
-    //entitiy.hp =
+    entitiy.hp = hp;
   }
 
   return entitiy;
