@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { SetupGame } from "../../setupGameSender"
 import 'jqueryui';
- 
+
 import GeneticForm from '../GeneticForm';
 
 import AGA from "../../assets/AGA.gif";
@@ -38,7 +38,7 @@ function EditAntibody() {
   const togglePopup = () => {
     setIsOpen(!isOpen);
   }
- 
+
   const save = () => {
     setup.setupData.anti = genetic
   }
@@ -52,7 +52,6 @@ function EditAntibody() {
       </div>
       <div className="flex flex-row ">
         <div className="basis-1/3 px-20">
-
           <button className="center" onClick={() => { togglePopup(); setIsselectbox("A1"); }}  ><img src={AGA} alt="" className="geneticbuttonpicture " /></button>
         </div>
         <div className="basis-1/3 px-20">
@@ -64,28 +63,65 @@ function EditAntibody() {
       </div>
 
 
-      {isOpen && <GeneticForm content={<>
-        <textarea
+      {isOpen && <GeneticForm content={
+      <>
+        {/* <textarea
           name={selectbox}
           onChange={handleChange}
           className='geneticbox'
           rows={20}
           cols={150} />
-        <button onClick={handleSave} >Test button</button>
-      </>}
+        <button onClick={handleSave} >Test button</button> */}
+              <div className="py-5">
+        <div className="textboxBackground pt-5 pb-10 ">
+          <div className="center text-2xl font-bold">
+            Game Configuration
+          </div>
+          <form onSubmit={handleChange} className="center py-6">
+            <textarea
+              name={selectbox}
+              onChange={handleChange}
+              rows={15}
+              cols={80}
+              className="fixedtextarea focus:ring ring-pink-500 focus:border-rose-700 
+              focus:outline-none px-4 py-4 border-dashed border-4 border-rose-500 rounded-3xl"
+            />
+          </form>
+          <div className="center">
+            <div className="flex flex-row justify-center">
+              <div className="px-2">
+                <Link to="/editAnti">
+                  <button
+                    className="bg-green-500 hover:bg-green-700 text-white 
+                font-bold py-2 px-8 rounded-full text-black text-lg"
+                    onClick={handleChange}>
+                    Submit
+                  </button>
+                </Link>
+              </div>
+
+              <div className="px-2">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white 
+                font-bold py-2 px-8 rounded-full text-black text-lg">
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="submit" />
+      </div>
+      </>
+      }
         handleClose={togglePopup}
       />}
-
-
-
-
-
       <div className="right pr-12 pt-3">
         <Link to="/editVirus">
 
           {/* save anti-genetic string[]*/}
 
-          <button   name={"editAntibody"} onClick={save }   className="nextBTN"><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
+          <button name={"editAntibody"} onClick={save} className="nextBTN"><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
         </Link>
       </div>
 
