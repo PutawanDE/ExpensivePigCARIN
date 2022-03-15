@@ -30,6 +30,10 @@ html {
     margin: center;
     align-items: center;
     align-content: space-around;
+    
+}
+.backgroundEdit{
+    background-color: #afce86
 }
 
 .background .startbutton {
@@ -58,4 +62,18 @@ html {
     -webkit-text-stroke: 3px black; /* width and color */
 
     color: white;
+}
+
+.parent{
+    background-color: #afce86;
+    display: flex;
+    min-height: 100vh;
+  }
+
+.child{
+  margin: auto;
+}
+
+.btn{
+    
 }
