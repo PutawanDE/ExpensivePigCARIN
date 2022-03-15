@@ -1,4 +1,16 @@
+.BodyMap{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: nowrap;
 
+}
+.remain{
+    border: black solid 2px;
+
+}
 #draggable {
      width: 100px; 
      height: 100px; 

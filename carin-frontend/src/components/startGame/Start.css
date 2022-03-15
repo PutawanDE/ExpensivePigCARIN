@@ -17,6 +17,10 @@ html {
     margin: auto;
 }
 
+.startBackgroundColor{
+    background-color: #fca1a1
+}
+
 .background {
     height: 100vh;
     position: relative;

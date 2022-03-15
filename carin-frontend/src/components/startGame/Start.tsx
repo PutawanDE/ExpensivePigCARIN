@@ -11,7 +11,7 @@ import StartBtn from "../../elements/start/StartBtn.gif";
 function Start() {
 
     return (
-        <div className="background">
+        <div className="background startBackgroundColor">
             <Link to="/SelectModes">
 
 

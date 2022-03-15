@@ -34,8 +34,8 @@ export namespace EventTypes {
   }
 
   export interface DieEvent extends OutputEvent {
-    action: string;
     pos: number[];
+    action: string;
   }
 
   export interface CreditEvent extends OutputEvent {
@@ -46,4 +46,8 @@ export namespace EventTypes {
     pos: number[];
     type: string;
   }
+  export interface RemainEvent extends OutputEvent {
+    remain: number[];
+  }
+
 }
