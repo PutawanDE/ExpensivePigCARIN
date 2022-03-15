@@ -59,7 +59,7 @@ function SelectConfiguration() {
               </Link>
             </div>
             <div className="">
-              <Link to="/">
+              <Link to="/editVirus">
                 <button>
                   <img src={VirusConfig} className="selectModeSize" />
                 </button>
