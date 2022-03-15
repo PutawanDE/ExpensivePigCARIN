@@ -1,6 +1,6 @@
 import './GameLoop.css';
 import BodyMap from './gameComponents/BodyMap';
-import PanelEntity from './gameComponents/PanelEntity';
+import SelectPanel from './gameComponents/SelectPanel';
 import Credit from './gameComponents/Credit';
  
 import Utility from './gameComponents/Utility';
@@ -15,7 +15,7 @@ function GameLoop() {
       <FpsView width={240} height={180} left={1500} top={700}/>
               <div className="menubar">
                   <Credit />
-                  <PanelEntity />
+                  <SelectPanel />
                   <Utility />
               </div>
         <BodyMap />

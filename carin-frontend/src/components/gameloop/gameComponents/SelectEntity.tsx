@@ -1,49 +1,42 @@
-import { CellProps, BodyStore } from "../stores/BodyStore"
+import { BodyStore, InputType } from '../stores/BodyStore';
+import { CellProps } from '../CellFactory';
 
-type SelectColorButtonProps = {
-  entitydata: CellProps;
+type SelectButtonProps = {
+  inputType: InputType;
   img: string;
-  type: string;
-}
+};
 
+const SelectInput = ({ inputType, img }: SelectButtonProps) => {
+  const state = BodyStore.useState((s) => s.inputType);
 
-const SelectEntity = ({entitydata, type ,img }: SelectColorButtonProps) => {
-
-
-
-
-  //modify this function to highlight correctly
-  const state = BodyStore.useState()
-
-  const computeRingSize = () => {
-    if ( entitydata.img === state.SelectEntity.img ) {
-      return "ring-8 ring-green-400"
+  const getRingColor = () => {
+    if (state === inputType) {
+      return 'ring-8 ring-green-400';
     }
-    return ""
-  }
+    return '';
+  };
 
+  const select = () => {
+    BodyStore.update((state) => {
+      state.inputType = inputType;
+    });
 
-
-  const selectedEntity = () => {
-    BodyStore.update(state => { state.SelectEntity =  entitydata})
-    console.log("SelectEntity");
-    console.log(state.SelectEntity);
-  }
+    console.log('SelectInput');
+    console.log(state);
+  };
 
   const dataShow = () => {
-    return < >{type} </> 
-       
-  }
+    return <>{inputType} </>;
+  };
 
   return (
-
-    <div className={`${computeRingSize()}   rounded-md border-black border-2 SelectEntity cursor-pointer  `}
-      onClick={selectedEntity}
-    >
-      <img  className="Show" src={img} />
+    <div
+      className={`${getRingColor()}   rounded-md border-black border-2 SelectEntity cursor-pointer  `}
+      onClick={select}>
+      <img className="Show" src={img} />
       <span className="selinfo">{dataShow()} </span>
     </div>
-  )
-}
+  );
+};
 
-export default SelectEntity
+export default SelectInput;

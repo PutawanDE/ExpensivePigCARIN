@@ -1,24 +1,15 @@
 import React from 'react';
-import { CellProps, BodyStore } from '../stores/BodyStore';
-import bg from '../assets/cell.png';
-import $ from 'jquery';
-import { commandStore } from '../eventCenter';
-import './Cell.css';
-import cellnull from '../assets/bk.png';
 
 import { sendBuy } from '../../../api/GameAPI';
 import { EventTypes } from '../../../api/EventTypes';
 
-const resetToMoveMode: CellProps = {
-  img: cellnull,
-  x: -1,
-  y: -1,
-  type: 'MOVE',
-  hp: 0,
-  action: 'null',
-  toposX: -1,
-  toposY: -1
-};
+import { CellProps, CellType } from '../CellFactory';
+import { BodyStore, InputType } from '../stores/BodyStore';
+import { commandStore } from '../eventCenter';
+
+import bg from '../assets/cell.png';
+
+import './Cell.css';
 
 type props = {
   cellProps: CellProps;
@@ -26,53 +17,53 @@ type props = {
 };
 
 const Cell = (props: props) => {
-  const { x, y, type, hp, action, toposX, toposY, img: entityImg } = props.cellProps;
+  const { x, y, type: cellType, hp, action, img: entityImg } = props.cellProps;
   const callmove = props.callmove;
 
   // console.log('Cell render x: ' + x + ' y: ' + y);
 
-  const selectedEntity = BodyStore.useState((s) => s.SelectEntity);
+  const input = BodyStore.useState((s) => s.inputType);
   const pointer = BodyStore.useState((s) => s.pointer);
   const tcommand = commandStore.useState();
 
   const cellOnClickHandler = () => {
-    if (selectedEntity.type === 'MOVE' && type !== 'null') {
+    if (input === InputType.MOVE && cellType !== CellType.empty) {
       // pick entity move
       if (callmove) callmove(x, y, 0);
-    } else if (selectedEntity.type === 'MOVE' && type === 'null') {
+    } else if (input === InputType.MOVE && cellType === CellType.empty) {
       // drop move entity
       if (callmove) callmove(x, y, 1);
-    } else if (selectedEntity.type !== 'MOVE' && type === 'null') {
+    } else if (input !== InputType.MOVE && cellType === CellType.empty) {
       // ask want buy&place
       // update
       // sent SelectEntity x y credit
 
       // sent pos
       const buyEvent: EventTypes.BuyEvent = {
-        kind: parseInt(selectedEntity.type.substring(1)) - 1,
+        kind: parseInt(input.substring(1)) - 1,
         pos: [x, y]
       };
 
       sendBuy(buyEvent);
 
       BodyStore.update((state) => {
-        state.SelectEntity = resetToMoveMode;
+        state.inputType = InputType.MOVE;
       });
 
       BodyStore.update((state) => {
         state.pointer = [x, y];
       });
 
-      console.log('new of type ' + selectedEntity.type);
+      console.log('new of type ' + input);
     }
   };
 
-  const computeRingSize = () => {
-    if (selectedEntity.type === 'MOVE' && pointer[0] === x && pointer[1] === y) {
-      if (type !== 'null') {
+  const getRingColor = () => {
+    if (input === InputType.MOVE && pointer[0] === x && pointer[1] === y) {
+      if (cellType !== CellType.empty) {
         // select
         return 'ring-8 ring-red-400';
-      } else if (type === 'null' && tcommand.commandData.isSelected) {
+      } else if (cellType === CellType.empty && tcommand.commandData.isSelected) {
         // place
         return 'ring-8 ring-green-400';
       }
@@ -83,11 +74,11 @@ const Cell = (props: props) => {
   const dataShow = () => {
     return (
       <>
-        {type === 'null' ? (
+        {cellType === CellType.empty ? (
           <></>
         ) : (
           <>
-            <>{type + ' hp:' + hp} </>
+            <>{cellType + ' hp:' + hp} </>
             <>{'x:' + x + ' y:' + y}</>
             <>{'    a:' + action}</>
           </>
@@ -98,14 +89,14 @@ const Cell = (props: props) => {
 
   return (
     <td
-      className={`${computeRingSize()} eachcell cursor-pointer font `}
+      className={`${getRingColor()} eachcell cursor-pointer font `}
       draggable="false"
       onClick={cellOnClickHandler}>
       <div className="container">
         <span className="details  ">{dataShow()} </span>
 
-        <img src={bg} className="image" />
         <img src={entityImg} className="overlay" />
+        <img src={bg} className="image" />
       </div>
     </td>
   );
