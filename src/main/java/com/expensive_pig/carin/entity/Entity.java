@@ -111,7 +111,7 @@ public abstract class Entity {
         int toPosX = toPos[0];
         int toPosY = toPos[1];
         gameController.sendOutputEvent(entityManager.getSessionId(),
-                new ShootEvent(posX, toPosY, toPosX, toPosY));
+                new ShootEvent(posX, posY, direction));
 
         Entity target = world.getTarget(toPosX, toPosY);
 
