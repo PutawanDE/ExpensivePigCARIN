@@ -18,6 +18,7 @@ const SelectInput = ({ inputType, img }: SelectButtonProps) => {
   const select = () => {
     BodyStore.update((state) => {
       state.inputType = inputType;
+      state.pointer = [-1, -1] ;
     });
 
     console.log('SelectInput');
