@@ -8,6 +8,8 @@ import SelectAntibody from './components/setupGame/editGenetic/editAntibody/Edit
 import SelectVirus from './components/setupGame/editGenetic/editVirus/EditVirus'
 import InGame from './components/gameloop/GameLoop'
 import ResultVirus from './components/result/AntigenResult'
+import SelectModes from './components/selectModes/SelectModes'
+import SelectConfiguration from './components/setupGame/editConfig/SelectConfiguration'
 
 function App() {
 
@@ -21,6 +23,9 @@ function App() {
         <Route path="/editVirus" element = {<SelectVirus/>}/>
         <Route path="/game" element = {<InGame/>}/>
         <Route path="/resultVirus" element = {<ResultVirus/>}/>
+        <Route path="/SelectModes" element = {<SelectModes/>}/>
+        <Route path="/SelectConfiguration" element = {<SelectConfiguration/>}/>
+        
       </Routes>
       
     </div>

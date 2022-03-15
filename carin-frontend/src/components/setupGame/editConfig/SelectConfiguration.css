@@ -11,3 +11,9 @@
 .child{
   margin: auto;
 }
+
+.configBorder{
+  -webkit-text-stroke: 2px #2d3e14; /* width and color */
+
+  color: #7eaf3b;
+}

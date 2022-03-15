@@ -12,7 +12,7 @@ function Start() {
 
     return (
         <div className="background">
-            <Link to="/editConfig">
+            <Link to="/SelectModes">
 
 
                 {/*// on Start setup sockjs session id */}
