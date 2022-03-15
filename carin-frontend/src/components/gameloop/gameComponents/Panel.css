@@ -25,3 +25,15 @@
     align-items: center;
     align-content: center;
 }
+
+.coinpanel{
+    background-image: url(../assets/coinbar.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+}
+
+.cointext{
+    height:100%;
+}
