@@ -29,9 +29,9 @@ function SelectConfiguration() {
 
   const ConfigForm = (props: any) => {
     return (
-      <div className="popup-box">
-        <div className="box">
-          <span className="close-icon" onClick={props.handleClose}>x</span>
+      <div className="config-popup-box">
+        <div className="config-text-box">
+          <span className="close-icon" onClick={props.handleClose}></span>
           {props.content}
         </div>
       </div>
@@ -80,9 +80,9 @@ function SelectConfiguration() {
 
       {
         isOpen && <ConfigForm content={
-          <>
-            <div className="py-5">
-              <div className="textboxBackground pt-5 pb-10 ">
+          <div className="config-container  flex h-screen w-screen bg-neutral-900/50 z-50  py-20 textboxBackground">
+            <div className="">
+              <div className="flex flex-col pt-5 pb-10 ">
                 <div className="center text-2xl font-bold">
                   Game Configuration
                 </div>
@@ -120,7 +120,7 @@ function SelectConfiguration() {
               </div>
 
             </div>
-          </>
+          </div>
         }
           handleClose={togglePopup}
         />
