@@ -21,8 +21,28 @@ export let sessionId = '';
 
 const url = 'http://localhost:8080/carin-websocket';
 
-export const startGame = async (gameSetup: GameSetup): Promise<void> => {
-  console.log('start game...');
+export const startDefaultGame = async (): Promise<void> => {
+  console.log('start default game...');
+  if (!client) {
+    await connect();
+  } else if (!client.connected) {
+    await connect();
+  }
+
+  const defaultGameSetup: GameSetup = {
+    gameConfig: '',
+    antiGeneticCodes: {},
+    virusGeneticCodes: {}
+  };
+
+  client.publish({
+    destination: '/app/start',
+    body: JSON.stringify(defaultGameSetup)
+  });
+};
+
+export const startCustomGame = async (gameSetup: GameSetup): Promise<void> => {
+  console.log('start custom game...');
   if (!client) {
     await connect();
   } else if (!client.connected) {
