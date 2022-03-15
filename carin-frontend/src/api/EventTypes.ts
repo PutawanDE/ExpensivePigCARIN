@@ -45,6 +45,7 @@ export namespace EventTypes {
   export interface SpawnEvent extends OutputEvent {
     pos: number[];
     type: string;
+    hp: number;
   }
   export interface RemainEvent extends OutputEvent {
     remain: number[];

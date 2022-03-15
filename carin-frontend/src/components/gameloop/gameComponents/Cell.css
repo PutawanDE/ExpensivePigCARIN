@@ -115,7 +115,7 @@
     opacity: 0;
     background-color: rgb(223, 39, 39);
     transform-origin: bottom;
-    animation: sparkler-sparkle 1.0s linear;
+    animation: sparkler-sparkle 0.5s linear;
     /* transform: scaleY(1); */
     /* opacity: 1;  */
 

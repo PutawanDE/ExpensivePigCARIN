@@ -33,7 +33,7 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       break;
     case 'spawn':
       const spawnEvent = output as EventTypes.SpawnEvent;
-      spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type);
+      spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type,spawnEvent.hp);
       break;   
     case 'remain':
       const remainEvent = output as EventTypes.RemainEvent;
@@ -91,8 +91,8 @@ const credit = (remain: number) => {
   });
 };
 
-const spawnNewEntity = (x: number, y: number, type: string) => {
-  const entity = produceEntityCell(type, x, y, 'spawn');
+const spawnNewEntity = (x: number, y: number, type: string , hp:number) => {
+  const entity = produceEntityCell(type, x, y, 'spawn',hp);
   BodyStore.update((state) => {
     state.Cell[y][x] = entity;
     state.Cell[y][x].x = x;

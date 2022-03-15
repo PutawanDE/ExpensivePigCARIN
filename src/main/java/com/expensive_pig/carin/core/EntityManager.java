@@ -51,7 +51,7 @@ public class EntityManager {
             entities.add(e);
             increaseNumberAnti();
             world.addNewEntity(posX, posY, e);
-            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + (kind + 1)));
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + (kind + 1), config.getInitialAntibodyHp()));
             return e;
         } else {
             return null;
@@ -63,7 +63,7 @@ public class EntityManager {
             Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
             entities.add(e);
             world.addNewEntity(posX, posY, e);
-            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + (kind + 1)));
+            gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + (kind + 1),config.getInitialVirusHp()));
         }
     }
 
