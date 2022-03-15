@@ -55,7 +55,13 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
 
 const shootEntity = (x: number, y: number, direction: string) => {
   BodyStore.update((state) => {
-    state.Cell[y][x].action = "shoot";
+    const action = state.Cell[y][x].action;
+    if(action === "shoot0") {
+      state.Cell[y][x].action = "shoot1";
+    } else {
+      state.Cell[y][x].action = "shoot0";
+    }
+    
     state.Cell[y][x].shootDir = direction;
   });
 };

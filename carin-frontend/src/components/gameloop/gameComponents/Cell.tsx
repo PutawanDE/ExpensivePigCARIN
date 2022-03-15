@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { sendBuy } from '../../../api/GameAPI';
 import { EventTypes } from '../../../api/EventTypes';
 
@@ -19,11 +19,16 @@ const Cell = (props: props) => {
   const { x, y, type: cellType, hp, action, shootDir, img: entityImg } = props.cellProps;
   const callmove = props.callmove;
 
-  // console.log('Cell render x: ' + x + ' y: ' + y);
+  console.log('Cell render x: ' + x + ' y: ' + y);
 
   const input = BodyStore.useState((s) => s.inputType);
   const pointer = BodyStore.useState((s) => s.pointer);
   const tcommand = commandStore.useState();
+
+  useEffect(() => {
+
+    computeAnimate();
+  }, [])
 
   const cellOnClickHandler = () => {
     if (input === InputType.MOVE && cellType !== CellType.empty) {
@@ -66,52 +71,46 @@ const Cell = (props: props) => {
     return '';
   };
 
-  const computeAnimate = () => {
+  const computeAnimate = useCallback(() => {
 
-    let dir = 0;
-    if (action === "shoot") {
-      /*     UP("up"), UP_RIGHT("upright"), RIGHT("right"), DOWN_RIGHT("downright"),
-          DOWN("down"), DOWN_LEFT("downleft"), LEFT("left"), UP_LEFT("upleft");
-      */
-      switch (shootDir) {
-        case "up": dir = 90;
+    /*     UP("up"), UP_RIGHT("upright"), RIGHT("right"), DOWN_RIGHT("downright"),
+        DOWN("down"), DOWN_LEFT("downleft"), LEFT("left"), UP_LEFT("upleft");
+    */
+    if (action === "shoot0" || action === "shoot1") {
+      let dir: number;
+      switch (shootDir!) {
+        case "UP": dir = 90;
           break;
-        case "upright": dir = 125;
+        case "UP_RIGHT": dir = 125;
           break;
-        case "right": dir = 180;
+        case "RIGHT": dir = 180;
           break;
-        case "downright": dir = 225;
+        case "DOWN_RIGHT": dir = 225;
           break;
-        case "down": dir = 270;
+        case "DOWN": dir = 270;
           break;
-        case "downleft": dir = 325;
+        case "DOWN_LEFT": dir = 325;
           break;
-        case "left": dir = 0;
+        case "LEFT": dir = 0;
           break;
-        case "upleft": dir = 45;
+        case "UP_LEFT": dir = 45;
           break;
-        default:
+        default: dir = 0;
           break;
       }
-
+  
       // shoot animate
       const shootStyle = {
         transform: 'rotate(' + dir + 'deg)',
+  
       } as React.CSSProperties;
-
-      // return ' spark --spark-rotate: 270deg; --spark-delay: 10ms';
+      console.log("animate shoot");
+      
       return (
         <span className="spark" style={shootStyle} ></span>
       );
-
-
-      // } else if (type === 'null' && tcommand.commandData.isSelected) {
-      // none
-      // return '';
-      // }
     }
-    // return '';
-  };
+  }, [action]);
 
   const dataShow = () => {
     return (
@@ -119,11 +118,7 @@ const Cell = (props: props) => {
         {cellType === CellType.empty ? (
           <></>
         ) : (
-          <>
-            <>{cellType + ' hp:' + hp} </>
-            <>{'x:' + x + ' y:' + y}</>
-            <>{'    a:' + action}</>
-          </>
+            <>{' hp:' + hp} </>
         )}
       </>
     );
@@ -134,7 +129,7 @@ const Cell = (props: props) => {
       className={`${getRingColor()} eachcell cursor-pointer font `}
       draggable="false"
       onClick={cellOnClickHandler}>
-      <div className="container">
+      <div className="Cellcontainer" key={action}>
         <span className="details  ">{dataShow()} </span>
         {computeAnimate()}
         <img src={entityImg} className="overlay" />
