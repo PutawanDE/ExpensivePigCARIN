@@ -19,6 +19,8 @@ function ConfigSetup() {
     console.log(config);
   };
 
+
+
   return (
     <div className="">
       <div className="py-5">
@@ -61,7 +63,25 @@ function ConfigSetup() {
         </div>
         <input type="submit" />
       </div>
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   );
 }
 
