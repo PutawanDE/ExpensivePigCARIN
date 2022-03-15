@@ -8,5 +8,7 @@ public class RemainEvent extends OutputEvent {
 
     public RemainEvent(int Antiremain, int Virusremain) {
         super("remain");
+        remain[0] = Antiremain;
+        remain[1] = Virusremain;
     }
 }
