@@ -1,6 +1,3 @@
-import { GameSetup, startGame } from '../../../../api/GameAPI';
-
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import 'jqueryui';
 
@@ -38,35 +35,6 @@ function EditVirus() {
   const togglePopup = () => {
     setIsOpen(!isOpen);
   }
-  const save = () => {
-    setup.setupData.virus = genetic
-    console.log(setup.setupData)
-  }
-
-  const sentSetup_Start = () : void => {
-
-    setup.setupData.virus = genetic  
-    console.log(genetic)
-    console.log(setup.setupData)
-    
-    const Setup : GameSetup = {
-      antiGeneticCodes: {},
-      virusGeneticCodes: {},
-      gameConfig: ""
-    };
-    // var antiGeneticCodes:string = Object.values(setup.setupData)[1] as  string
-    // var virusGeneticCodes:string = Object.values(setup.setupData)[2] as  string
-
-
-    // const testSetup : GameSetup = {
-    //   antiGeneticCodes: Object.values(antiGeneticCodes),
-    //   virusGeneticCodes: Object.values(virusGeneticCodes),
-    //   gameConfig: Object.values(setup.setupData)[0] as string
-    // };
-    // console.log(testSetup)
- 
-    startGame(Setup);
-  }  
 
 
   return (
@@ -97,19 +65,6 @@ function EditVirus() {
       </>}
         handleClose={togglePopup}
       />}
-
-
-
-      <div className="right pr-12 pt-3">
-        <Link to="/game">
-          
-            {/* save virus-genetic string[]
-              then send anti&virus genetic 
-            */}
-
-        <button className="nextBTN" onClick={sentSetup_Start} ><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
-        </Link>
-      </div>
     </div>
   );
 }
