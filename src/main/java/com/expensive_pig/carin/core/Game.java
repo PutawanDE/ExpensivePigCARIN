@@ -104,10 +104,16 @@ public class Game implements Runnable {
             } else if (event instanceof InputMoveEvent inputMoveEvent) {
                 int posX = inputMoveEvent.getPosX();
                 int posY = inputMoveEvent.getPosY();
-                log.info("Receive move input at x:" + posX + " y:" + posY);
+                int toPosX = inputMoveEvent.getToPosX();
+                int toPosY = inputMoveEvent.getToPosY();
+
+                log.info("Receive move input at x:" + posX + " y:" + posY +
+                        " to x:" + toPosX + " to y:" + toPosY);
 
                 Entity toMove = world.getTarget(posX, posY);
-                toMove.moveByUser(posX, posY, config.getAntibodyMoveHpCost());
+                if(toMove != null) {
+                    toMove.moveByUser(toPosX, toPosY, config.getAntibodyMoveHpCost());
+                }
             }
         }
     }
@@ -117,7 +123,6 @@ public class Game implements Runnable {
             if (entityManager.getNumberAnti() <= 0) { // game over
                 gameController.sendOutputEvent(sessionId, new GameOverEvent());
             } else {
-                entityManager.spawnVirus();
                 Iterator<Entity> itr = entityManager.entities.listIterator();
                 while (itr.hasNext()) {
                     Entity e = itr.next();
@@ -131,9 +136,10 @@ public class Game implements Runnable {
                     if (!e.isAlive()) itr.remove();
                 }
                 entityManager.spawnInfected();
+                entityManager.spawnVirus();
             }
 
         }
-
+        gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(),entityManager.getNumberVirus()));
     }
 }

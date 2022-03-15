@@ -10,9 +10,10 @@ import './BodyMap.css';
 
 import $ from 'jquery';
 import 'jqueryui';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 let zoomLv = 1;
+const lowestZoomLv = 0.1;
 
 const zoomIn = () => {
   zoomLv += 0.1;
@@ -20,7 +21,10 @@ const zoomIn = () => {
 };
 
 const zoomOut = () => {
-  zoomLv -= 0.1;
+  const newZoomLv = zoomLv - 0.1;
+  if(newZoomLv <= lowestZoomLv) return;
+  
+  zoomLv = newZoomLv;
   $('.target').css('transform', 'scale(' + zoomLv + ')');
 };
 const zoomReset = () => {
@@ -35,13 +39,13 @@ const hideDetails = () => {
   $('.details').css('transform', 'scale(' + 0 + ')');
 };
 
-$(document).ready(function () {
-  $(function () {
-    $('#draggable').draggable();
-  });
-});
-
 const Body = () => {
+  useEffect(() => {
+    $(function () {
+      $('#draggable').draggable();
+    });
+  });
+
   const state = BodyStore.useState();
   const tcommand = commandStore.useState();
   const movefn = useCallback(
@@ -82,27 +86,24 @@ const Body = () => {
 
   return (
     <div className="BodyMap">
-      <a className="btn zoom" onClick={zoomIn}>
-        {' '}
+      <button className="btn zoom" onClick={zoomIn}>
         + <i className="fas fa-search-plus"></i>
-      </a>
-      <a className="btn zoom-out" onClick={zoomOut}>
+      </button>
+      <button className="btn zoom-out" onClick={zoomOut}>
         {' '}
         - <i className="fas fa-search-minus"></i>
-      </a>
-      <a className="btn zoom-init" onClick={zoomReset}>
+      </button>
+      <button className="btn zoom-init" onClick={zoomReset}>
         {' '}
         reset <i className="fas fa-recycle"></i>
-      </a>
+      </button>
 
-      <a className="btn show" onClick={showDetails}>
-        {' '}
-        show <i className="fas fa-search-plus"></i>
-      </a>
-      <a className="btn hide" onClick={hideDetails}>
-        {' '}
+      <button className="btn show" onClick={showDetails}>
+        show
+      </button>
+      <button className="btn hide" onClick={hideDetails}>
         hide <i className="fas fa-search-minus"></i>
-      </a>
+      </button>
 
       <table className="ring-2 ring-gray-200 rounded-md mx-auto">
         <tbody className="box target" id="draggable">

@@ -1,6 +1,6 @@
-import produceEntity from '../components/gameloop/EntityFactory';
-import { BodyStore, CellProps, defaultCell } from '../components/gameloop/stores/BodyStore';
-import { CreditStore } from "../components/gameloop/stores/CreditStore"
+import { produceEmptyCell, produceEntityCell } from '../components/gameloop/CellFactory';
+import { BodyStore } from '../components/gameloop/stores/BodyStore';
+import { CreditStore } from '../components/gameloop/stores/CreditStore';
 import { EventTypes } from './EventTypes';
 
 export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
@@ -10,7 +10,10 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       const moveEvent = output as EventTypes.OutputMoveEvent;
       moveEntity(moveEvent.pos[0], moveEvent.pos[1], moveEvent.toPos[0], moveEvent.toPos[1]);
       break;
-    // case 'shoot':
+    case 'shoot':
+      const ShootEvent = output as EventTypes.ShootEvent;
+      shootEntity(ShootEvent.pos[0],ShootEvent.pos[1],ShootEvent.direction);
+      break;
     // case 'hp':
     // case 'infect':
     // case 'die':
@@ -24,14 +27,14 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       break;
   }
 };
-const credit = (remain:number) => {
+const credit = (remain: number) => {
   CreditStore.update((state) => {
     state.creditData.credit = remain;
   });
 };
 
 const spawnNewEntity = (x: number, y: number, type: string) => {
-  const entity: CellProps = produceEntity(type);
+  const entity = produceEntityCell(type, x, y, 'spawn');
   BodyStore.update((state) => {
     state.Cell[y][x] = entity;
     state.Cell[y][x].x = x;
@@ -41,10 +44,18 @@ const spawnNewEntity = (x: number, y: number, type: string) => {
 
 const moveEntity = (x: number, y: number, toX: number, toY: number) => {
   BodyStore.update((state) => {
-    const entity: CellProps = { ...state.Cell[y][x] };
-    state.Cell[y][x] = defaultCell;
+    const entity = { ...state.Cell[y][x] };
+    state.Cell[y][x] = produceEmptyCell(x, y);
     state.Cell[toY][toX] = entity;
     state.Cell[toY][toX].x = toX;
     state.Cell[toY][toX].y = toY;
   });
 };
+
+const shootEntity = (x: number, y: number, direction:string) => {
+  BodyStore.update((state) => {
+    state.Cell[y][x].action = "shoot";
+    state.Cell[y][x].shootDir = direction;
+  });
+};
+

@@ -33,9 +33,11 @@ public class Anti extends Entity {
         if (target.isAlive) {
             target.receiveDmg(dmg, kind);
             if (target.getType().equals(EntityType.VIRUS)) {
-                creditSystem.gainCredit(posX, posY, killCreditGain);
-                changeHp(killHpGain);
-                killCount++;
+                if(!target.isAlive) {
+                    creditSystem.gainCredit(posX, posY, killCreditGain);
+                    changeHp(killHpGain);
+                    killCount++;
+                }
             }
         }
     }
