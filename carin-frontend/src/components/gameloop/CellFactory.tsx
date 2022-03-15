@@ -82,7 +82,9 @@ export const emptyCell: CellProps = {
   img: cellnull,
   x: -1,
   y: -1,
-  type: CellType.empty
+  type: CellType.empty,
+  action: 'none',
+  hp: 0
 };
 
 const allCell = {
