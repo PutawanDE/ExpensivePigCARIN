@@ -11,7 +11,7 @@ function SelectModes() {
             <div className="flex flex-row justify-center child">
 
                 <div className="pr-10">
-                    <Link to="/">
+                    <Link to="/game">
                         <button>
                             <img src={DefaultMode} className="selectModeSize " />
                         </button>
