@@ -30,7 +30,7 @@ export namespace EventTypes {
 
   export interface InfectEvent extends OutputEvent {
     pos: number[];
-    kind: number;
+    type: string;
   }
 
   export interface DieEvent extends OutputEvent {

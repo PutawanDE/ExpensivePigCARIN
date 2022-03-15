@@ -102,7 +102,7 @@ public class EntityManager {
         reduceNumberAnti();
         gameController.sendOutputEvent(sessionId, new DieEvent(anti.getPosX(), anti.getPosY()));
         gameController.sendOutputEvent(sessionId, new InfectEvent(anti.getPosX(), anti.getPosY(),
-                anti.getInfectedKind()));
+                "V" + (anti.getInfectedKind() + 1)));
 
         world.clearPosEntity(anti.getPosX(), anti.getPosY());
         infectedAnti.add(anti);
@@ -118,14 +118,16 @@ public class EntityManager {
     public void reduceNumberAnti() {
         numberAnti--;
     }
+
     public void increaseNumberAnti() {
         numberAnti++;
     }
 
-    public int getNumberAnti(){
+    public int getNumberAnti() {
         return numberAnti;
     }
-    public int getNumberVirus(){
+
+    public int getNumberVirus() {
         return entities.size() - numberAnti;
     }
 }
