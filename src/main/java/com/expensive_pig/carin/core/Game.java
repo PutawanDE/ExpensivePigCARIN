@@ -59,14 +59,10 @@ public class Game implements Runnable {
 
         inputEventQueue = new EventQueue<>();
 
-        try {
-            gameLoop();
-        } catch (SyntaxError e) {
-            e.printStackTrace();
-        }
+        gameLoop();
     }
 
-    private void gameLoop() throws SyntaxError {
+    private void gameLoop() {
         long gameLastTime = System.nanoTime();
         long inputLastTime = System.nanoTime();
         long gameDeltaTime, inputDeltaTime;
@@ -77,7 +73,7 @@ public class Game implements Runnable {
             inputDeltaTime = currentTime - inputLastTime;
 
             //process input once every 30 ms
-            if (inputDeltaTime  >= 30 * 1000000) {
+            if (inputDeltaTime >= 30 * 1000000) {
                 inputLastTime = currentTime;
                 processInput();
             }
@@ -100,20 +96,26 @@ public class Game implements Runnable {
             InputEvent event = inputEventQueue.removeEvent();
 
             if (event instanceof BuyEvent buyEvent) {
-                log.info("Receive buy input");
-                creditSystem.buyAndPlace(buyEvent.getPosX(), buyEvent.getPosY(), buyEvent.getKind());
+                int posX = buyEvent.getPosX();
+                int posY = buyEvent.getPosY();
+                log.info("Receive buy input at x:" + posX + " y:" + posY);
+
+                creditSystem.buyAndPlace(posX, posY, buyEvent.getKind());
             } else if (event instanceof InputMoveEvent inputMoveEvent) {
-                log.info("Receive move input");
-                Entity toMove = world.getTarget(inputMoveEvent.getPosX(), inputMoveEvent.getPosY());
-                toMove.moveByUser(inputMoveEvent.getToPosX(), inputMoveEvent.getToPosY(), config.getAntibodyMoveHpCost());
+                int posX = inputMoveEvent.getPosX();
+                int posY = inputMoveEvent.getPosY();
+                log.info("Receive move input at x:" + posX + " y:" + posY);
+
+                Entity toMove = world.getTarget(posX, posY);
+                toMove.moveByUser(posX, posY, config.getAntibodyMoveHpCost());
             }
         }
     }
 
     private void update() {
-        if (!isPlayerPlaceFirstAnti) {
+        if (isPlayerPlaceFirstAnti) {
             if (entityManager.getNumberAnti() <= 0) { // game over
-                gameController.sendOutputEvent(sessionId,new GameOverEvent());
+                gameController.sendOutputEvent(sessionId, new GameOverEvent());
             } else {
                 entityManager.spawnVirus();
                 Iterator<Entity> itr = entityManager.entities.listIterator();
