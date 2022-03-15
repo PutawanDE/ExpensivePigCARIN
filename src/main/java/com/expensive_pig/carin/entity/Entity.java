@@ -75,7 +75,7 @@ public abstract class Entity {
 
     protected void changeHp(int hpChange) {
         if (hp + hpChange <= 0) {
-            hpChange = hp;
+            hpChange = -hp;
         }
         hp += hpChange;
         gameController.sendOutputEvent(entityManager.getSessionId(),

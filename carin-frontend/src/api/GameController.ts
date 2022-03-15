@@ -34,7 +34,7 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
     case 'spawn':
       const spawnEvent = output as EventTypes.SpawnEvent;
       spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type);
-      break;
+      break;   
     case 'remain':
       const remainEvent = output as EventTypes.RemainEvent;
       remainEntity(remainEvent.remain[0], remainEvent.remain[1]);
@@ -54,7 +54,13 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
 
 const shootEntity = (x: number, y: number, direction: string) => {
   BodyStore.update((state) => {
-    state.Cell[y][x].action = 'shoot';
+    const action = state.Cell[y][x].action;
+    if(action === "shoot0") {
+      state.Cell[y][x].action = "shoot1";
+    } else {
+      state.Cell[y][x].action = "shoot0";
+    }
+
     state.Cell[y][x].shootDir = direction;
   });
 };
