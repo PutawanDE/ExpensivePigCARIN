@@ -47,10 +47,6 @@ const Cell = (props: props) => {
       sendBuy(buyEvent);
 
       BodyStore.update((state) => {
-        state.inputType = InputType.MOVE;
-      });
-
-      BodyStore.update((state) => {
         state.pointer = [x, y];
       });
 

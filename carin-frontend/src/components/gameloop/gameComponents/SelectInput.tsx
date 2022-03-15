@@ -1,5 +1,4 @@
 import { BodyStore, InputType } from '../stores/BodyStore';
-import { CellProps } from '../CellFactory';
 
 type SelectButtonProps = {
   inputType: InputType;

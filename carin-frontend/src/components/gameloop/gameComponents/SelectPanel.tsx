@@ -1,4 +1,4 @@
-import SelectInput from './SelectEntity';
+import SelectInput from './SelectInput';
 import './Panel.css';
 import grabicon from '../assets/grab.png';
 import anti1 from '../assets/A1.gif';
