@@ -62,6 +62,11 @@ public class Game implements Runnable {
         gameLoop();
     }
 
+    public void end() {
+        isGameRunning = false;
+        log.info("Game with id: " + sessionId + " ends.");
+    }
+
     private void gameLoop() {
         long gameLastTime = System.nanoTime();
         long inputLastTime = System.nanoTime();
@@ -84,7 +89,6 @@ public class Game implements Runnable {
             }
         }
     }
-
 
     public void addInputEvent(InputEvent event) {
         inputEventQueue.addEvent(event);

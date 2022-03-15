@@ -21,4 +21,8 @@ public class GameRepository {
     public boolean containGame(String sessionId) {
         return sessionIdGameMap.containsKey(sessionId);
     }
+
+    public Game remove(String sessionId) {
+        return sessionIdGameMap.remove(sessionId);
+    }
 }
