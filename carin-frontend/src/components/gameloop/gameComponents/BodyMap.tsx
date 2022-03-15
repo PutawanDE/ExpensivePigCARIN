@@ -2,6 +2,7 @@ import { EventTypes } from '../../../api/EventTypes';
 import { sendMove } from '../../../api/GameAPI';
 
 import { BodyStore } from '../stores/BodyStore';
+import { RemainStore } from '../stores/RemainEntityStore';
 import { defaultCommand } from '../eventCenter';
 
 import { commandStore } from '../eventCenter';
@@ -23,7 +24,7 @@ const zoomIn = () => {
 const zoomOut = () => {
   const newZoomLv = zoomLv - 0.1;
   if(newZoomLv <= lowestZoomLv) return;
-  
+
   zoomLv = newZoomLv;
   $('.target').css('transform', 'scale(' + zoomLv + ')');
 };
@@ -48,6 +49,7 @@ const Body = () => {
 
   const state = BodyStore.useState();
   const tcommand = commandStore.useState();
+  const entitiyRemain = RemainStore.useState();
   const movefn = useCallback(
     (x: number, y: number, order: number) => {
       if (order === 0) {
@@ -116,6 +118,12 @@ const Body = () => {
           ))}
         </tbody>
       </table>
+      <>
+        <div className="remain"> antiRemain {entitiyRemain.RemainData.antiRemain}</div>
+        <div className="remain" > virusRemain {entitiyRemain.RemainData.virusRemain}</div>
+      </>
+
+
     </div>
   );
 };
