@@ -10,7 +10,10 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       const moveEvent = output as EventTypes.OutputMoveEvent;
       moveEntity(moveEvent.pos[0], moveEvent.pos[1], moveEvent.toPos[0], moveEvent.toPos[1]);
       break;
-    // case 'shoot':
+    case 'shoot':
+      const ShootEvent = output as EventTypes.ShootEvent;
+      shootEntity(ShootEvent.pos[0],ShootEvent.pos[1],ShootEvent.direction);
+      break;
     // case 'hp':
     // case 'infect':
     // case 'die':
@@ -48,3 +51,11 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
     state.Cell[toY][toX].y = toY;
   });
 };
+
+const shootEntity = (x: number, y: number, direction:string) => {
+  BodyStore.update((state) => {
+    state.Cell[y][x].action = "shoot";
+    state.Cell[y][x].shootDir = direction;
+  });
+};
+

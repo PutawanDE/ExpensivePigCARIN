@@ -20,7 +20,7 @@ export namespace EventTypes {
 
   export interface ShootEvent extends OutputEvent {
     pos: number[];
-    toPos: number[];
+    direction: string;
   }
 
   export interface HpEvent extends OutputEvent {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { sendBuy } from '../../../api/GameAPI';
 import { EventTypes } from '../../../api/EventTypes';
 
@@ -8,7 +7,7 @@ import { BodyStore, InputType } from '../stores/BodyStore';
 import { commandStore } from '../eventCenter';
 
 import bg from '../assets/cell.png';
-
+import $ from 'jquery';
 import './Cell.css';
 
 type props = {
@@ -17,7 +16,7 @@ type props = {
 };
 
 const Cell = (props: props) => {
-  const { x, y, type: cellType, hp, action, img: entityImg } = props.cellProps;
+  const { x, y, type: cellType, hp, action, shootDir, img: entityImg } = props.cellProps;
   const callmove = props.callmove;
 
   // console.log('Cell render x: ' + x + ' y: ' + y);
@@ -67,6 +66,53 @@ const Cell = (props: props) => {
     return '';
   };
 
+  const computeAnimate = () => {
+
+    let dir = 0;
+    if (action === "shoot") {
+      /*     UP("up"), UP_RIGHT("upright"), RIGHT("right"), DOWN_RIGHT("downright"),
+          DOWN("down"), DOWN_LEFT("downleft"), LEFT("left"), UP_LEFT("upleft");
+      */
+      switch (shootDir) {
+        case "up": dir = 90;
+          break;
+        case "upright": dir = 125;
+          break;
+        case "right": dir = 180;
+          break;
+        case "downright": dir = 225;
+          break;
+        case "down": dir = 270;
+          break;
+        case "downleft": dir = 325;
+          break;
+        case "left": dir = 0;
+          break;
+        case "upleft": dir = 45;
+          break;
+        default:
+          break;
+      }
+
+      // shoot animate
+      const shootStyle = {
+        transform: 'rotate(' + dir + 'deg)',
+      } as React.CSSProperties;
+
+      // return ' spark --spark-rotate: 270deg; --spark-delay: 10ms';
+      return (
+        <span className="spark" style={shootStyle} ></span>
+      );
+
+
+      // } else if (type === 'null' && tcommand.commandData.isSelected) {
+      // none
+      // return '';
+      // }
+    }
+    // return '';
+  };
+
   const dataShow = () => {
     return (
       <>
@@ -90,7 +136,7 @@ const Cell = (props: props) => {
       onClick={cellOnClickHandler}>
       <div className="container">
         <span className="details  ">{dataShow()} </span>
-
+        {computeAnimate()}
         <img src={entityImg} className="overlay" />
         <img src={bg} className="image" />
       </div>
