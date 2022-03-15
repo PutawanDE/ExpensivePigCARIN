@@ -80,9 +80,7 @@ const killEntity = (x: number, y: number) => {
 };
 
 const infect = (x: number, y: number, type: string) => {
-  BodyStore.update((state) => {
-    state.Cell[y][x] = produceEntityCell(type, x, y, 'infected');
-  });
+  console.log(`Antibody at x:${x}, y:${y} is infected with ${type}`);
 };
 
 const credit = (remain: number) => {
