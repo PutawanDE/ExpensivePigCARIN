@@ -1,17 +1,19 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { SetupGame } from "../../setupGameSender"
 import 'jqueryui';
 
 import GeneticForm from '../GeneticForm';
-import { SetupGame } from "../../setupGameSender"
 
-
-import V1 from "../../assets/AGA.gif";
-import V2 from "../../assets/AGB.gif";
-import V3 from "../../assets/AGC.gif";
-import NextBTN from "../../assets/NextBTN.png";
+import B1 from "../../../../elements/editVirus/B1.png";
+import B2 from "../../../../elements/editVirus/B2.png";
+import B3 from "../../../../elements/editVirus/B3.png";
 
 import '../GeneticForm.css';
 import './EditVirus.css';
+
+//https://www.cluemediator.com/create-simple-popup-in-reactjs
+//https://www.w3schools.com/react/react_forms.asp
 function EditVirus() {
   const setup = SetupGame.useState()
 
@@ -36,37 +38,129 @@ function EditVirus() {
     setIsOpen(!isOpen);
   }
 
+  const save = () => {
+    setup.setupData.anti = genetic
+  }
+
+  const ConfigForm = (props: any) => {
+    return (
+      <div className="config-popup-box">
+        <div className="config-text-box">
+          <span className="close-icon" onClick={props.handleClose}></span>
+          {props.content}
+        </div>
+      </div>
+    );
+  };
+
+
 
   return (
-    <div className="background">
-      <div className="container mx-auto py-10 text-center text-5xl font-bold">
-              EDIT ANTIGEN GENETIC CODE
+    <div className="background backgroundEdit">
+      {/* <div className="container mx-auto py-10 text-center text-5xl font-bold">
+        EDIT ANTIBODY GENETIC CODE
       </div>
       <div className="flex flex-row ">
         <div className="basis-1/3 px-20">
-          <button className="center" onClick={() => { togglePopup(); setIsselectbox("V1"); }}><img src={V1} alt="" className="geneticbuttonpicture " /></button>
+          <button className="center" onClick={() => { togglePopup(); setIsselectbox("A1"); }}  ><img src={AGA} alt="" className="geneticbuttonpicture " /></button>
         </div>
         <div className="basis-1/3 px-20">
-          <button className="center" onClick={() => { togglePopup(); setIsselectbox("V2"); }}><img src={V2} alt="" className="geneticbuttonpicture " /></button>
+          <button className="center" onClick={() => { togglePopup(); setIsselectbox("A2"); }}  ><img src={AGB} alt="" className="geneticbuttonpicture " /></button>
         </div>
         <div className="basis-1/3 px-20">
-          <button className="center" onClick={() => { togglePopup(); setIsselectbox("V3"); }}><img src={V3} alt="" className="geneticbuttonpicture " /></button>
+          <button className="center" onClick={() => { togglePopup(); setIsselectbox("A3"); }} ><img src={AGC} alt="" className="geneticbuttonpicture " /></button>
         </div>
       </div>
 
-      {isOpen && <GeneticForm content={<>
-        <textarea
-          name={selectbox}
-          onChange={handleChange}
-          className='geneticbox'
-          rows={20}
-          cols={150} />
-        <button onClick={handleSave} >Test button</button>
-      </>}
-        handleClose={togglePopup}
-      />}
+            <div className="right pr-12 pt-3">
+        <Link to="/editVirus">
+          <button name={"editAntibody"} onClick={save} className="nextBTN"><img src={NextBTN} alt="" className="geneticbuttonpicture " /></button>
+        </Link>
+      </div> */}
+
+      <div className="parent flex flex-col justify-center center">
+        <div className="configBorder font-bold text-5xl py-6">
+          EDIT VIRUS GENETIC CODE
+        </div>
+        <div className="px-40">
+          <div className="flex flex-row justify-center child">
+            <div className="pr-20">
+              <button onClick={() => togglePopup()}>
+                <img src={B1} className="selectModeSize " />
+              </button>
+            </div>
+            <div className="pr-20">
+              <button onClick={() => togglePopup()}>
+                <img src={B2} className="selectModeSize " />
+              </button>
+            </div>
+            <div className="">
+              <button onClick={() => togglePopup()}>
+                <img src={B3} className="selectModeSize" />
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <div className="py-4">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full">
+            Done
+          </button>
+        </div>
+      </div>
+
+
+      {
+        isOpen && <ConfigForm content={
+          <div className="config-container  flex h-screen w-screen bg-neutral-900/50 z-50  py-20 textboxBackground">
+            <div className="">
+              <div className="flex flex-col pt-5 pb-10 ">
+                <div className="center text-2xl font-bold">
+                  Game Configuration
+                </div>
+                <form onSubmit={handleChange} className="center py-6">
+                  <textarea
+                    name={selectbox}
+                    onChange={handleChange}
+                    rows={15}
+                    cols={80}
+                    className="fixedtextarea focus:ring ring-pink-500 focus:border-rose-700 
+              focus:outline-none px-4 py-4 border-dashed border-4 border-rose-500 rounded-3xl"
+                  />
+                </form>
+                <div className="center">
+                  <div className="flex flex-row justify-center">
+                    <div className="px-2">
+
+                      <button type="submit"
+                        className="bg-green-500 hover:bg-green-700 text-white 
+                font-bold py-2 px-8 rounded-full text-black text-lg"
+                        onClick={handleSave}>
+                        Submit
+                      </button>
+                    </div>
+
+                    <div className="px-2">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white 
+                font-bold py-2 px-8 rounded-full text-black text-lg">
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        }
+          handleClose={togglePopup}
+        />
+      }
+
+
     </div>
-  );
+  )
 }
 
 export default EditVirus;

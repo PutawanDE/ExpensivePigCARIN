@@ -60,3 +60,13 @@
 
     color: white;
 }
+
+.parent{
+    background-color: #afce86;
+    display: flex;
+    min-height: 100vh;
+  }
+
+.child{
+  margin: auto;
+}
