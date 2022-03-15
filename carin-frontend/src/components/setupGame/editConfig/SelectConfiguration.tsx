@@ -42,7 +42,7 @@ function SelectConfiguration() {
     <div className="">
       <div className="parent flex flex-col justify-center center">
         <div className="configBorder font-bold text-5xl py-6">
-          Set Configuration
+          GAME CONFIGURATION  
         </div>
         <div className="px-64">
           <div className="flex flex-row justify-center child">

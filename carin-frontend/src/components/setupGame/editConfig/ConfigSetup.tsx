@@ -22,7 +22,7 @@ function ConfigSetup() {
 
 
   return (
-    <div className="">
+    <div className="parent flex flex-col justify-center center">
       <div className="py-5">
         <div className="textboxBackground pt-5 pb-10 ">
           <div className="center text-2xl font-bold">
