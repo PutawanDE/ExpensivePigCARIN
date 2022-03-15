@@ -20,15 +20,18 @@ function ConfigSetup() {
   };
 
   return (
-    <>
+    <div className="">
       <div className="py-5">
-        <div className="textboxBackground pt-5 pb-10">
+        <div className="textboxBackground pt-5 pb-10 ">
+          <div className="center text-2xl font-bold">
+            Game Configuration
+          </div>
           <form onSubmit={handleSubmit} className="center py-6">
             <textarea
               value={config}
               onChange={handleChange}
-              rows={25}
-              cols={120}
+              rows={15}
+              cols={80}
               className="fixedtextarea focus:ring ring-pink-500 focus:border-rose-700 
               focus:outline-none px-4 py-4 border-dashed border-4 border-rose-500 rounded-3xl"
             />
@@ -50,7 +53,7 @@ function ConfigSetup() {
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white 
                 font-bold py-2 px-8 rounded-full text-black text-lg">
-                  Cancel
+                  Clear
                 </button>
               </div>
             </div>
@@ -58,7 +61,7 @@ function ConfigSetup() {
         </div>
         <input type="submit" />
       </div>
-    </>
+    </div>
   );
 }
 
