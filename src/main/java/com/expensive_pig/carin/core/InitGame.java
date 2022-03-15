@@ -6,10 +6,9 @@ import com.expensive_pig.carin.evaluator.ReadGeneticCode;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import com.expensive_pig.carin.game_data.GameSetup;
 
-public class InitGame {
-    private static final int NUM_ANTI_KINDS = 3;
-    private static final int NUM_VIRUS_KINDS = 3;
+import java.util.Map;
 
+public class InitGame {
     private static final String GAME_CONFIG_FILENAMES = "src/main/java/com/expensive_pig/carin/game_config/" +
             "DefaultGameConfig.txt";
 
@@ -25,10 +24,16 @@ public class InitGame {
             "src/main/java/com/expensive_pig/carin/dev_genetic/Virus1.txt"
     };
 
+    private static final String[] antibodyType = new String[]{"A1", "A2", "A3"};
+    private static final String[] virusType = new String[]{"V1", "V2", "V3"};
+
+    private static final int NUM_ANTI_KINDS = antibodyType.length;
+    private static final int NUM_VIRUS_KINDS = virusType.length;
+
     public static Game createNewGame(String sessionId, GameSetup setup) {
         StringBuilder errorMsg = new StringBuilder();
-        String[] uploadedAntiCodes = setup.getAntiGeneticCodes();
-        String[] uploadedVirusCodes = setup.getVirusGeneticCodes();
+        Map<String, String> uploadedAntiCodes = setup.getAntiGeneticCodes();
+        Map<String, String> uploadedVirusCodes = setup.getAntiGeneticCodes();
 
         Program[] antiPrograms = new Program[NUM_ANTI_KINDS];
         Program[] virusPrograms = new Program[NUM_ANTI_KINDS];
@@ -41,13 +46,13 @@ public class InitGame {
             config = GameConfigParser.parseConfigFromText(setup.getGameConfig(), errorMsg);
         }
 
-        if (uploadedAntiCodes.length == NUM_ANTI_KINDS) {
+        if (uploadedAntiCodes.keySet().size() == NUM_ANTI_KINDS) {
             antiPrograms = createAntiPrograms(uploadedAntiCodes, errorMsg);
         } else {
             errorMsg.append("Provided genetic codes do not match with number of Antibody Kinds\n");
         }
 
-        if (uploadedVirusCodes.length == NUM_VIRUS_KINDS) {
+        if (uploadedVirusCodes.keySet().size() == NUM_VIRUS_KINDS) {
             virusPrograms = createVirusPrograms(uploadedVirusCodes, errorMsg);
         } else {
             errorMsg.append("Provided genetic codes do not match with number of Virus Kinds\n");
@@ -60,37 +65,38 @@ public class InitGame {
         return new Game(sessionId, config, antiPrograms, virusPrograms);
     }
 
-    private static Program[] createAntiPrograms(String[] uploadedGeneticCodes, StringBuilder errorMsg) {
+    private static Program[] createAntiPrograms(Map<String, String> uploadedGeneticCodes, StringBuilder errorMsg) {
         ReadGeneticCode programReader = new ReadGeneticCode();
         Program[] antiPrograms = new Program[NUM_ANTI_KINDS];
 
-        for (int i = 0; i < NUM_ANTI_KINDS; i++) {
+        for (int i = 0; i < antibodyType.length; i++) {
             try {
-                if (uploadedGeneticCodes[i].equals("")) {
-                    antiPrograms[i] = programReader.getProgrambyPath(ANTI_PROGRAM_FILENAMES[i]);
+                if (uploadedGeneticCodes.containsKey(antibodyType[i])) {
+                    antiPrograms[i] = programReader.getProgrambyString(
+                            uploadedGeneticCodes.get(antibodyType[i]));
                 } else {
-                    antiPrograms[i] = programReader.getProgrambyString
-                            (uploadedGeneticCodes[i]);
+                    antiPrograms[i] = programReader.getProgrambyPath(ANTI_PROGRAM_FILENAMES[i]);
                 }
             } catch (Exception e) {
                 errorMsg.append("Antibody Type ").append(i).append(" error: ")
                         .append(e).append("\n");
             }
         }
+
         return antiPrograms;
     }
 
-    private static Program[] createVirusPrograms(String[] uploadedGeneticCodes, StringBuilder errorMsg) {
+    private static Program[] createVirusPrograms(Map<String, String> uploadedGeneticCodes, StringBuilder errorMsg) {
         ReadGeneticCode programReader = new ReadGeneticCode();
         Program[] virusPrograms = new Program[NUM_VIRUS_KINDS];
 
-        for (int i = 0; i < NUM_VIRUS_KINDS; i++) {
+        for (int i = 0; i < virusType.length; i++) {
             try {
-                if (uploadedGeneticCodes[i].equals("")) {
-                    virusPrograms[i] = programReader.getProgrambyPath(VIRUS_PROGRAM_FILENAMES[i]);
+                if (uploadedGeneticCodes.containsKey(virusType[i])) {
+                    virusPrograms[i] = programReader.getProgrambyString(
+                            uploadedGeneticCodes.get(virusType[i]));
                 } else {
-                    virusPrograms[i] = programReader.getProgrambyString
-                            (uploadedGeneticCodes[i]);
+                    virusPrograms[i] = programReader.getProgrambyPath(VIRUS_PROGRAM_FILENAMES[i]);
                 }
             } catch (Exception e) {
                 errorMsg.append("Virus Type ").append(i).append(" error: ")
