@@ -69,8 +69,8 @@ function SelectConfiguration() {
           </div>
         </div>
         <div className="py-4">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full">
-            Start Game
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full editbtn">
+             ▶️ Start Game
           </button>
         </div>
       </div>

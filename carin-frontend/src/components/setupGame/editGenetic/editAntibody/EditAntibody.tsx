@@ -104,9 +104,12 @@ function EditAntibody() {
           </div>
         </div>
         <div className="py-4">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full">
-            Done
-          </button>
+          <Link to="/SelectConfiguration">
+            <button className="editbtn text-white font-bold py-4 px-10 rounded-full text-2xl">
+              Done
+            </button>
+          </Link>
+
         </div>
       </div>
 

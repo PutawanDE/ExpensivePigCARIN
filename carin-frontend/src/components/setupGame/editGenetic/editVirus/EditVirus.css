@@ -70,3 +70,11 @@
 .child{
   margin: auto;
 }
+
+.editbtn{
+    background-color: #4CAF50;
+}
+
+.editbtn:hover {
+    background-color: #2d3e14;
+}
