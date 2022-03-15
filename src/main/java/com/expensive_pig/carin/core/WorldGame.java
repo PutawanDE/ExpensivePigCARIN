@@ -38,7 +38,11 @@ public class WorldGame {
     }
 
     public boolean slotIsFree(int posX, int posY) {
-        return mapField[posY][posX] == null;
+        if (isWithinMapBound(posX, posY)) {
+            return mapField[posY][posX] == null;
+        } else {
+            return false;
+        }
     }
 
     public Entity getTarget(int posX, int posY) {
@@ -49,8 +53,10 @@ public class WorldGame {
     }
 
     public void addNewEntity(int posX, int posY, Entity e) {
-        mapField[posY][posX] = e;
-        freeField.remove(new Pair(posX, posY));
+        if (isWithinMapBound(posX, posY)) {
+            mapField[posY][posX] = e;
+            freeField.remove(new Pair(posX, posY));
+        }
     }
 
     public boolean movePosEntity(int posX, int posY, int toPosX, int toPosY) {
@@ -69,8 +75,10 @@ public class WorldGame {
     }
 
     public void clearPosEntity(int posX, int posY) {
-        mapField[posY][posX] = null;
-        freeField.add(new Pair(posX, posY));
+        if (isWithinMapBound(posX, posY)) {
+            mapField[posY][posX] = null;
+            freeField.add(new Pair(posX, posY));
+        }
     }
 
     public int searchNearby(int posX, int posY, EntityType entity, Direction direction) {
@@ -96,7 +104,7 @@ public class WorldGame {
         int nowY = posY;
         int indicateDirection = 0;
         int distance = 0;
-        while ((0 <= nowX && nowX < n) && (0 <= nowY && nowY < m)) {
+        while (isWithinMapBound(nowX, nowY)) {
             switch (direction) {
                 case UP -> {
                     nowY++;
@@ -144,7 +152,7 @@ public class WorldGame {
                 }
             }
 
-            if ((0 <= nowX && nowX < n) && (0 <= nowY && nowY < m)) {
+            if (isWithinMapBound(nowX, nowY)) {
                 if (mapField[nowY][nowX] != null) {
                     if (_type.equals(EntityType.ENTITY)) {
                         break;
