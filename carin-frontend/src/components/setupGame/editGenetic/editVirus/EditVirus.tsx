@@ -105,7 +105,7 @@ function EditVirus() {
         <div className="py-4">
           <Link to="/SelectConfiguration">
             <button className="editbtn text-white font-bold py-4 px-10 rounded-full text-2xl">
-              Done
+              ✅Done
             </button>
           </Link>
 
@@ -119,7 +119,7 @@ function EditVirus() {
             <div className="">
               <div className="flex flex-col pt-5 pb-10 ">
                 <div className="center text-2xl font-bold">
-                  Game Configuration
+                  EDIT VIRUS GENETIC CODE
                 </div>
                 <form onSubmit={handleChange} className="center py-6">
                   <textarea
@@ -139,7 +139,7 @@ function EditVirus() {
                         className="bg-green-500 hover:bg-green-700 text-white 
                 font-bold py-2 px-8 rounded-full text-black text-lg"
                         onClick={handleSave}>
-                        Submit
+                        Save
                       </button>
                     </div>
 
@@ -147,7 +147,7 @@ function EditVirus() {
                       <button
                         className="bg-red-500 hover:bg-red-700 text-white 
                 font-bold py-2 px-8 rounded-full text-black text-lg">
-                        Clear
+                        Reset
                       </button>
                     </div>
                   </div>
