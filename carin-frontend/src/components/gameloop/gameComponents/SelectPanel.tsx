@@ -9,15 +9,23 @@ import bgA2 from '../assets/storeBackgroundA2.png';
 import bgA3 from '../assets/storeBackgroundA3.png';
 
 import { InputType } from '../stores/BodyStore';
+import { CreditStore } from '../stores/CreditStore';
 
 const SelectPanel = () => {
+  const cost = CreditStore.useState((s) => s.creditData);
+
   return (
     <div className="">
       <div className="flex flex-row">
-        <SelectInput inputType={InputType.A1} price={"1000"} img={anti1} bgimg={bgA1} />
-        <SelectInput inputType={InputType.A2} price={"1000"} img={anti2} bgimg={bgA2} />
-        <SelectInput inputType={InputType.A3} price={"1000"} img={anti3} bgimg={bgA3} />
-        <SelectInput inputType={InputType.MOVE} price={"MOVE"}  img={grabicon} bgimg={bgA3}/>
+        <SelectInput inputType={InputType.A1} price={'' + cost.buyCost} img={anti1} bgimg={bgA1} />
+        <SelectInput inputType={InputType.A2} price={'' + cost.buyCost} img={anti2} bgimg={bgA2} />
+        <SelectInput inputType={InputType.A3} price={'' + cost.buyCost} img={anti3} bgimg={bgA3} />
+        <SelectInput
+          inputType={InputType.MOVE}
+          price={'MOVE -' + cost.moveHpCost + 'HP'}
+          img={grabicon}
+          bgimg={bgA3}
+        />
       </div>
     </div>
   );

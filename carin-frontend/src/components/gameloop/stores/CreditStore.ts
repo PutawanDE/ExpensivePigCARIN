@@ -1,19 +1,20 @@
-import { Store } from 'pullstate'
- 
+import { Store } from 'pullstate';
+
 type CreditProps = {
-    credit: number;
- 
-}
+  credit: number;
+  buyCost: number;
+  moveHpCost: number;
+};
 const defaultCredit: CreditProps = {
-  credit: 2000,
-}
+  credit: 0,
+  buyCost: 0,
+  moveHpCost: 0
+};
 
 type CreditStore = {
   creditData: CreditProps;
-}
-
- 
+};
 
 export const CreditStore = new Store<CreditStore>({
-    creditData: defaultCredit,
-})
+  creditData: defaultCredit
+});

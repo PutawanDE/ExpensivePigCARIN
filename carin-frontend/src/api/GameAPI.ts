@@ -1,6 +1,7 @@
 import { CompatClient, Frame, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { BodyStore, populateEmptyCell } from '../components/gameloop/stores/BodyStore';
+import { CreditStore } from '../components/gameloop/stores/CreditStore';
 
 import { gotoDefaultGame, showErrDefaultGame } from '../components/selectModes/SelectModes';
 import {
@@ -130,6 +131,12 @@ const handleGameStart = (resp: GameStartResp): void => {
     BodyStore.update((s) => {
       s.Cell = populateEmptyCell(resp.config.m, resp.config.n);
     });
+
+    CreditStore.update((s) => {
+      s.creditData.credit = resp.config.initialAntibodyCredits;
+      s.creditData.buyCost = resp.config.antibodyPlacementCost;
+      s.creditData.moveHpCost = resp.config.antibodyMoveHpCost;
+    })
 
     if (isDefaultGame) gotoDefaultGame();
     else gotoCustomGame();
