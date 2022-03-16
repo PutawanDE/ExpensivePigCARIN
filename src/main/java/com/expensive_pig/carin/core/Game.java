@@ -29,7 +29,9 @@ public class Game implements Runnable {
     private boolean isPlayerPlaceFirstAnti = false;
     private boolean isGameEnd = false;
 
+    @Getter
     private final Program[] antiPrograms;
+    @Getter
     private final Program[] virusPrograms;
 
     private EventQueue<InputEvent> inputEventQueue;

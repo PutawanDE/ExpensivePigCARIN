@@ -119,6 +119,17 @@ export const sendBuy = (buy: EventTypes.BuyEvent): void => {
   }
 };
 
+export const sendRestart = () : void => {
+  console.log("restart...");
+  if (client) {
+    if (client.connected) {
+      client.publish({
+        destination: '/app/restart',
+      });
+    }
+  }
+}
+
 // function that runs when game sucessfully starts
 const handleGameStart = (resp: GameStartResp): void => {
   const status = resp.status;
@@ -129,10 +140,13 @@ const handleGameStart = (resp: GameStartResp): void => {
     console.log('Successfully start game');
 
     BodyStore.update((s) => {
+      s.m = resp.config.m;
+      s.n = resp.config.n;
       s.Cell = populateEmptyCell(resp.config.m, resp.config.n);
     });
 
     CreditStore.update((s) => {
+      s.creditData.initialCredit = resp.config.initialAntibodyCredits;
       s.creditData.credit = resp.config.initialAntibodyCredits;
       s.creditData.buyCost = resp.config.antibodyPlacementCost;
       s.creditData.moveHpCost = resp.config.antibodyMoveHpCost;

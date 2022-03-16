@@ -1,8 +1,12 @@
 import { produceEmptyCell, produceEntityCell } from '../components/gameloop/CellFactory';
-import { BodyStore } from '../components/gameloop/stores/BodyStore';
+import { BodyStore, InputType, populateEmptyCell } from '../components/gameloop/stores/BodyStore';
 import { CreditStore } from '../components/gameloop/stores/CreditStore';
-import { RemainStore } from '../components/gameloop/stores/RemainEntityStore';
-import { GameStatus } from '../components/gameloop/stores/GameStatus';
+import { defaultRemain, RemainStore } from '../components/gameloop/stores/RemainStore';
+import {
+  defaultStatus as defaultGameStatus,
+  GameStatus
+} from '../components/gameloop/stores/GameStatus';
+
 import { EventTypes } from './EventTypes';
 
 export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
@@ -44,6 +48,10 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       const gameEndEvent = output as EventTypes.GameEndEvent;
       gameOver(gameEndEvent.status[0]);
       break;
+    case 'restart':
+      const restartEvent = output as EventTypes.RestartEvent;
+      restart(restartEvent);
+      break;
   }
 };
 
@@ -52,7 +60,7 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
     const entity = { ...state.Cell[y][x] };
     state.Cell[y][x] = produceEmptyCell(x, y);
     state.Cell[toY][toX] = entity;
-    state.Cell[toY][toX].action = "move";
+    state.Cell[toY][toX].action = 'move';
     state.Cell[toY][toX].x = toX;
     state.Cell[toY][toX].y = toY;
   });
@@ -61,10 +69,10 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
 const shootEntity = (x: number, y: number, direction: string) => {
   BodyStore.update((state) => {
     const action = state.Cell[y][x].action;
-    if(action === "shoot0") {
-      state.Cell[y][x].action = "shoot1";
+    if (action === 'shoot0') {
+      state.Cell[y][x].action = 'shoot1';
     } else {
-      state.Cell[y][x].action = "shoot0";
+      state.Cell[y][x].action = 'shoot0';
     }
 
     state.Cell[y][x].shootDir = direction;
@@ -73,7 +81,7 @@ const shootEntity = (x: number, y: number, direction: string) => {
 
 const hpEntity = (x: number, y: number, change: number) => {
   BodyStore.update((state) => {
-      state.Cell[y][x].action = "hp";
+    state.Cell[y][x].action = 'hp';
     state.Cell[y][x].hp! += change;
   });
 };
@@ -88,9 +96,8 @@ const killEntity = (x: number, y: number) => {
 
 const infect = (x: number, y: number, type: string) => {
   BodyStore.update((state) => {
-      state.Cell[y][x].action = "infect";
+    state.Cell[y][x].action = 'infect';
   });
-
 };
 
 const credit = (remain: number) => {
@@ -120,4 +127,34 @@ const gameOver = (status: string) => {
     state.GameStatusData.isGameEnd = true;
     state.GameStatusData.Tiile = status;
   });
+};
+
+const restart = (event: EventTypes.RestartEvent) => {
+  const status = event.status;
+  const msg = event.msg;
+
+  if (status === 'SUCCESS') {
+    console.log('Restarting... Setting up new Game....');
+    BodyStore.update((s) => {
+      s.Cell = populateEmptyCell(s.m, s.n);
+      s.inputType = InputType.MOVE;
+      s.pointer = [-1, -1];
+    });
+
+    CreditStore.update((s) => {
+      s.creditData.credit = s.creditData.initialCredit;
+    });
+
+    GameStatus.update((s) => {
+      s.GameStatusData = defaultGameStatus;
+    });
+
+    RemainStore.update((s) => {
+      s.RemainData = defaultRemain;
+    });
+  } else if (status === 'FAIL') {
+    if (window.confirm(`Error restarting this game. ${msg}. You will need to create a new Game.`)) {
+      window.location.replace('/');
+    }
+  }
 };

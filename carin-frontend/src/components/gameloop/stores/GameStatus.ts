@@ -1,6 +1,4 @@
 import { Store } from 'pullstate'
-import { useState } from "react";
-
 
 type StatusProps = {
     isGameEnd:boolean
@@ -8,7 +6,8 @@ type StatusProps = {
     Content: string;
  
 }
-const defaultStatus: StatusProps = {
+
+export const defaultStatus: StatusProps = {
     isGameEnd:false,
     Tiile: "",
     Content: "เว่้ยย"

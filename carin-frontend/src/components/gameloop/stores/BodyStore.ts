@@ -4,6 +4,8 @@ import { produceEmptyCell } from '../CellFactory';
 import { CellProps } from '../CellFactory';
 
 type BodyStore = {
+  m: number;
+  n: number;
   Cell: CellProps[][];
   inputType: InputType;
   pointer: [number, number];
@@ -29,6 +31,8 @@ export const populateEmptyCell = (row: number, column: number) => {
 };
 
 export const BodyStore = new Store<BodyStore>({
+  m: 0,
+  n: 0,
   Cell: populateEmptyCell(0, 0),
   inputType: InputType.MOVE,
   pointer: [-1, -1]

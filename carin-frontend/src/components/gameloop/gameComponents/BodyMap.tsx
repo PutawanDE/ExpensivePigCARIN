@@ -2,7 +2,7 @@ import { EventTypes } from '../../../api/EventTypes';
 import { sendMove } from '../../../api/GameAPI';
 
 import { BodyStore } from '../stores/BodyStore';
-import { RemainStore } from '../stores/RemainEntityStore';
+import { RemainStore } from '../stores/RemainStore';
 import { defaultCommand } from '../eventCenter';
 
 import { commandStore } from '../eventCenter';
