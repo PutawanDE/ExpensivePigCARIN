@@ -124,24 +124,24 @@ public abstract class Entity {
         int toPosX = posX;
         int toPosY = posY;
         switch (direction) {
-            case UP -> toPosY++;
+            case UP -> toPosY--;
             case UP_RIGHT -> {
-                toPosY++;
+                toPosY--;
                 toPosX++;
             }
             case RIGHT -> toPosX++;
             case DOWN_RIGHT -> {
-                toPosY--;
+                toPosY++;
                 toPosX++;
             }
-            case DOWN -> toPosY--;
+            case DOWN -> toPosY++;
             case DOWN_LEFT -> {
-                toPosY--;
+                toPosY++;
                 toPosX--;
             }
             case LEFT -> toPosX--;
             case UP_LEFT -> {
-                toPosY++;
+                toPosY--;
                 toPosX--;
             }
         }

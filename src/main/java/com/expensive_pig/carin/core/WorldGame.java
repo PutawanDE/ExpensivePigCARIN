@@ -107,12 +107,12 @@ public class WorldGame {
         while (isWithinMapBound(nowX, nowY)) {
             switch (direction) {
                 case UP -> {
-                    nowY++;
+                    nowY--;
                     indicateDirection = 1;
                     distance++;
                 }
                 case UP_RIGHT -> {
-                    nowY++;
+                    nowY--;
                     nowX++;
                     indicateDirection = 2;
                     distance++;
@@ -123,18 +123,18 @@ public class WorldGame {
                     distance++;
                 }
                 case DOWN_RIGHT -> {
-                    nowY--;
+                    nowY++;
                     nowX++;
                     indicateDirection = 4;
                     distance++;
                 }
                 case DOWN -> {
-                    nowY--;
+                    nowY++;
                     indicateDirection = 5;
                     distance++;
                 }
                 case DOWN_LEFT -> {
-                    nowY--;
+                    nowY++;
                     nowX--;
                     indicateDirection = 6;
                     distance++;
@@ -145,7 +145,7 @@ public class WorldGame {
                     distance++;
                 }
                 case UP_LEFT -> {
-                    nowY++;
+                    nowY--;
                     nowX--;
                     indicateDirection = 8;
                     distance++;
