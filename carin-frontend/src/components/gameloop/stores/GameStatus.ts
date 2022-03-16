@@ -8,6 +8,7 @@ type StatusProps = {
     virusDeadCount: number;
     antiDeadCount: number;
     timeUnitPlayed: number;
+    isInMenu: boolean;
 }
 export const defaultStatus: StatusProps = {
     isGameEnd:false,
@@ -17,6 +18,7 @@ export const defaultStatus: StatusProps = {
     virusDeadCount: 0,
     antiDeadCount: 0,
     timeUnitPlayed:0,
+    isInMenu: false
 }
 
 type GameStatusStore = {

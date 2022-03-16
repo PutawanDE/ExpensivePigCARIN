@@ -71,7 +71,7 @@ const Utility = () => {
   const gotoHome = () => {
     if (window.confirm('Do you want to exit? This game will be lost.')) {
       console.log('exit')
-      window.location.replace('/SelectModes ');
+      window.location.replace('/');
     }
   };
 
