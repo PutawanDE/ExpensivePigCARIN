@@ -13,7 +13,7 @@ const defaultStatus: StatusProps = {
     isGameEnd:false,
     isShow:false,
     Tiile: "",
-    Content: "เว่้ยย"
+    Content: ""
 }
 
 type GameStatusStore = {
