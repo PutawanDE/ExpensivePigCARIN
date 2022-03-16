@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { startCustomGame } from '../../../api/GameAPI';
 import AntigenConfig from '../../../elements/configuration/AntigenConfig.png';
@@ -67,13 +67,22 @@ function GameSetupPage() {
             </div>
           </div>
         </div>
-        <div className="py-4">
-          <button
-            className="text-2xl bg-blue-500 hover:bg-blue-700 text-white 
-                        font-bold py-4 px-10 rounded-full editbtn"
-            onClick={start}>
-            ▶️ Start Game
-          </button>
+        <div className="py-4 flex justify-center">
+          <div className="px-10">
+            <button
+              className="text-2xl bg-red-500 hover:bg-red-700 text-white 
+                        font-bold py-4 px-10 rounded-full">
+              ⏪ Back
+            </button>
+          </div>
+          <div className="px-10">
+            <button
+              className="text-2xl bg-blue-500 hover:bg-blue-700 text-white 
+                        font-bold py-4 px-10 rounded-full"
+              onClick={start}>
+              ▶️ Start Game
+            </button>
+          </div>
         </div>
       </div>
 
@@ -82,5 +91,5 @@ function GameSetupPage() {
   );
 }
 
-export { gotoCustomGame , showErrSetupPage as showErrCustomGame  };
+export { gotoCustomGame, showErrSetupPage as showErrCustomGame };
 export default GameSetupPage;
