@@ -54,4 +54,8 @@ export namespace EventTypes {
     status: string;
   }
 
+  export interface RestartEvent extends OutputEvent {
+    status: string;
+    msg: string;
+  }
 }

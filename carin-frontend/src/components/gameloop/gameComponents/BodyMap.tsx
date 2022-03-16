@@ -2,8 +2,8 @@ import { EventTypes } from '../../../api/EventTypes';
 import { sendMove } from '../../../api/GameAPI';
 
 import { BodyStore } from '../stores/BodyStore';
+import { RemainStore } from '../stores/RemainStore';
 import { GameStatus } from '../stores/GameStatus';
-import { RemainStore } from '../stores/RemainEntityStore';
 import { defaultCommand } from '../eventCenter';
 
 import { commandStore } from '../eventCenter';
