@@ -5,7 +5,6 @@ import com.expensive_pig.carin.core.ReadGameSetupFiles;
 import com.expensive_pig.carin.event.BuyEvent;
 import com.expensive_pig.carin.event.InputMoveEvent;
 import com.expensive_pig.carin.event.OutputEvent;
-import com.expensive_pig.carin.event.SetSpeedEvent;
 import com.expensive_pig.carin.game_data.GameSetup;
 import com.expensive_pig.carin.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
