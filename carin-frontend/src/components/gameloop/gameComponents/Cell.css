@@ -22,8 +22,8 @@
 .overlay {
     position: absolute;
     bottom: 0;
-    background: rgb(255, 255, 255);
-    background: rgba(0, 0, 0, 0.4); /* Black see-through */
+    /* background: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0.4); Black see-through */
     color: #f1f1f1;
     width: 100%;
     transition: .5s ease;
