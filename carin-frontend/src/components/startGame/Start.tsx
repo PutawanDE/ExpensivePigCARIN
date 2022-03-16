@@ -1,15 +1,24 @@
 import './Start.css';
 
+import { GameStatus } from '../gameloop/stores/GameStatus';
 
 import { Link } from "react-router-dom";
 
 import Background from "../../elements/start/StartBackground.gif";
 import StartBtn from "../../elements/start/StartBtn.gif";
 
- 
+import useSound from "use-sound";
+import lazysong from '../sound/lazysong.mp3';  
 
 function Start() {
 
+    const gameStatus = GameStatus.useState();
+
+    const [playlazy] = useSound(lazysong)
+    if(!gameStatus.GameStatusData.isPlay){
+        playlazy()
+    }
+    
     return (
         <div className="background startBackgroundColor">
             <Link to="/SelectModes">

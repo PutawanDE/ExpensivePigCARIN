@@ -4,6 +4,7 @@ import { useState } from "react";
 
 type StatusProps = {
     isGameEnd:boolean;
+    isPlay:boolean;
     isShow:boolean;
     Tiile: string;
     Content: string;
@@ -11,6 +12,7 @@ type StatusProps = {
 }
 const defaultStatus: StatusProps = {
     isGameEnd:false,
+    isPlay:false,
     isShow:false,
     Tiile: "",
     Content: ""
