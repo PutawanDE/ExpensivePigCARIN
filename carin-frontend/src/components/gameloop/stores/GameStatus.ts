@@ -3,13 +3,15 @@ import { useState } from "react";
 
 
 type StatusProps = {
-    isGameEnd:boolean
+    isGameEnd:boolean;
+    isShow:boolean;
     Tiile: string;
     Content: string;
  
 }
 const defaultStatus: StatusProps = {
     isGameEnd:false,
+    isShow:false,
     Tiile: "",
     Content: "เว่้ยย"
 }
