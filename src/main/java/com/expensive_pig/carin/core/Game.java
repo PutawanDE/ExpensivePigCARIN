@@ -133,7 +133,6 @@ public class Game implements Runnable {
                     e.evaluate();
                 } catch (SyntaxError ex) {
                     // get rid of e
-                    entityManager.reduceNumberAnti();
                     e.die();
                 }
                 if (!e.isAlive()) itr.remove();
