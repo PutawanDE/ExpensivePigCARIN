@@ -176,11 +176,11 @@
       0 0 2px #fff,
       0 0 8px #fff,
       0 0 11px #fff,
-      0 0 12px #0fa,
-      0 0 14px #0fa,
-      0 0 16px #0fa,
-      0 0 18px #0fa,
-      0 0 21px #0fa;
+      0 0 12px rgb(255, 240, 28),
+      0 0 14px rgb(242, 255, 62),
+      0 0 16px rgb(255, 240, 35),
+      0 0 18px rgb(255, 217, 3),
+      0 0 21px rgb(251, 255, 0);
     }
     10%   {
       opacity: 1;
@@ -189,11 +189,11 @@
       0 0 2px #fff,
       0 0 8px #fff,
       0 0 11px #fff,
-      0 0 12px #0fa,
-      0 0 14px #0fa,
-      0 0 16px #0fa,
-      0 0 18px #0fa,
-      0 0 21px #0fa;
+      0 0 12px rgb(255, 240, 28),
+      0 0 14px rgb(242, 255, 62),
+      0 0 16px rgb(255, 240, 35),
+      0 0 18px rgb(255, 217, 3),
+      0 0 21px rgb(251, 255, 0);
     }
     30%   {
       opacity: 1;
@@ -202,11 +202,11 @@
       0 0 2px #fff,
       0 0 8px #fff,
       0 0 11px #fff,
-      0 0 12px #0fa,
-      0 0 14px #0fa,
-      0 0 16px #0fa,
-      0 0 18px #0fa,
-      0 0 21px #0fa;
+      0 0 12px rgb(255, 240, 28),
+      0 0 14px rgb(242, 255, 62),
+      0 0 16px rgb(255, 240, 35),
+      0 0 18px rgb(255, 217, 3),
+      0 0 21px rgb(251, 255, 0);
     }
  
  
@@ -232,15 +232,54 @@
   }
    
 
-  .hpNeon {
+  .increasehpNeon {
     z-index: 20;
     color: #fff;
-    animation: hpNeon-sparkle  1.3s linear  ;
+    animation: increasehpNeon-sparkle  1.3s linear  ;
  
   }
 
   
-  @keyframes hpNeon-sparkle {
+  @keyframes increasehpNeon-sparkle {
+    0%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa;
+    }
+    80%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa;
+    }
+    100% {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff;
+    }
+  }
+   
+  .reducehpNeon {
+    z-index: 20;
+    color: #fff;
+    animation: reducehpNeon-sparkle  1.3s linear  ;
+ 
+  }
+
+  
+  @keyframes reducehpNeon-sparkle {
     0%   {
       opacity: 1;
       transform:  scaleX(1);
@@ -269,6 +308,4 @@
       box-shadow:
       0 0 2px #fff;
     }
-  }
-   
-   
+  } 

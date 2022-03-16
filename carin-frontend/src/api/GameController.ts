@@ -73,7 +73,12 @@ const shootEntity = (x: number, y: number, direction: string) => {
 
 const hpEntity = (x: number, y: number, change: number) => {
   BodyStore.update((state) => {
-      state.Cell[y][x].action = "hp";
+    if(change<0){
+      state.Cell[y][x].action = "reducehp";
+    }else{
+      state.Cell[y][x].action = "increasehp";
+    }
+       
     state.Cell[y][x].hp! += change;
   });
 };

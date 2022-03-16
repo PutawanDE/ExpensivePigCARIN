@@ -123,15 +123,20 @@ const Cell = (props: props) => {
       return (
         <img src={entityImg} className="overlay spawnNeon" />
       );
-    } else if (action === "hp" ) {
+    } else if (action === "increasehp") {
       return (
-        <img src={entityImg} className="overlay hpNeon" />
+        <img src={entityImg} className="overlay increasehpNeon" />
+      );
+    }
+    else if (action === "reducehp") {
+      return (
+        <img src={entityImg} className="overlay reducehpNeon" />
       );
     } else if (action === "infect") {
       return (
         <img src={entityImg} className="overlay infectNeon " />
       );
-    } else if (action === "move" ) {
+    } else if (action === "move") {
       return (
         <img src={entityImg} className="overlay moveNeon " />
       );
@@ -145,11 +150,11 @@ const Cell = (props: props) => {
 
   const dataShow = () => {
 
-    if (gameStatus.GameStatusData.isShow && cellType !== CellType.empty ) {
+    if (gameStatus.GameStatusData.isShow && cellType !== CellType.empty) {
       return (
         <span className="details  ">
-        <>{' hp:' + hp} </>
-        <>{' a:' + action} </>
+          <>{' hp:' + hp} </>
+          <>{' a:' + action} </>
         </span>
       );
     }
