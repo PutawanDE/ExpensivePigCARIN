@@ -1,7 +1,7 @@
-t = t + 1  # keeping track of time unit
+t = t + 1
 virusLoc = virus
 if (virusLoc / 10 - 1)
-then # virus afar
+then
   if (virusLoc % 10 - 7) then move upleft
   else if (virusLoc % 10 - 6) then move left
   else if (virusLoc % 10 - 5) then move downleft
@@ -11,7 +11,7 @@ then # virus afar
   else if (virusLoc % 10 - 1) then move upright
   else move up
 else if (virusLoc)
-then # virus nearby
+then
   if (virusLoc % 10 - 7) then shoot upleft
   else if (virusLoc % 10 - 6) then shoot left
   else if (virusLoc % 10 - 5) then shoot downleft
@@ -20,7 +20,7 @@ then # virus nearby
   else if (virusLoc % 10 - 2) then shoot right
   else if (virusLoc % 10 - 1) then shoot upright
   else shoot up
-else # no virus; move in a random direction
+else
 {
   dir = random % 8
   if (dir - 6) then move upleft
