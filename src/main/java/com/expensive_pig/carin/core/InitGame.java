@@ -35,8 +35,8 @@ public class InitGame {
         Map<String, String> uploadedAntiCodes = setup.getAntiGeneticCodes();
         Map<String, String> uploadedVirusCodes = setup.getAntiGeneticCodes();
 
-        Program[] antiPrograms = new Program[NUM_ANTI_KINDS];
-        Program[] virusPrograms = new Program[NUM_ANTI_KINDS];
+        Program[] antiPrograms;
+        Program[] virusPrograms;
 
         GameConfiguration config;
 
@@ -68,7 +68,7 @@ public class InitGame {
                     antiPrograms[i] = programReader.getProgrambyPath(ANTI_PROGRAM_FILENAMES[i]);
                 }
             } catch (Exception e) {
-                errorMsg.append("Antibody Type ").append(i).append(" error: ")
+                errorMsg.append("Antibody Type ").append(i + 1).append(" error: ")
                         .append(e).append("\n");
             }
         }
@@ -89,7 +89,7 @@ public class InitGame {
                     virusPrograms[i] = programReader.getProgrambyPath(VIRUS_PROGRAM_FILENAMES[i]);
                 }
             } catch (Exception e) {
-                errorMsg.append("Virus Type ").append(i).append(" error: ")
+                errorMsg.append("Virus Type ").append(i + 1).append(" error: ")
                         .append(e).append("\n");
             }
         }
