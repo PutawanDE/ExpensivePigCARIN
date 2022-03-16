@@ -104,25 +104,25 @@ const Body = () => {
   );
 
   return (
-    <div className="flex flex-row py-8 items-center justify-center">
+    <div className="flex flex-row items-center justify-center pt-4">
       <div className="flex flex-col px-8">
 
         <div className="pb-4">
-          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={showDetails}>
+          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={showDetails}>
             show
           </button>
         </div>
 
 
         <div className="pb-20">
-          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={hideDetails}>
+          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={hideDetails}>
             hide
           </button>
         </div>
 
 
         <div className="py-2">
-          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={zoomIn}>
+          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomIn}>
             +
           </button>
         </div>
@@ -131,13 +131,13 @@ const Body = () => {
 
 
         <div className="py-2">
-          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={zoomOut}>
+          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomOut}>
             -
           </button>
         </div>
 
         <div className="py-2">
-          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={zoomReset}>
+          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomReset}>
             reset
           </button>
         </div>
@@ -148,7 +148,7 @@ const Body = () => {
       </div>
 
       <div className="py-2">
-        <table className="outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl mx-auto cellBackgroundColor">
+        <table className="bg-orange-100 outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl mx-auto cellBackgroundColor">
           <tbody className="box target" id="draggable">
             {state.Cell.map((row, i) => (
               <tr key={i}>
@@ -163,10 +163,10 @@ const Body = () => {
 
       <div className="py-2">
         <div className="pl-10 py-5">
-          <div className="outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center"> Antibody: {entitiyRemain.RemainData.antiRemain}</div>
+          <div className="bg-white outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center font-bold"> Antibody: {entitiyRemain.RemainData.antiRemain}</div>
         </div>
         <div className="pl-10 py-5">
-          <div className="outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center" > Virus: {entitiyRemain.RemainData.virusRemain}</div>
+          <div className="bg-white outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center font-bold" > Virus: {entitiyRemain.RemainData.virusRemain}</div>
         </div>
       </div >
 
