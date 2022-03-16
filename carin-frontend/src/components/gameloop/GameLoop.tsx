@@ -22,7 +22,7 @@ function GameLoop() {
 
         <div className='GameLoop' >
 
-          <div className="menubar pt-5 pb-10">
+          <div className="menubar pt-1 pb-6">
             <Credit />
             <SelectPanel />
             <Utility />
