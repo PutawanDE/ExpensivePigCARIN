@@ -3,14 +3,12 @@ import { useState } from "react";
 import { SetupGame } from "../../setupGameSender"
 import 'jqueryui';
 
-import GeneticForm from '../GeneticForm';
 
 import AGA from "../../assets/AGA.gif";
 import AGB from "../../assets/AGB.gif";
 import AGC from "../../assets/AGC.gif";
 
 
-import '../GeneticForm.css';
 import './EditAntibody.css';
 
 //https://www.cluemediator.com/create-simple-popup-in-reactjs

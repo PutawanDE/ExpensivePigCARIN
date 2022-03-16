@@ -3,13 +3,11 @@ import { useState } from "react";
 import { SetupGame } from "../../setupGameSender"
 import 'jqueryui';
 
-import GeneticForm from '../GeneticForm';
 
 import B1 from "../../../../elements/editVirus/B1.png";
 import B2 from "../../../../elements/editVirus/B2.png";
 import B3 from "../../../../elements/editVirus/B3.png";
 
-import '../GeneticForm.css';
 import './EditVirus.css';
 
 //https://www.cluemediator.com/create-simple-popup-in-reactjs
