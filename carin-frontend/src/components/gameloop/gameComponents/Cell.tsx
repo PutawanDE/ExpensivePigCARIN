@@ -5,6 +5,7 @@ import { EventTypes } from '../../../api/EventTypes';
 import { CellProps, CellType } from '../CellFactory';
 import { BodyStore, InputType } from '../stores/BodyStore';
 import { commandStore } from '../eventCenter';
+import { GameStatus } from '../stores/GameStatus';
 
 import bg from '../assets/cell.png';
 import $ from 'jquery';
@@ -24,6 +25,7 @@ const Cell = (props: props) => {
   const input = BodyStore.useState((s) => s.inputType);
   const pointer = BodyStore.useState((s) => s.pointer);
   const tcommand = commandStore.useState();
+  const gameStatus = GameStatus.useState();
 
   useEffect(() => {
     cellAnimate();
@@ -121,15 +123,20 @@ const Cell = (props: props) => {
       return (
         <img src={entityImg} className="overlay spawnNeon" />
       );
-    } else if (action === "hp" ) {
+    } else if (action === "increasehp") {
       return (
-        <img src={entityImg} className="overlay hpNeon" />
+        <img src={entityImg} className="overlay increasehpNeon" />
+      );
+    }
+    else if (action === "reducehp") {
+      return (
+        <img src={entityImg} className="overlay reducehpNeon" />
       );
     } else if (action === "infect") {
       return (
         <img src={entityImg} className="overlay infectNeon " />
       );
-    } else if (action === "move" ) {
+    } else if (action === "move") {
       return (
         <img src={entityImg} className="overlay moveNeon " />
       );
@@ -142,19 +149,15 @@ const Cell = (props: props) => {
   }, [action]);
 
   const dataShow = () => {
-    return (
-      <>
-        {cellType === CellType.empty ? (
-          <><>{' hp:' + hp} </>
-          <>{' a:' + action} </></>
-        ) : (
-          <>
-            <>{' hp:' + hp} </>
-            <>{' a:' + action} </>
-          </>
-        )}
-      </>
-    );
+
+    if (gameStatus.GameStatusData.isShow && cellType !== CellType.empty) {
+      return (
+        <span className="details  ">
+          <>{' hp:' + hp} </>
+          <>{' a:' + action} </>
+        </span>
+      );
+    }
   };
 
   return (
@@ -163,7 +166,8 @@ const Cell = (props: props) => {
       draggable="false"
       onClick={cellOnClickHandler}>
       <div className="Cellcontainer" key={action}>
-        <span className="details  ">{dataShow()} </span>
+        {/* <span className="details  ">{dataShow()} </span> */}
+        {dataShow()}
         {computeAnimate()}
         {cellAnimate()}
         <img src={bg} className="image" />

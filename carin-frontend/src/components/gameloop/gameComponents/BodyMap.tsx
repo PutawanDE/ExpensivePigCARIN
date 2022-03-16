@@ -3,6 +3,7 @@ import { sendMove } from '../../../api/GameAPI';
 
 import { BodyStore } from '../stores/BodyStore';
 import { RemainStore } from '../stores/RemainStore';
+import { GameStatus } from '../stores/GameStatus';
 import { defaultCommand } from '../eventCenter';
 
 import { commandStore } from '../eventCenter';
@@ -39,11 +40,26 @@ const zoomReset = () => {
 
 };
 
+ 
+
 const showDetails = () => {
-  $('.details').css('transform', 'scale(' + 1 + ')');
+  // $('.details').css('transform', 'scale(' + 1 + ')');
+  console.log("show");
+  
+  GameStatus.update((state) => {
+    state.GameStatusData.isShow = true;
+  });
+
+ 
 };
 const hideDetails = () => {
-  $('.details').css('transform', 'scale(' + 0 + ')');
+  console.log("hide");
+  // $('.details').css('transform', 'scale(' + 0 + ')');
+  GameStatus.update((state) => {
+    state.GameStatusData.isShow = false;
+  });
+
+   
 };
 
 const Body = () => {

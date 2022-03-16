@@ -1,7 +1,8 @@
 import { Store } from 'pullstate'
 
 type StatusProps = {
-    isGameEnd:boolean
+    isGameEnd:boolean;
+    isShow:boolean;
     Tiile: string;
     Content: string;
  
@@ -9,8 +10,9 @@ type StatusProps = {
 
 export const defaultStatus: StatusProps = {
     isGameEnd:false,
+    isShow:false,
     Tiile: "",
-    Content: "เว่้ยย"
+    Content: ""
 }
 
 type GameStatusStore = {

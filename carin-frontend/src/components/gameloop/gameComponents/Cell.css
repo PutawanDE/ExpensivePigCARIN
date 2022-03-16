@@ -42,7 +42,7 @@
 
 
 .has-details:hover span   {
-    transform: translateY(-10%) translateX(  -5%) scale(1);
+    transform: translateY(-10%) translateX(  15%) scale(1);
   }
 
 .font{
@@ -54,11 +54,11 @@
 
 .details  {
     position: absolute;
-    transform: translateY(0%) translateX(  -10%) scale(0);
+    transform: translateY(0%) translateX(  -10%) scale(1);
     transition: transform 0.1s ease-in;
     transform-origin: left;
     display: inline;
-    z-index: 20;
+    z-index: 90;
     width: 100%;
     /* border: 1px solid black; */
     /* font-family:  sans-serif; */
@@ -115,7 +115,7 @@
     opacity: 0;
     background-color: rgb(223, 39, 39);
     transform-origin: bottom;
-    animation: sparkler-sparkle 0.3s linear;
+    animation: sparkler-sparkle 1.6s linear;
     /* transform: scaleY(1); */
     /* opacity: 1;  */
 
@@ -164,7 +164,7 @@
   .spawnNeon {
     z-index: 20;
     color: #fff;
-    animation: spawnNeon-sparkle  0.5s linear  ;
+    animation: spawnNeon-sparkle  1.0s linear  ;
   }
   
 
@@ -176,11 +176,11 @@
       0 0 2px #fff,
       0 0 8px #fff,
       0 0 11px #fff,
-      0 0 12px #0fa,
-      0 0 14px #0fa,
-      0 0 16px #0fa,
-      0 0 18px #0fa,
-      0 0 21px #0fa;
+      0 0 12px rgb(255, 240, 28),
+      0 0 14px rgb(242, 255, 62),
+      0 0 16px rgb(255, 240, 35),
+      0 0 18px rgb(255, 217, 3),
+      0 0 21px rgb(251, 255, 0);
     }
     10%   {
       opacity: 1;
@@ -189,11 +189,11 @@
       0 0 2px #fff,
       0 0 8px #fff,
       0 0 11px #fff,
-      0 0 12px #0fa,
-      0 0 14px #0fa,
-      0 0 16px #0fa,
-      0 0 18px #0fa,
-      0 0 21px #0fa;
+      0 0 12px rgb(255, 240, 28),
+      0 0 14px rgb(242, 255, 62),
+      0 0 16px rgb(255, 240, 35),
+      0 0 18px rgb(255, 217, 3),
+      0 0 21px rgb(251, 255, 0);
     }
     30%   {
       opacity: 1;
@@ -202,11 +202,11 @@
       0 0 2px #fff,
       0 0 8px #fff,
       0 0 11px #fff,
-      0 0 12px #0fa,
-      0 0 14px #0fa,
-      0 0 16px #0fa,
-      0 0 18px #0fa,
-      0 0 21px #0fa;
+      0 0 12px rgb(255, 240, 28),
+      0 0 14px rgb(242, 255, 62),
+      0 0 16px rgb(255, 240, 35),
+      0 0 18px rgb(255, 217, 3),
+      0 0 21px rgb(251, 255, 0);
     }
  
  
@@ -232,15 +232,54 @@
   }
    
 
-  .hpNeon {
+  .increasehpNeon {
     z-index: 20;
     color: #fff;
-    animation: hpNeon-sparkle  0.1s linear  ;
+    animation: increasehpNeon-sparkle  1.3s linear  ;
  
   }
 
   
-  @keyframes hpNeon-sparkle {
+  @keyframes increasehpNeon-sparkle {
+    0%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa;
+    }
+    80%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa;
+    }
+    100% {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff;
+    }
+  }
+   
+  .reducehpNeon {
+    z-index: 20;
+    color: #fff;
+    animation: reducehpNeon-sparkle  1.3s linear  ;
+ 
+  }
+
+  
+  @keyframes reducehpNeon-sparkle {
     0%   {
       opacity: 1;
       transform:  scaleX(1);
@@ -269,6 +308,4 @@
       box-shadow:
       0 0 2px #fff;
     }
-  }
-   
-   
+  } 
