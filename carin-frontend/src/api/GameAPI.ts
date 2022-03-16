@@ -6,8 +6,8 @@ import { EventTypes } from './EventTypes';
 import { handleGameOutput } from './GameController';
 
 export type GameSetup = {
-  antiGeneticCodes: {};
-  virusGeneticCodes: {};
+  antiGeneticCodes: {A1?:string, A2?:string, A3?:string};
+  virusGeneticCodes: {V1?:string, V2?:string, V3?:string};
   gameConfig: string;
 };
 
@@ -15,6 +15,12 @@ type GameStartResp = {
   status: string;
   msg: string;
   config: string;
+};
+
+export const defaultGameSetup: GameSetup = {
+  gameConfig: '',
+  antiGeneticCodes: {},
+  virusGeneticCodes: {}
 };
 
 let client: CompatClient;
@@ -29,12 +35,6 @@ export const startDefaultGame = async (): Promise<void> => {
   } else if (!client.connected) {
     await connect();
   }
-
-  const defaultGameSetup: GameSetup = {
-    gameConfig: '',
-    antiGeneticCodes: {},
-    virusGeneticCodes: {}
-  };
 
   client.publish({
     destination: '/app/start',

@@ -50,6 +50,8 @@ public class Anti extends Entity {
                 changeHp(-hpCost);
                 gameController.sendOutputEvent(entityManager.getSessionId(),
                         new OutputMoveEvent(posX, posY, toPosX, toPosY));
+                posX = toPosX;
+                posY = toPosY;
             }
         }
     }

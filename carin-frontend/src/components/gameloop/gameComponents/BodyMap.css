@@ -42,7 +42,7 @@ table {
 }
 
 .btn {
-    z-index: 999;
+    /* z-index: 999; */
     width: 60px;
     height: 60px;
     background: #FFF;
@@ -60,7 +60,7 @@ table {
     -webkit-user-select: none;
     user-select: none;
     transition: all 0.3s ease;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
     .btn:hover {

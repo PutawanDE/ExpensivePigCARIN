@@ -1,5 +1,5 @@
 /* Popup style */
-.popup-box {
+.popup-end {
     position: fixed;
     background: #00000050;
     width: 100%;
@@ -8,7 +8,7 @@
     left: 0;
   }
   
-  .geneticbox {
+  .endbox {
     position: relative;
     width: 70%;
     margin: 0 auto;
@@ -23,7 +23,7 @@
     overflow: auto;
   }
   
-  .close-icon {
+  .close-end {
     cursor: pointer;
     position: fixed;
     right: 45vh;

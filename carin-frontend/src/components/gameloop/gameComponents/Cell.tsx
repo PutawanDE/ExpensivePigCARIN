@@ -26,13 +26,16 @@ const Cell = (props: props) => {
   const tcommand = commandStore.useState();
 
   useEffect(() => {
-
     computeAnimate();
   }, [])
 
   const cellOnClickHandler = () => {
     if (input === InputType.MOVE && cellType !== CellType.empty) {
       // pick entity move
+      BodyStore.update((state) => {
+        state.pointer = [x, y];
+      });
+
       if (callmove) callmove(x, y, 0);
     } else if (input === InputType.MOVE && cellType === CellType.empty) {
       // drop move entity
@@ -52,9 +55,6 @@ const Cell = (props: props) => {
       
       console.log('new of type ' + input);
     }
-    BodyStore.update((state) => {
-      state.pointer = [x, y];
-    });
   };
 
   const getRingColor = () => {
@@ -114,11 +114,21 @@ const Cell = (props: props) => {
   const dataShow = () => {
     return (
       <>
-        {cellType === CellType.empty ? (
-          <></>
+                <>{action}</>
+          <>{cellType}</>
+          <>{' hp:' + hp} </>
+          <>{'x:' + x} </>
+          <>{'y:' + y} </>
+        {/* {cellType === CellType.empty ? (
+          <>
+          <>{action}</>
+          <>{cellType}</>
+          </>
         ) : (
+          <>
             <>{' hp:' + hp} </>
-        )}
+          </>
+        )} */}
       </>
     );
   };

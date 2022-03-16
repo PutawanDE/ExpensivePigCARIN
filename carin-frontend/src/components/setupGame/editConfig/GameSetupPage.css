@@ -12,31 +12,10 @@
   margin: auto;
 }
 
-.configBorder{
+.gameSetupBorder{
   -webkit-text-stroke: 2px #2d3e14; /* width and color */
 
   color: #7eaf3b;
-}
-
-.config-popup-box {
-  position: fixed;
-  background: #00000050;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-}
-
-.config-text-box{
-  display: inline-block;
-  color: black;
-  height: 100%;
-  width: 100%;
-}
-
-.config-container {
-  justify-content: space-around;
-  align-items: center;
 }
 
 .editbtn{
