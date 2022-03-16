@@ -12,7 +12,7 @@ const SelectInput = ({ inputType, img ,bgimg }: SelectButtonProps) => {
 
   const getRingColor = () => {
     if (state === inputType) {
-      return 'ring-8 ring-green-400';
+      return 'outline-dashed outline-4 outline-green-600';
     }
     return '';
   };

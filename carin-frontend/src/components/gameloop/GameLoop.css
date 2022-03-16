@@ -16,18 +16,12 @@
   align-items: center;
 }
 
-.BodyMap {
-  height: 80vh;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
- 
-    margin-left : 2%;
-    margin-right : 5%;
-    margin-bottom: 1vh;
- 
- 
+
+.gameColor{
+  background-color:#FFD7D7;
+  position: absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
 }

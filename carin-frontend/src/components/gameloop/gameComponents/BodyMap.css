@@ -5,16 +5,12 @@
     justify-content: space-between;
     align-content: center;
     flex-wrap: nowrap;
-
 }
 
 .cellBackgroundColor{
     background-color: #ffd7d7;
 }
-.remain{
-    border: black solid 2px;
 
-}
 #draggable {
      width: 100px; 
      height: 100px; 
@@ -24,12 +20,10 @@
 
  
 table {
-    height: 73vh;
-    width: 150vh;
+    height: 70vh;
+    width: 120vh;
     overflow: hidden;
-   
     position: relative;
- 
 }
 
 .box {
