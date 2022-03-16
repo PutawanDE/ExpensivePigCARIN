@@ -21,11 +21,16 @@ public class EntityManager {
 
     public final LinkedList<Entity> entities = new LinkedList<>();
     private final LinkedList<Anti> infectedAnti = new LinkedList<>();
-    private int numberAnti = 0;
+
     private WorldGame world;
     private GameConfiguration config;
 
     private GameController gameController;
+
+    @Getter
+    private int numberAnti = 0;
+    @Getter
+    private int numberVirus = 0;
 
     @Getter
     private boolean isFirstVirusSpawn = false;
@@ -52,7 +57,7 @@ public class EntityManager {
             Anti e = new Anti(posX, posY, kind, antiGene[kind], config,
                     creditSystem, this, world);
             entities.add(e);
-            increaseNumberAnti();
+            numberAnti++;
             world.addNewEntity(posX, posY, e);
             gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "A" + (kind + 1), config.getInitialAntibodyHp()));
             return e;
@@ -65,6 +70,7 @@ public class EntityManager {
         if (world.slotIsFree(posX, posY)) {
             Virus e = new Virus(posX, posY, kind, virusGene[kind], config, this, world);
             entities.add(e);
+            numberVirus++;
             world.addNewEntity(posX, posY, e);
             gameController.sendOutputEvent(sessionId, new SpawnEvent(posX, posY, "V" + (kind + 1),config.getInitialVirusHp()));
         }
@@ -99,40 +105,28 @@ public class EntityManager {
     }
 
     public void die(Virus virus) {
+        numberVirus--;
         gameController.sendOutputEvent(sessionId, new DieEvent(virus.getPosX(), virus.getPosY()));
         world.clearPosEntity(virus.getPosX(), virus.getPosY());
     }
 
-    public void dieConvertToVirus(Anti anti) {
-        reduceNumberAnti();
+    public void die(Anti anti) {
+        numberAnti--;
         gameController.sendOutputEvent(sessionId, new DieEvent(anti.getPosX(), anti.getPosY()));
-        gameController.sendOutputEvent(sessionId, new InfectEvent(anti.getPosX(), anti.getPosY(),
-                "V" + (anti.getInfectedKind() + 1)));
-
         world.clearPosEntity(anti.getPosX(), anti.getPosY());
+    }
+
+    public void dieConvertToVirus(Anti anti, int infectedKind) {
+        die(anti);
+        gameController.sendOutputEvent(sessionId, new InfectEvent(anti.getPosX(), anti.getPosY(),
+                "V" + (infectedKind + 1)));
         infectedAnti.add(anti);
     }
 
     public void spawnInfected() {
         for (Anti a : infectedAnti) {
-            createVirus(a.getPosX(), a.getPosY(), a.getInfectedKind());
+            createVirus(a.getPosX(), a.getPosY(), a.getInfectedKind().getKind());
         }
         infectedAnti.clear();
-    }
-
-    public void reduceNumberAnti() {
-        numberAnti--;
-    }
-
-    public void increaseNumberAnti() {
-        numberAnti++;
-    }
-
-    public int getNumberAnti() {
-        return numberAnti;
-    }
-
-    public int getNumberVirus() {
-        return entities.size() - numberAnti;
     }
 }

@@ -34,6 +34,7 @@ public abstract class Entity {
     protected Program program;
 
     // from config
+    @Getter
     protected int kind;
     protected int maxHp;
     protected int hp;
@@ -71,7 +72,7 @@ public abstract class Entity {
 
     protected abstract void attack(Entity target, int dmg);
 
-    protected abstract void receiveDmg(int dmgReceive, int attackerKind);
+    protected abstract void receiveDmg(int dmgReceive, Entity attacker);
 
     protected void changeHp(int hpChange) {
         if (hp + hpChange <= 0) {

@@ -10,7 +10,7 @@ import lombok.Getter;
 
 public class Anti extends Entity {
     @Getter
-    private int infectedKind;
+    private Entity infectedKind;
     private final CreditSystem creditSystem;
 
     private final int killCreditGain;
@@ -31,7 +31,7 @@ public class Anti extends Entity {
     @Override
     protected void attack(Entity target, int dmg) {
         if (target.isAlive) {
-            target.receiveDmg(dmg, kind);
+            target.receiveDmg(dmg, this);
             if (target.getType().equals(EntityType.VIRUS)) {
                 if(!target.isAlive) {
                     creditSystem.gainCredit(posX, posY, killCreditGain);
@@ -57,10 +57,10 @@ public class Anti extends Entity {
     }
 
     @Override
-    protected void receiveDmg(int dmgReceive, int attackerKind) {
+    protected void receiveDmg(int dmgReceive, Entity attacker) {
         if (isAlive) {
             changeHp(-dmgReceive);
-            infectedKind = attackerKind;
+            infectedKind = attacker;
             if (hp <= 0) {
                 die();
                 isAlive = false;
@@ -71,7 +71,11 @@ public class Anti extends Entity {
     @Override
     public void die() {
         isAlive = false;
-        entityManager.dieConvertToVirus(this);
+        if(infectedKind.getType().equals(EntityType.VIRUS)) {
+            entityManager.dieConvertToVirus(this, infectedKind.kind);
+        } else {
+            entityManager.die(this);
+        }
     }
 
     @Override

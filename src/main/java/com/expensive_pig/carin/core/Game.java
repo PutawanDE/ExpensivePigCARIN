@@ -39,6 +39,8 @@ public class Game implements Runnable {
     private float speed = 1.0f;
     private final long maxTimeUnitInMs = 5000;
 
+    private int timeUnitPlayed = 0;
+
     public Game(String sessionId, GameConfiguration config,
                 Program[] antiPrograms, Program[] virusPrograms) {
         this.sessionId = sessionId;
@@ -87,6 +89,7 @@ public class Game implements Runnable {
             }
 
             if (gameDeltaTime * speed >= maxTimeUnitInMs * 1000000) {
+                timeUnitPlayed++;
                 gameLastTime = currentTime;
                 update();
             }
@@ -147,21 +150,19 @@ public class Game implements Runnable {
             entityManager.spawnInfected();
             entityManager.spawnVirus();
 
-            gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(), entityManager.getNumberVirus()));
+            gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(),
+                    entityManager.getNumberVirus()));
         }
     }
 
     private void gameStatus() {
         if (entityManager.getNumberAnti() <= 0) {
-            gameController.sendOutputEvent(sessionId, new GameEndEvent("lost"));
-            isGameEnd = true;
+//            gameController.sendOutputEvent(sessionId, new GameEndEvent("LOST"), timeUnitPlayed, );
+            end();
         }
         if (entityManager.getNumberVirus() <= 0) {
-            gameController.sendOutputEvent(sessionId, new GameEndEvent("win"));
-            isGameEnd = true;
+//            gameController.sendOutputEvent(sessionId, new GameEndEvent("WIN"), timeUnitPlayed, );
+            end();
         }
-
-
     }
-
 }
