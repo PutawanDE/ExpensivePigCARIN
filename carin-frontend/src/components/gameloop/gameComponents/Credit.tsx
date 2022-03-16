@@ -10,11 +10,14 @@ const Credit = () => {
 
 
   return (
-      <div className="coinpanel py-10 px-40">
+    <div className="pl-5">
+      <div className="coinpanel py-10 px-32">
         <div className="cointext text-white text-3xl">
           {credit.creditData.credit}
         </div>
       </div>
+    </div>
+
   )
 }
 

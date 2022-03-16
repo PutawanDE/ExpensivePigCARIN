@@ -8,10 +8,9 @@
 }
 
 .panelEntity {
-    height: 50%;
-    width: 80%;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .coin {
@@ -37,3 +36,33 @@
 .cointext{
     height:100%;
 }
+
+.selectIcon{
+    height:100px
+}
+
+.iconContainer{
+    position: relative;
+    text-align: center;
+    top: 0;
+    left: 0;
+}
+
+.bgiconCentered{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.iconCentered{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.textCentered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

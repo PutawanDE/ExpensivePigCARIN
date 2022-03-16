@@ -8,11 +8,12 @@
   flex-direction: row;
   height: 19vh;
   align-content: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-wrap: nowrap;
   align-items: flex-start;
-  padding-top: 1%;
+  align-items: center;
 }
+
 .BodyMap {
   height: 80vh;
   margin: 0;
