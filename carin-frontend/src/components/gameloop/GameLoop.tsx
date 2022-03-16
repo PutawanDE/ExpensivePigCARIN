@@ -1,3 +1,4 @@
+import React, { useCallback, useEffect, useState } from 'react';
 import './GameLoop.css';
 import BodyMap from './gameComponents/BodyMap';
 import SelectPanel from './gameComponents/SelectPanel';
@@ -13,6 +14,10 @@ import Exit from "./assets/exit.png"
 
 
 function GameLoop() {
+  useEffect(() => {
+    GameStatus.update(s =>{ s.GameStatusData.isPlay = true })
+  }, [])
+
 
   const gameStatus = GameStatus.useState()
 

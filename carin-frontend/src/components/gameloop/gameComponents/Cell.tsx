@@ -11,6 +11,9 @@ import bg from '../assets/cell.png';
 import $ from 'jquery';
 import './Cell.css';
 
+import useSound from "use-sound";
+import laserSound from '../../sound/laser.mp3';  
+
 type props = {
   cellProps: CellProps;
   callmove?: (x: number, y: number, order: number) => void;
@@ -26,6 +29,9 @@ const Cell = (props: props) => {
   const pointer = BodyStore.useState((s) => s.pointer);
   const tcommand = commandStore.useState();
   const gameStatus = GameStatus.useState();
+
+  const [playlaser] = useSound(laserSound)
+
 
   useEffect(() => {
     cellAnimate();
@@ -79,6 +85,7 @@ const Cell = (props: props) => {
         DOWN("down"), DOWN_LEFT("downleft"), LEFT("left"), UP_LEFT("upleft");
     */
     if (action === "shoot0" || action === "shoot1") {
+      playlaser()
       let dir: number;
       switch (shootDir!) {
         case "UP": dir = 90;
