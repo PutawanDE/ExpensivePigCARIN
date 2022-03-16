@@ -124,21 +124,21 @@ const Body = () => {
       <div className="flex flex-col px-8">
 
         <div className="pb-4">
-          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={showDetails}>
+          <button className="hover:outline hover:outline-dashed outline-offset-2 outline-4 outline-red-800  shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={showDetails}>
             show
           </button>
         </div>
 
 
         <div className="pb-20">
-          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={hideDetails}>
+          <button className="hover:outline hover:outline-dashed outline-offset-2 outline-4 outline-red-800  shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={hideDetails}>
             hide
           </button>
         </div>
 
 
         <div className="py-2">
-          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomIn}>
+          <button className="hover:outline hover:outline-dashed outline-offset-2 outline-4 outline-red-800 shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomIn}>
             +
           </button>
         </div>
@@ -147,13 +147,13 @@ const Body = () => {
 
 
         <div className="py-2">
-          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomOut}>
+          <button className="hover:outline hover:outline-dashed outline-offset-2 outline-4 outline-red-800 shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomOut}>
             -
           </button>
         </div>
 
         <div className="py-2">
-          <button className=" shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomReset}>
+          <button className="hover:outline hover:outline-dashed outline-offset-2 outline-4 outline-red-800 shadow-sm bg-purple-700 hover:bg-purple-900  w-16 h-16 rounded-full font-bold text-center text-lg text-white" onClick={zoomReset}>
             reset
           </button>
         </div>
