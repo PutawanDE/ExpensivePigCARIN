@@ -20,12 +20,15 @@ const SelectPanel = () => {
         <SelectInput inputType={InputType.A1} price={'' + cost.buyCost} img={anti1} bgimg={bgA1} />
         <SelectInput inputType={InputType.A2} price={'' + cost.buyCost} img={anti2} bgimg={bgA2} />
         <SelectInput inputType={InputType.A3} price={'' + cost.buyCost} img={anti3} bgimg={bgA3} />
-        <SelectInput
-          inputType={InputType.MOVE}
-          price={'MOVE -' + cost.moveHpCost + 'HP'}
-          img={grabicon}
-          bgimg={bgA3}
-        />
+        <div className="pl-10">
+          <SelectInput
+            inputType={InputType.MOVE}
+            price={'MOVE -' + cost.moveHpCost + 'HP'}
+            img={grabicon}
+            bgimg={bgA3}
+          />
+        </div>
+
       </div>
     </div>
   );
