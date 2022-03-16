@@ -7,7 +7,6 @@ import V1config from '../../../../elements/editVirus/V1config.png';
 import V2config from '../../../../elements/editVirus/V2config.png';
 import V3config from '../../../../elements/editVirus/V3config.png';
 
-import '../GeneticForm.css';
 import './EditVirus.css';
 
 //https://www.cluemediator.com/create-simple-popup-in-reactjs

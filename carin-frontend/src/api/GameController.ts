@@ -2,6 +2,7 @@ import { produceEmptyCell, produceEntityCell } from '../components/gameloop/Cell
 import { BodyStore } from '../components/gameloop/stores/BodyStore';
 import { CreditStore } from '../components/gameloop/stores/CreditStore';
 import { RemainStore } from '../components/gameloop/stores/RemainEntityStore';
+import { GameStatus } from '../components/gameloop/stores/GameStatus';
 import { EventTypes } from './EventTypes';
 
 export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
@@ -39,6 +40,10 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       const remainEvent = output as EventTypes.RemainEvent;
       remainEntity(remainEvent.remain[0], remainEvent.remain[1]);
       break;
+      case 'gameover':
+        const gameEndEvent = output as EventTypes.GameEndEvent;
+        gameOver(gameEndEvent.status[0]);
+        break;
   }
 };
 
@@ -102,5 +107,12 @@ const remainEntity = (antiRemain: number, virusRemain: number) => {
   RemainStore.update((state) => {
     state.RemainData.antiRemain = antiRemain;
     state.RemainData.virusRemain = virusRemain;
+  });
+};
+
+const gameOver = (status: string) => {
+  GameStatus.update((state) => {
+    state.GameStatusData.isGameEnd = true;
+    state.GameStatusData.Tiile =  status;
   });
 };

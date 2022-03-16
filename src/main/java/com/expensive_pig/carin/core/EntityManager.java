@@ -28,6 +28,9 @@ public class EntityManager {
     private GameController gameController;
 
     @Getter
+    private boolean isFirstVirusSpawn = false;
+
+    @Getter
     private final String sessionId;
 
     private final Program[] virusGene;
@@ -90,6 +93,8 @@ public class EntityManager {
 
             int randKind = r.nextInt(0, NUM_VIRUS_KINDS);
             createVirus(posX, posY, randKind);
+
+            isFirstVirusSpawn = true;
         }
     }
 

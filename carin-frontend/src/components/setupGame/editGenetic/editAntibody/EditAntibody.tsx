@@ -8,7 +8,6 @@ import A1config from '../../../../elements/editAntibody/A1config.gif';
 import A2config from '../../../../elements/editAntibody/A2config.gif';
 import A3config from '../../../../elements/editAntibody/A3config.gif';
 
-import '../GeneticForm.css';
 import './EditAntibody.css';
 
 //https://www.cluemediator.com/create-simple-popup-in-reactjs
