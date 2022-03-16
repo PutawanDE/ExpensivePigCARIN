@@ -1,4 +1,3 @@
-import { defaultGameSetup } from '../../../../api/GameAPI';
 import ConfigPopup from '../../ConfigPopup';
 import { GameSetupStore } from '../../GameSetupStore';
 
@@ -29,8 +28,8 @@ function VirusCodePopup(props: VirusCodePopupProps) {
 
   const handleReset = () => {
     GameSetupStore.update((s) => {
-      s.virusGeneticCodes[type as keyof VirusKey] =
-        defaultGameSetup.virusGeneticCodes[type as keyof VirusKey];
+      // s.virusGeneticCodes[type as keyof VirusKey] =
+      //   defaultGameSetup.virusGeneticCodes[type as keyof VirusKey];
     });
   };
 

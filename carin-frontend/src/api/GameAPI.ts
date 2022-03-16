@@ -1,20 +1,26 @@
 import { CompatClient, Frame, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { gotoGame, showError } from '../components/selectModes/SelectModes';
+import { BodyStore, populateEmptyCell } from '../components/gameloop/stores/BodyStore';
+
+import { gotoDefaultGame, showErrDefaultGame } from '../components/selectModes/SelectModes';
+import {
+  gotoCustomGame,
+  showErrCustomGame
+} from '../components/setupGame/editConfig/GameSetupPage';
 
 import { EventTypes } from './EventTypes';
 import { handleGameOutput } from './GameController';
 
 export type GameSetup = {
-  antiGeneticCodes: {A1?:string, A2?:string, A3?:string};
-  virusGeneticCodes: {V1?:string, V2?:string, V3?:string};
+  antiGeneticCodes: { A1?: string; A2?: string; A3?: string };
+  virusGeneticCodes: { V1?: string; V2?: string; V3?: string };
   gameConfig: string;
 };
 
 type GameStartResp = {
   status: string;
   msg: string;
-  config: string;
+  config: any;
 };
 
 export const defaultGameSetup: GameSetup = {
@@ -24,11 +30,14 @@ export const defaultGameSetup: GameSetup = {
 };
 
 let client: CompatClient;
+let isDefaultGame = false;
+
 export let sessionId = '';
 
 const url = 'http://localhost:8080/carin-websocket';
 
 export const startDefaultGame = async (): Promise<void> => {
+  isDefaultGame = true;
   console.log('start default game...');
   if (!client) {
     await connect();
@@ -43,6 +52,7 @@ export const startDefaultGame = async (): Promise<void> => {
 };
 
 export const startCustomGame = async (gameSetup: GameSetup): Promise<void> => {
+  isDefaultGame = false;
   console.log('start custom game...');
   if (!client) {
     await connect();
@@ -116,10 +126,17 @@ const handleGameStart = (resp: GameStartResp): void => {
   if (status === 'SUCCESS') {
     // start game
     console.log('Successfully start game');
-    gotoGame();
+
+    BodyStore.update((s) => {
+      s.Cell = populateEmptyCell(resp.config.m, resp.config.n);
+    });
+
+    if (isDefaultGame) gotoDefaultGame();
+    else gotoCustomGame();
   } else if (status === 'FAIL') {
     // retry
     console.log('Fail to start game: ' + resp.msg);
-    showError(resp.msg);
+    if (isDefaultGame) showErrDefaultGame(resp.msg);
+    else showErrCustomGame(resp.msg);
   }
 };

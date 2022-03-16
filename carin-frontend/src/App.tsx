@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import StartMenu from './components/startGame/Start'
-import ConfigPopup from './components/setupGame/editConfig/ConfigPopup'
 import SelectAntibody from './components/setupGame/editGenetic/editAntibody/EditAntibody'
 import SelectVirus from './components/setupGame/editGenetic/editVirus/EditVirus'
 import InGame from './components/gameloop/GameLoop'
@@ -23,7 +22,7 @@ function App() {
         <Route path="/game" element = {<InGame/>}/>
         <Route path="/resultVirus" element = {<ResultVirus/>}/>
         <Route path="/SelectModes" element = {<SelectModes/>}/>
-        <Route path="/SelectConfiguration" element = {<GameSetupPage/>}/>
+        <Route path="/gameSetup" element = {<GameSetupPage/>}/>
         
       </Routes>
       

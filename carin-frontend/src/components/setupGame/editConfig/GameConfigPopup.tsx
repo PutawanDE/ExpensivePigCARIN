@@ -1,4 +1,3 @@
-import { defaultGameSetup } from '../../../api/GameAPI';
 import ConfigPopup from '../ConfigPopup';
 import { GameSetupStore } from '../GameSetupStore';
 
@@ -13,7 +12,7 @@ function GameConfigPopup(props: any) {
 
   const handleReset = () => {
     GameSetupStore.update((s) => {
-      s.gameConfig = defaultGameSetup.gameConfig;
+      // s.gameConfig = defaultGameSetup.gameConfig;
     });
   };
 

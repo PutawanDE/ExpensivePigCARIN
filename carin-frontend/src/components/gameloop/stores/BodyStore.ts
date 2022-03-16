@@ -16,10 +16,7 @@ export enum InputType {
   MOVE = 'MOVE'
 }
 
-const row = 20;
-const column = 20;
-
-export const populateEmptyCell = () => {
+export const populateEmptyCell = (row: number, column: number) => {
   const output: CellProps[][] = [];
   for (let i = 0; i < row; i++) {
     output[i] = [];
@@ -32,7 +29,7 @@ export const populateEmptyCell = () => {
 };
 
 export const BodyStore = new Store<BodyStore>({
-  Cell: populateEmptyCell(),
+  Cell: populateEmptyCell(0, 0),
   inputType: InputType.MOVE,
   pointer: [-1, -1]
 });

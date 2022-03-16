@@ -7,8 +7,8 @@ import CustomMode from '../../elements/selectModes/CustomMode.png';
 import { startDefaultGame } from '../../api/GameAPI';
 import { useState } from 'react';
 
-let gotoGame: () => void;
-let showError: (errorMsg: any) => void;
+let gotoDefaultGame: () => void;
+let showErrDefaultGame: (errorMsg: any) => void;
 
 function SelectModes() {
   const [isLoading, setIsloading] = useState(false);
@@ -20,11 +20,11 @@ function SelectModes() {
     startDefaultGame();
   };
 
-  gotoGame = () => {
+  gotoDefaultGame = () => {
     navigate('/game');
   };
 
-  showError = (errorMsg: any) => {
+  showErrDefaultGame = (errorMsg: any) => {
     setIsloading(false);
     alert(errorMsg);
   };
@@ -40,7 +40,7 @@ function SelectModes() {
             </button>
           </div>
           <div className="pl-10">
-            <Link to="/SelectConfiguration">
+            <Link to="/gameSetup">
               <button>
                 <img src={CustomMode} className="selectModeSize" />
               </button>
@@ -52,5 +52,5 @@ function SelectModes() {
   );
 }
 
-export { gotoGame, showError };
+export { gotoDefaultGame, showErrDefaultGame };
 export default SelectModes;

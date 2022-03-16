@@ -1,4 +1,3 @@
-import { defaultGameSetup } from '../../../../api/GameAPI';
 import ConfigPopup from '../../ConfigPopup';
 import { GameSetupStore } from '../../GameSetupStore';
 
@@ -27,10 +26,10 @@ function AntibodyCodePopup(props: AntibodyCodePopupProps) {
     });
   };
 
-  const handleReset = () => {
+  const handleReset = () => {    
     GameSetupStore.update((s) => {
-      s.antiGeneticCodes[type as keyof AntibodyKey] =
-        defaultGameSetup.antiGeneticCodes[type as keyof AntibodyKey];
+      // s.antiGeneticCodes[type as keyof AntibodyKey] =
+      //   defaultGameSetup.antiGeneticCodes[type as keyof AntibodyKey];
     });
   };
 
