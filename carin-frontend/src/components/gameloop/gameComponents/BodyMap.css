@@ -7,6 +7,10 @@
     flex-wrap: nowrap;
 
 }
+
+.cellBackgroundColor{
+    background-color: #ffd7d7;
+}
 .remain{
     border: black solid 2px;
 
@@ -75,9 +79,6 @@ table {
     bottom: 50px;
 }
 
-.show {
-    bottom: 400px;
-}
 
 .hide {
     bottom: 330px;

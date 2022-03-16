@@ -107,7 +107,7 @@ const Body = () => {
         hide <i className="fas fa-search-minus"></i>
       </button>
 
-      <table className="ring-2 ring-gray-200 rounded-md mx-auto">
+      <table className="ring-2 ring-gray-200 rounded-md mx-auto cellBackgroundColor">
         <tbody className="box target" id="draggable">
           {state.Cell.map((row, i) => (
             <tr key={i}>
