@@ -35,7 +35,7 @@ const zoomReset = () => {
   $("#draggable").css({
     'left': $("#draggable").data('originalLeft'),
     'top': $("#draggable").data('origionalTop')
-});
+  });
 
 };
 
@@ -55,9 +55,9 @@ const Body = () => {
     $("#draggable").data({
       'originalLeft': $("#draggable").css('left'),
       'origionalTop': $("#draggable").css('top')
-  });
-  
- 
+    });
+
+
 
 
 
@@ -104,30 +104,51 @@ const Body = () => {
   );
 
   return (
-    <div className="BodyMap py-10">
-      <div>
-        <button className="btn zoom" onClick={zoomIn}>
-          + <i className="fas fa-search-plus"></i>
-        </button>
-        <button className="btn zoom-out" onClick={zoomOut}>
-          {' '}
-          - <i className="fas fa-search-minus"></i>
-        </button>
-        <button   className="btn zoom-init" onClick={zoomReset}>
-          {' '}
-          reset <i className="fas fa-recycle"></i>
-        </button>
+    <div className="flex flex-row py-8 items-center justify-center">
+      <div className="flex flex-col px-8">
 
-        <button className="btn show" onClick={showDetails}>
-          show
-        </button>
-        <button className="btn hide" onClick={hideDetails}>
-          hide <i className="fas fa-search-minus"></i>
-        </button>
+        <div className="pb-4">
+          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={showDetails}>
+            show
+          </button>
+        </div>
+
+
+        <div className="pb-20">
+          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={hideDetails}>
+            hide
+          </button>
+        </div>
+
+
+        <div className="py-2">
+          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={zoomIn}>
+            +
+          </button>
+        </div>
+
+
+
+
+        <div className="py-2">
+          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={zoomOut}>
+            -
+          </button>
+        </div>
+
+        <div className="py-2">
+          <button className="p-4 shadow-sm bg-purple-500 w-16 h-16 rounded-full" onClick={zoomReset}>
+            reset
+          </button>
+        </div>
+
+
+
+
       </div>
 
-      <div>
-        <table className="ring-2 ring-gray-200 rounded-md mx-auto cellBackgroundColor">
+      <div className="py-2">
+        <table className="outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl mx-auto cellBackgroundColor">
           <tbody className="box target" id="draggable">
             {state.Cell.map((row, i) => (
               <tr key={i}>
@@ -140,9 +161,13 @@ const Body = () => {
         </table>
       </div>
 
-      <div>
-        <div className="remain"> antiRemain {entitiyRemain.RemainData.antiRemain}</div>
-        <div className="remain" > virusRemain {entitiyRemain.RemainData.virusRemain}</div>
+      <div className="py-2">
+        <div className="pl-10 py-5">
+          <div className="outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center"> Antibody: {entitiyRemain.RemainData.antiRemain}</div>
+        </div>
+        <div className="pl-10 py-5">
+          <div className="outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center" > Virus: {entitiyRemain.RemainData.virusRemain}</div>
+        </div>
       </div >
 
 
