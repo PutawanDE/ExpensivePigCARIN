@@ -34,16 +34,16 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       break;
     case 'spawn':
       const spawnEvent = output as EventTypes.SpawnEvent;
-      spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type,spawnEvent.hp);
-      break;   
+      spawnNewEntity(spawnEvent.pos[0], spawnEvent.pos[1], spawnEvent.type, spawnEvent.hp);
+      break;
     case 'remain':
       const remainEvent = output as EventTypes.RemainEvent;
       remainEntity(remainEvent.remain[0], remainEvent.remain[1]);
       break;
-      case 'gameover':
-        const gameEndEvent = output as EventTypes.GameEndEvent;
-        gameOver(gameEndEvent.status[0]);
-        break;
+    case 'gameover':
+      const gameEndEvent = output as EventTypes.GameEndEvent;
+      gameOver(gameEndEvent.status[0]);
+      break;
   }
 };
 
@@ -52,6 +52,7 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
     const entity = { ...state.Cell[y][x] };
     state.Cell[y][x] = produceEmptyCell(x, y);
     state.Cell[toY][toX] = entity;
+    state.Cell[toY][toX].action = "move";
     state.Cell[toY][toX].x = toX;
     state.Cell[toY][toX].y = toY;
   });
@@ -72,6 +73,7 @@ const shootEntity = (x: number, y: number, direction: string) => {
 
 const hpEntity = (x: number, y: number, change: number) => {
   BodyStore.update((state) => {
+      state.Cell[y][x].action = "hp";
     state.Cell[y][x].hp! += change;
   });
 };
@@ -85,7 +87,10 @@ const killEntity = (x: number, y: number) => {
 };
 
 const infect = (x: number, y: number, type: string) => {
-  console.log(`Antibody at x:${x}, y:${y} is infected with ${type}`);
+  BodyStore.update((state) => {
+      state.Cell[y][x].action = "infect";
+  });
+
 };
 
 const credit = (remain: number) => {
@@ -94,8 +99,8 @@ const credit = (remain: number) => {
   });
 };
 
-const spawnNewEntity = (x: number, y: number, type: string , hp:number) => {
-  const entity = produceEntityCell(type, x, y, 'spawn',hp);
+const spawnNewEntity = (x: number, y: number, type: string, hp: number) => {
+  const entity = produceEntityCell(type, x, y, 'spawn', hp);
   BodyStore.update((state) => {
     state.Cell[y][x] = entity;
     state.Cell[y][x].x = x;
@@ -113,6 +118,6 @@ const remainEntity = (antiRemain: number, virusRemain: number) => {
 const gameOver = (status: string) => {
   GameStatus.update((state) => {
     state.GameStatusData.isGameEnd = true;
-    state.GameStatusData.Tiile =  status;
+    state.GameStatusData.Tiile = status;
   });
 };

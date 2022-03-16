@@ -115,37 +115,13 @@
     opacity: 0;
     background-color: rgb(223, 39, 39);
     transform-origin: bottom;
-    animation: sparkler-sparkle 0.5s linear;
+    animation: sparkler-sparkle 0.3s linear;
     /* transform: scaleY(1); */
     /* opacity: 1;  */
 
     animation-delay: var(--spark-delay);
   }
-  
-  /* @keyframes sparkler-light-anim {
-    0%   {
-      bottom: 11.5rem
-    }
-    100% {
-      bottom: 1.5rem;
-    }
-  } */
-  
-  /* @keyframes sparkler-light-pulsating {
-    0%   {
-      transform: scale(1);
-    }
-    25%   {
-      transform: scale(1.1);
-    }
-    75%   {
-      transform: scale(0.9);
-    }
-    100% {
-      transform: scale(1);
-    }
-  } */
-  
+ 
   @keyframes sparkler-sparkle {
     0%   {
       transform:
@@ -184,3 +160,115 @@
       scaleX(0.25);
     }
   }
+
+  .spawnNeon {
+    z-index: 20;
+    color: #fff;
+    animation: spawnNeon-sparkle  0.5s linear  ;
+  }
+  
+
+  @keyframes spawnNeon-sparkle {
+    0%   {
+      opacity: 1;
+      transform: scale(0.3);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa,
+      0 0 18px #0fa,
+      0 0 21px #0fa;
+    }
+    10%   {
+      opacity: 1;
+      transform:  scaleX(0);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa,
+      0 0 18px #0fa,
+      0 0 21px #0fa;
+    }
+    30%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px #0fa,
+      0 0 14px #0fa,
+      0 0 16px #0fa,
+      0 0 18px #0fa,
+      0 0 21px #0fa;
+    }
+ 
+ 
+    100% {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow: 0 0 0px #fff,
+    }
+  }
+
+
+  .infectNeon {
+    z-index: 20;
+    color: #fff;
+    box-shadow:
+    0 0 2px #fff,
+    0 0 8px #fff,
+    0 0 11px #fff,
+    0 0 12px rgb(207, 134, 24),
+    0 0 14px rgb(207, 134, 24),
+    0 0 16px rgb(204, 119, 8);
+ 
+  }
+   
+
+  .hpNeon {
+    z-index: 20;
+    color: #fff;
+    animation: hpNeon-sparkle  0.1s linear  ;
+ 
+  }
+
+  
+  @keyframes hpNeon-sparkle {
+    0%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px rgb(255, 0, 0),
+      0 0 14px rgb(238, 1, 1),
+      0 0 16px rgb(255, 8, 0);
+    }
+    80%   {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 11px #fff,
+      0 0 12px rgb(255, 0, 0),
+      0 0 14px rgb(238, 1, 1),
+      0 0 16px rgb(255, 8, 0);
+    }
+    100% {
+      opacity: 1;
+      transform:  scaleX(1);
+      box-shadow:
+      0 0 2px #fff;
+    }
+  }
+   
+   

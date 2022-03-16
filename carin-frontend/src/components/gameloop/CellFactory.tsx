@@ -120,5 +120,6 @@ export const produceEmptyCell = (x: number, y: number): CellProps => {
   const cell = { ...allCell['emptyCell'] };
   cell.x = x;
   cell.y = y;
+  cell.action = undefined;
   return cell;
 };
