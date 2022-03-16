@@ -17,17 +17,19 @@ function GameLoop() {
   const gameStatus = GameStatus.useState()
 
   return (
-    <>
+    <div>
       <div>
 
         <div className='GameLoop' >
           <FpsView width={240} height={180} left={1500} top={700} />
-          <div className="menubar">
+          <div className="menubar pb-10 pt-5">
             <Credit />
             <SelectPanel />
             <Utility />
           </div>
-          <BodyMap />
+          
+            <BodyMap />
+          
         </div>
       </div >
       {
@@ -40,7 +42,7 @@ function GameLoop() {
         }
         />
       }
-    </>
+    </div>
 
   );
 }

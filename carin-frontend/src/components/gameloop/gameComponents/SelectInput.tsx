@@ -1,11 +1,13 @@
 import { BodyStore, InputType } from '../stores/BodyStore';
+import './Panel.css'
 
 type SelectButtonProps = {
   inputType: InputType;
   img: string;
+  bgimg: string;
 };
 
-const SelectInput = ({ inputType, img }: SelectButtonProps) => {
+const SelectInput = ({ inputType, img ,bgimg }: SelectButtonProps) => {
   const state = BodyStore.useState((s) => s.inputType);
 
   const getRingColor = () => {
@@ -18,7 +20,7 @@ const SelectInput = ({ inputType, img }: SelectButtonProps) => {
   const select = () => {
     BodyStore.update((state) => {
       state.inputType = inputType;
-      state.pointer = [-1, -1] ;
+      state.pointer = [-1, -1];
     });
 
     console.log('SelectInput');
@@ -30,12 +32,21 @@ const SelectInput = ({ inputType, img }: SelectButtonProps) => {
   };
 
   return (
-    <div
-      className={`${getRingColor()}   rounded-md border-black border-2 SelectEntity cursor-pointer  `}
-      onClick={select}>
-      <img className="Show" src={img} />
-      <span className="selinfo">{dataShow()} </span>
+    <div className="">
+      <div
+        className={`${getRingColor()} rounded-md cursor-pointer `}
+        onClick={select}>
+        <div>
+          <div className="iconContainer">
+            <img className="selectIcon bgiconCentered" src={bgimg}/>
+            <img className="Show selectIcon iconCentered" src={img} />
+            <span className="textCentered">{dataShow()} </span>
+          </div>
+        </div>
+
+      </div>
     </div>
+
   );
 };
 

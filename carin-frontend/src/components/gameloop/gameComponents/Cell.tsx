@@ -26,6 +26,7 @@ const Cell = (props: props) => {
   const tcommand = commandStore.useState();
 
   useEffect(() => {
+    cellAnimate();
     computeAnimate();
   }, [])
 
@@ -52,7 +53,7 @@ const Cell = (props: props) => {
       };
 
       sendBuy(buyEvent);
-      
+
       console.log('new of type ' + input);
     }
   };
@@ -97,16 +98,45 @@ const Cell = (props: props) => {
         default: dir = 0;
           break;
       }
-  
+
       // shoot animate
       const shootStyle = {
         transform: 'rotate(' + dir + 'deg)',
-  
+
       } as React.CSSProperties;
       console.log("animate shoot");
-      
+
       return (
         <span className="spark" style={shootStyle} ></span>
+      );
+    }
+  }, [action]);
+
+
+  const cellAnimate = useCallback(() => {
+
+    console.log("animate cell");
+
+    if (action === "spawn") {
+      return (
+        <img src={entityImg} className="overlay spawnNeon" />
+      );
+    } else if (action === "hp" ) {
+      return (
+        <img src={entityImg} className="overlay hpNeon" />
+      );
+    } else if (action === "infect") {
+      return (
+        <img src={entityImg} className="overlay infectNeon " />
+      );
+    } else if (action === "move" ) {
+      return (
+        <img src={entityImg} className="overlay moveNeon " />
+      );
+
+    } else {
+      return (
+        <img src={entityImg} className="overlay " />
       );
     }
   }, [action]);
@@ -114,34 +144,28 @@ const Cell = (props: props) => {
   const dataShow = () => {
     return (
       <>
-                <>{action}</>
-          <>{cellType}</>
-          <>{' hp:' + hp} </>
-          <>{'x:' + x} </>
-          <>{'y:' + y} </>
-        {/* {cellType === CellType.empty ? (
-          <>
-          <>{action}</>
-          <>{cellType}</>
-          </>
+        {cellType === CellType.empty ? (
+          <><>{' hp:' + hp} </>
+          <>{' a:' + action} </></>
         ) : (
           <>
             <>{' hp:' + hp} </>
+            <>{' a:' + action} </>
           </>
-        )} */}
+        )}
       </>
     );
   };
 
   return (
     <td
-      className={`${getRingColor()} eachcell cursor-pointer font `}
+      className={`${getRingColor()} eachcell cursor-pointer font  `}
       draggable="false"
       onClick={cellOnClickHandler}>
       <div className="Cellcontainer" key={action}>
         <span className="details  ">{dataShow()} </span>
         {computeAnimate()}
-        <img src={entityImg} className="overlay" />
+        {cellAnimate()}
         <img src={bg} className="image" />
       </div>
     </td>
