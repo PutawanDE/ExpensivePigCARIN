@@ -3,11 +3,12 @@ import './Panel.css'
 
 type SelectButtonProps = {
   inputType: InputType;
+  price:string;
   img: string;
   bgimg: string;
 };
 
-const SelectInput = ({ inputType, img ,bgimg }: SelectButtonProps) => {
+const SelectInput = ({ inputType,price, img ,bgimg }: SelectButtonProps) => {
   const state = BodyStore.useState((s) => s.inputType);
 
   const getRingColor = () => {
@@ -28,7 +29,7 @@ const SelectInput = ({ inputType, img ,bgimg }: SelectButtonProps) => {
   };
 
   const dataShow = () => {
-    return <>{inputType} </>;
+    return <div className="text-xl font-bold">{price}</div>;
   };
 
   return (
@@ -37,10 +38,10 @@ const SelectInput = ({ inputType, img ,bgimg }: SelectButtonProps) => {
         className={`${getRingColor()} rounded-md cursor-pointer `}
         onClick={select}>
         <div>
-          <div className="iconContainer">
+          <div className="iconContainer px-1">
             <img className="selectIcon bgiconCentered" src={bgimg}/>
             <img className="Show selectIcon iconCentered" src={img} />
-            <span className="textCentered">{dataShow()} </span>
+            <span className="">{dataShow()} </span>
           </div>
         </div>
 
