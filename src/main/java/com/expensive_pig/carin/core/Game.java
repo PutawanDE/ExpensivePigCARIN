@@ -27,6 +27,7 @@ public class Game implements Runnable {
     private GameController gameController;
 
     private boolean isPlayerPlaceFirstAnti = false;
+    private boolean isGameEnd = false;
 
     private final Program[] antiPrograms;
     private final Program[] virusPrograms;
@@ -115,7 +116,7 @@ public class Game implements Runnable {
                         " to x:" + toPosX + " to y:" + toPosY);
 
                 Entity toMove = world.getTarget(posX, posY);
-                if(toMove != null) {
+                if (toMove != null) {
                     toMove.moveByUser(toPosX, toPosY, config.getAntibodyMoveHpCost());
                 }
             }
@@ -123,27 +124,43 @@ public class Game implements Runnable {
     }
 
     private void update() {
-        if (isPlayerPlaceFirstAnti) {
-            if (entityManager.getNumberAnti() <= 0) { // game over
-                gameController.sendOutputEvent(sessionId, new GameOverEvent());
-            } else {
-                Iterator<Entity> itr = entityManager.entities.listIterator();
-                while (itr.hasNext()) {
-                    Entity e = itr.next();
-                    try {
-                        e.evaluate();
-                    } catch (SyntaxError ex) {
-                        // get rid of e
-                        entityManager.reduceNumberAnti();
-                        e.die();
-                    }
-                    if (!e.isAlive()) itr.remove();
+        if (isPlayerPlaceFirstAnti && !isGameEnd) {
+
+            Iterator<Entity> itr = entityManager.entities.listIterator();
+            while (itr.hasNext()) {
+                Entity e = itr.next();
+                try {
+                    e.evaluate();
+                } catch (SyntaxError ex) {
+                    // get rid of e
+                    entityManager.reduceNumberAnti();
+                    e.die();
                 }
-                entityManager.spawnInfected();
-                entityManager.spawnVirus();
+                if (!e.isAlive()) itr.remove();
             }
 
+            if(entityManager.isFirstVirusSpawn()){
+                gameStatus();
+            }
+
+            entityManager.spawnInfected();
+            entityManager.spawnVirus();
+
+            gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(), entityManager.getNumberVirus()));
         }
-        gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(),entityManager.getNumberVirus()));
+     }
+
+    private void gameStatus() {
+        if (entityManager.getNumberAnti() <= 0) {
+            gameController.sendOutputEvent(sessionId, new GameEndEvent("lost"));
+            isGameEnd = true;
+        }
+        if (entityManager.getNumberVirus() <= 0) {
+            gameController.sendOutputEvent(sessionId, new GameEndEvent("win"));
+            isGameEnd = true;
+        }
+
+
     }
+
 }

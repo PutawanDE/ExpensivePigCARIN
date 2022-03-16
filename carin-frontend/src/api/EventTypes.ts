@@ -50,5 +50,8 @@ export namespace EventTypes {
   export interface RemainEvent extends OutputEvent {
     remain: number[];
   }
+  export interface GameEndEvent extends OutputEvent {
+    status: string;
+  }
 
 }
