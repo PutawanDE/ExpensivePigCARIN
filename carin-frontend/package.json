@@ -54,11 +54,11 @@
   "devDependencies": {
     "@types/sockjs-client": "^1.5.1",
     "@types/websocket": "^1.0.5",
-    "prettier": "^2.5.1",
-    "tailwindcss": "^3.0.23",
     "autoprefixer": "^9.8.6",
     "jqueryui": "^1.11.1",
-    "postcss": "^8.1.0"
+    "postcss": "^8.1.0",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.0.23"
   },
   "allowSyntheticDefaultImports": true
 }
