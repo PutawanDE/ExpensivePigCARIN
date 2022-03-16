@@ -179,10 +179,10 @@ const Body = () => {
 
       <div className="py-2">
         <div className="pl-10 py-5">
-          <div className="bg-white outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center font-bold"> Antibody: {entitiyRemain.RemainData.antiRemain}</div>
+          <div className="bg-white outline-dashed outline-4 outline-offset-4 outline-red-800 rounded-xl text-3xl px-5 py-5 text-center font-bold"> Antibody: {entitiyRemain.RemainData.antiRemain}</div>
         </div>
         <div className="pl-10 py-5">
-          <div className="bg-white outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl text-3xl px-5 py-5 text-center font-bold" > Virus: {entitiyRemain.RemainData.virusRemain}</div>
+          <div className="bg-white outline-dashed outline-4 outline-offset-4 outline-red-800 rounded-xl text-3xl px-5 py-5 text-center font-bold" > Virus: {entitiyRemain.RemainData.virusRemain}</div>
         </div>
       </div >
 
