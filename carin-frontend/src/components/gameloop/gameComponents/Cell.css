@@ -42,7 +42,7 @@
 
 
 .has-details:hover span   {
-    transform: translateY(-10%) translateX(  -5%) scale(1);
+    transform: translateY(-10%) translateX(  15%) scale(1);
   }
 
 .font{
@@ -54,11 +54,11 @@
 
 .details  {
     position: absolute;
-    transform: translateY(0%) translateX(  -10%) scale(0);
+    transform: translateY(0%) translateX(  -10%) scale(1);
     transition: transform 0.1s ease-in;
     transform-origin: left;
     display: inline;
-    z-index: 20;
+    z-index: 90;
     width: 100%;
     /* border: 1px solid black; */
     /* font-family:  sans-serif; */
@@ -115,7 +115,7 @@
     opacity: 0;
     background-color: rgb(223, 39, 39);
     transform-origin: bottom;
-    animation: sparkler-sparkle 0.3s linear;
+    animation: sparkler-sparkle 1.6s linear;
     /* transform: scaleY(1); */
     /* opacity: 1;  */
 
@@ -164,7 +164,7 @@
   .spawnNeon {
     z-index: 20;
     color: #fff;
-    animation: spawnNeon-sparkle  0.5s linear  ;
+    animation: spawnNeon-sparkle  1.0s linear  ;
   }
   
 
@@ -235,7 +235,7 @@
   .hpNeon {
     z-index: 20;
     color: #fff;
-    animation: hpNeon-sparkle  0.1s linear  ;
+    animation: hpNeon-sparkle  1.3s linear  ;
  
   }
 
