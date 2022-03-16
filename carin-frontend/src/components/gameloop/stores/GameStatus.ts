@@ -10,7 +10,7 @@ type StatusProps = {
     Content: string;
  
 }
-const defaultStatus: StatusProps = {
+export const defaultStatus: StatusProps = {
     isGameEnd:false,
     isPlay:false,
     isShow:false,

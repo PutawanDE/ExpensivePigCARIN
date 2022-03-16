@@ -2,10 +2,7 @@ import { produceEmptyCell, produceEntityCell } from '../components/gameloop/Cell
 import { BodyStore, InputType, populateEmptyCell } from '../components/gameloop/stores/BodyStore';
 import { CreditStore } from '../components/gameloop/stores/CreditStore';
 import { defaultRemain, RemainStore } from '../components/gameloop/stores/RemainStore';
-import {
-  defaultStatus as defaultGameStatus,
-  GameStatus
-} from '../components/gameloop/stores/GameStatus';
+import { defaultStatus ,GameStatus } from '../components/gameloop/stores/GameStatus';
 
 import { EventTypes } from './EventTypes';
 
@@ -151,7 +148,7 @@ const restart = (event: EventTypes.RestartEvent) => {
     });
 
     GameStatus.update((s) => {
-      s.GameStatusData = defaultGameStatus;
+      s.GameStatusData = defaultStatus;
     });
 
     RemainStore.update((s) => {
