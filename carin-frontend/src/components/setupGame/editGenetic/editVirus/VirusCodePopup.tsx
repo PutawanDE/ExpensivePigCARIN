@@ -1,5 +1,5 @@
 import ConfigPopup from '../../ConfigPopup';
-import { GameSetupStore } from '../../GameSetupStore';
+import { defaultGameSetup, GameSetupStore } from '../../GameSetupStore';
 
 type VirusKey = {
   V1: string;
@@ -27,10 +27,12 @@ function VirusCodePopup(props: VirusCodePopupProps) {
   };
 
   const handleReset = () => {
-    GameSetupStore.update((s) => {
-      // s.virusGeneticCodes[type as keyof VirusKey] =
-      //   defaultGameSetup.virusGeneticCodes[type as keyof VirusKey];
-    });
+    if (window.confirm('Do you want to reset to default? Your changes will be lost.')) {
+      GameSetupStore.update((s) => {
+        s.virusGeneticCodes[type as keyof VirusKey] =
+          defaultGameSetup.virusGeneticCodes[type as keyof VirusKey];
+      });
+    }
   };
 
   return (

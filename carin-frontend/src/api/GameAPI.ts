@@ -23,7 +23,7 @@ type GameStartResp = {
   config: any;
 };
 
-export const defaultGameSetup: GameSetup = {
+export const emptyGameSetup: GameSetup = {
   gameConfig: '',
   antiGeneticCodes: {},
   virusGeneticCodes: {}
@@ -47,7 +47,7 @@ export const startDefaultGame = async (): Promise<void> => {
 
   client.publish({
     destination: '/app/start',
-    body: JSON.stringify(defaultGameSetup)
+    body: JSON.stringify(emptyGameSetup)
   });
 };
 

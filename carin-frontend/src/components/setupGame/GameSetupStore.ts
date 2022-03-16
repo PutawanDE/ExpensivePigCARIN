@@ -1,5 +1,11 @@
 import { Store } from 'pullstate';
-import { defaultGameSetup, GameSetup } from '../../api/GameAPI';
+import { GameSetup } from '../../api/GameAPI';
+
+export let defaultGameSetup: GameSetup = {
+  antiGeneticCodes: {},
+  virusGeneticCodes: {},
+  gameConfig: ''
+};
 
 export const GameSetupStore = new Store<GameSetup>({
   antiGeneticCodes: defaultGameSetup.antiGeneticCodes,

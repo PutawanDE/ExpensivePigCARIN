@@ -6,7 +6,7 @@ import DefaultMode from '../../elements/selectModes/DefaultMode.png';
 import CustomMode from '../../elements/selectModes/CustomMode.png';
 import { GameSetup, startDefaultGame } from '../../api/GameAPI';
 import { useState } from 'react';
-import { GameSetupStore } from '../setupGame/GameSetupStore';
+import { defaultGameSetup, GameSetupStore } from '../setupGame/GameSetupStore';
 
 let gotoDefaultGame: () => void;
 let showErrModePage: (errorMsg: any) => void;
@@ -35,6 +35,11 @@ function SelectModes() {
     fetch('http://localhost:8080/setup')
       .then((resp: any) => {
         resp.json().then(function (data: GameSetup) {
+          defaultGameSetup.gameConfig = data.gameConfig;
+          defaultGameSetup.gameConfig = data.gameConfig;
+          defaultGameSetup.antiGeneticCodes = data.antiGeneticCodes;
+          defaultGameSetup.virusGeneticCodes = data.virusGeneticCodes;
+
           GameSetupStore.update((s) => {
             console.log('Default Game Setup:', data);
 

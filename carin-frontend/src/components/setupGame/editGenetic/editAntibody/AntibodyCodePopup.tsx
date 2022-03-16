@@ -1,5 +1,5 @@
 import ConfigPopup from '../../ConfigPopup';
-import { GameSetupStore } from '../../GameSetupStore';
+import { GameSetupStore, defaultGameSetup } from '../../GameSetupStore';
 
 type AntibodyKey = {
   A1: string;
@@ -26,11 +26,13 @@ function AntibodyCodePopup(props: AntibodyCodePopupProps) {
     });
   };
 
-  const handleReset = () => {    
-    GameSetupStore.update((s) => {
-      // s.antiGeneticCodes[type as keyof AntibodyKey] =
-      //   defaultGameSetup.antiGeneticCodes[type as keyof AntibodyKey];
-    });
+  const handleReset = () => {
+    if(window.confirm("Do you want to reset to default? Your changes will be lost.")) {
+      GameSetupStore.update((s) => {
+        s.antiGeneticCodes[type as keyof AntibodyKey] =
+          defaultGameSetup.antiGeneticCodes[type as keyof AntibodyKey];
+      });
+    }
   };
 
   return (
