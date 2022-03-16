@@ -10,7 +10,7 @@ type StatusProps = {
  
 }
 const defaultStatus: StatusProps = {
-    isGameEnd:false,
+    isGameEnd:true,
     isShow:false,
     Tiile: "",
     Content: ""

@@ -10,17 +10,15 @@
   
   .endbox {
     position: relative;
-    width: 70%;
-    margin: 0 auto;
-    height: auto;
+    width: auto;
+    margin: auto;
+    height: 70%;
     max-height: 70vh;
-    margin-top: calc(100vh - 65vh - 20px);
-    background: rgb(253, 211, 211);
-    color: black;
-    border-radius: 4px;
-    padding: 20px;
-    border: 1px solid #999;
-    overflow: auto;
+    margin-top: 15vh;
+    background-image: url("../../../elements/textInput/endbox.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
   
   .close-end {
