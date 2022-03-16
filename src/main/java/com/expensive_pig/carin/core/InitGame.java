@@ -5,9 +5,11 @@ import com.expensive_pig.carin.evaluator.Program;
 import com.expensive_pig.carin.evaluator.ReadGeneticCode;
 import com.expensive_pig.carin.game_data.GameConfiguration;
 import com.expensive_pig.carin.game_data.GameSetup;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
+@Slf4j
 public class InitGame {
     private static final String GAME_CONFIG_FILENAMES = "src/main/java/com/expensive_pig/carin/game_config/" +
             "DefaultGameConfig.txt";
@@ -33,7 +35,7 @@ public class InitGame {
     public static Game createNewGame(String sessionId, GameSetup setup) {
         StringBuilder errorMsg = new StringBuilder();
         Map<String, String> uploadedAntiCodes = setup.getAntiGeneticCodes();
-        Map<String, String> uploadedVirusCodes = setup.getAntiGeneticCodes();
+        Map<String, String> uploadedVirusCodes = setup.getVirusGeneticCodes();
 
         Program[] antiPrograms;
         Program[] virusPrograms;
