@@ -11,7 +11,7 @@ import GameConfigPopup from './GameConfigPopup';
 import './GameSetupPage.css';
 
 let gotoCustomGame: () => void;
-let showErrCustomGame: (errorMsg: any) => void;
+let showErrSetupPage: (errorMsg: any) => void;
 
 function GameSetupPage() {
   const [isConfigOpen, setConfigIsOpen] = useState(false);
@@ -34,7 +34,7 @@ function GameSetupPage() {
     navigate('/game');
   };
 
-  showErrCustomGame = (errorMsg: any) => {
+  showErrSetupPage = (errorMsg: any) => {
     setIsloading(false);
     alert(errorMsg);
   };
@@ -82,5 +82,5 @@ function GameSetupPage() {
   );
 }
 
-export { gotoCustomGame , showErrCustomGame  };
+export { gotoCustomGame , showErrSetupPage as showErrCustomGame  };
 export default GameSetupPage;

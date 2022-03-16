@@ -1,18 +1,27 @@
 package com.expensive_pig.carin.controller;
 
 import com.expensive_pig.carin.core.Game;
+import com.expensive_pig.carin.core.ReadGameSetupFiles;
 import com.expensive_pig.carin.event.BuyEvent;
 import com.expensive_pig.carin.event.InputMoveEvent;
 import com.expensive_pig.carin.event.OutputEvent;
+import com.expensive_pig.carin.game_data.GameSetup;
 import com.expensive_pig.carin.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
+import java.io.IOException;
+
 @Controller
+@RestController
 @EnableWebSocketMessageBroker
 public class GameController {
     @Autowired
@@ -41,5 +50,15 @@ public class GameController {
 
     public void sendOutputEvent(String sessionId, OutputEvent event) {
         template.convertAndSend("/queue/game-" + sessionId, event);
+    }
+
+    @GetMapping("/setup")
+    public GameSetup getDefaultSetup() {
+        try {
+            return ReadGameSetupFiles.makeDefaultGameSetupFromFiles();
+        } catch (IOException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Default Game Setup IOException", e);
+        }
     }
 }
