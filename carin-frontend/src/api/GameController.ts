@@ -7,6 +7,8 @@ import { defaultStatus, GameStatus } from '../components/gameloop/stores/GameSta
 import { EventTypes } from './EventTypes';
 import { resetSpeed } from '../components/gameloop/gameComponents/Utility';
 
+const audio = document.getElementById("myAudio") as any;
+
 export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
   const action = output.action;
   switch (action) {
@@ -65,6 +67,7 @@ const moveEntity = (x: number, y: number, toX: number, toY: number) => {
 };
 
 const shootEntity = (x: number, y: number, direction: string) => {
+  audio?.play();
   BodyStore.update((state) => {
     const action = state.Cell[y][x].action;
     if (action === 'shoot0') {
