@@ -19,10 +19,10 @@ const Utility = () => {
   return (
     <div className="pr-5">
       <div className="flex  space-x-3">
-        <img className="w-36 icon" src={pause} onClick={sentPasue} />
-        <img className="w-36 icon" src={speed} onClick={sentSpeed} />
+        <img className="selectIcon icon" src={pause} onClick={sentPasue} />
+        <img className="selectIcon icon" src={speed} onClick={sentSpeed} />
         <Link to="/">
-          <img className="w-36 icon" src={exit} onClick={sentExit} />
+          <img className="selectIcon icon" src={exit} onClick={sentExit} />
         </Link>
 
       </div>

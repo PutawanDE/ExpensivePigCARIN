@@ -4,6 +4,8 @@
   overflow: hidden;
 }
 .menubar{
+  background-image: url("./assets/NavBar.png");
+  background-size: contain;
   display: flex;
   flex-direction: row;
   height: 19vh;

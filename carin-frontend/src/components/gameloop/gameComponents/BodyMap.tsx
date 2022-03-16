@@ -23,7 +23,7 @@ const zoomIn = () => {
 
 const zoomOut = () => {
   const newZoomLv = zoomLv - 0.1;
-  if(newZoomLv <= lowestZoomLv) return;
+  if (newZoomLv <= lowestZoomLv) return;
 
   zoomLv = newZoomLv;
   $('.target').css('transform', 'scale(' + zoomLv + ')');
@@ -31,6 +31,12 @@ const zoomOut = () => {
 const zoomReset = () => {
   zoomLv = 1;
   $('.target').css('transform', 'scale(' + zoomLv + ')');
+
+  $("#draggable").css({
+    'left': $("#draggable").data('originalLeft'),
+    'top': $("#draggable").data('origionalTop')
+});
+
 };
 
 const showDetails = () => {
@@ -45,6 +51,17 @@ const Body = () => {
     $(function () {
       $('#draggable').draggable();
     });
+
+    $("#draggable").data({
+      'originalLeft': $("#draggable").css('left'),
+      'origionalTop': $("#draggable").css('top')
+  });
+  
+ 
+
+
+
+
   });
 
   const state = BodyStore.useState();
@@ -87,41 +104,46 @@ const Body = () => {
   );
 
   return (
-    <div className="BodyMap">
-      <button className="btn zoom" onClick={zoomIn}>
-        + <i className="fas fa-search-plus"></i>
-      </button>
-      <button className="btn zoom-out" onClick={zoomOut}>
-        {' '}
-        - <i className="fas fa-search-minus"></i>
-      </button>
-      <button className="btn zoom-init" onClick={zoomReset}>
-        {' '}
-        reset <i className="fas fa-recycle"></i>
-      </button>
+    <div className="BodyMap py-10">
+      <div>
+        <button className="btn zoom" onClick={zoomIn}>
+          + <i className="fas fa-search-plus"></i>
+        </button>
+        <button className="btn zoom-out" onClick={zoomOut}>
+          {' '}
+          - <i className="fas fa-search-minus"></i>
+        </button>
+        <button   className="btn zoom-init" onClick={zoomReset}>
+          {' '}
+          reset <i className="fas fa-recycle"></i>
+        </button>
 
-      <button className="btn show" onClick={showDetails}>
-        show
-      </button>
-      <button className="btn hide" onClick={hideDetails}>
-        hide <i className="fas fa-search-minus"></i>
-      </button>
+        <button className="btn show" onClick={showDetails}>
+          show
+        </button>
+        <button className="btn hide" onClick={hideDetails}>
+          hide <i className="fas fa-search-minus"></i>
+        </button>
+      </div>
 
-      <table className="ring-2 ring-gray-200 rounded-md mx-auto cellBackgroundColor">
-        <tbody className="box target" id="draggable">
-          {state.Cell.map((row, i) => (
-            <tr key={i}>
-              {row.map((cell, j) => (
-                <Cell key={`x-${j}-y-${i}`} cellProps={cell} callmove={movefn} />
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <>
+      <div>
+        <table className="ring-2 ring-gray-200 rounded-md mx-auto cellBackgroundColor">
+          <tbody className="box target" id="draggable">
+            {state.Cell.map((row, i) => (
+              <tr key={i}>
+                {row.map((cell, j) => (
+                  <Cell key={`x-${j}-y-${i}`} cellProps={cell} callmove={movefn} />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div>
         <div className="remain"> antiRemain {entitiyRemain.RemainData.antiRemain}</div>
         <div className="remain" > virusRemain {entitiyRemain.RemainData.virusRemain}</div>
-      </>
+      </div >
 
 
     </div>
