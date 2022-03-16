@@ -69,11 +69,13 @@ function GameSetupPage() {
         </div>
         <div className="py-4 flex justify-center">
           <div className="px-10">
-            <button
-              className="text-2xl bg-red-500 hover:bg-red-700 text-white 
+            <Link to="/SelectModes">
+              <button
+                className="text-2xl bg-red-500 hover:bg-red-700 text-white 
                         font-bold py-4 px-10 rounded-full">
-              ⏪ Back
-            </button>
+                ⏪ Back
+              </button>
+            </Link>
           </div>
           <div className="px-10">
             <button
