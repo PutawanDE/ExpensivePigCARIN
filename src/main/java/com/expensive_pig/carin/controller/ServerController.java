@@ -2,6 +2,7 @@ package com.expensive_pig.carin.controller;
 
 import com.expensive_pig.carin.core.Game;
 import com.expensive_pig.carin.core.InitGame;
+import com.expensive_pig.carin.event.RestartGameEvent;
 import com.expensive_pig.carin.game_data.GameSetup;
 import com.expensive_pig.carin.game_data.GameStartResp;
 import com.expensive_pig.carin.repository.GameRepository;
@@ -68,6 +69,27 @@ public class ServerController {
 
             log.error("Fail to start a game. sessionID: " + sessionId + " msg: " + resp.getMsg());
             template.convertAndSend("/queue/start-" + sessionId, resp);
+        }
+    }
+
+    @MessageMapping("/restart")
+    public void receiveRestartGame(@Header("simpSessionId") String sessionId) {
+        log.info("Request to restart a game by sessionID: " + sessionId);
+        if (gameRepository.containGame(sessionId)) {
+            Game oldGame = gameRepository.getBySessionId(sessionId);
+            oldGame.end();
+            Game newGame = new Game(oldGame.getSessionId(), oldGame.getConfig(),
+                    oldGame.getAntiPrograms(), oldGame.getVirusPrograms());
+            gameRepository.remove(sessionId);
+            gameRepository.addNewGame(newGame);
+            taskExecutor.execute(newGame);
+
+            log.info("Successfully restart a game. sessionID: " + sessionId);
+            RestartGameEvent event = new RestartGameEvent("SUCCESS", "Successfully restart a game");
+            template.convertAndSend("/queue/game-" + sessionId, event);
+        } else {
+            RestartGameEvent event = new RestartGameEvent("FAIL", "Session ID doesn't exist.");
+            template.convertAndSend("/queue/game-" + sessionId, event);
         }
     }
 

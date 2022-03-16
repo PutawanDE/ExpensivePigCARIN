@@ -5,7 +5,7 @@ type RemainProps = {
     virusRemain: number;
  
 }
-const defaultRemain: RemainProps = {
+export const defaultRemain: RemainProps = {
     antiRemain: 0,
     virusRemain: 0
 }

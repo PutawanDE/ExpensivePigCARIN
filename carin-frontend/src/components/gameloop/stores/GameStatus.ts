@@ -1,6 +1,4 @@
 import { Store } from 'pullstate'
-import { useState } from "react";
-
 
 type StatusProps = {
     isGameEnd:boolean;
