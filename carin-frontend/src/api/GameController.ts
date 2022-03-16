@@ -2,9 +2,10 @@ import { produceEmptyCell, produceEntityCell } from '../components/gameloop/Cell
 import { BodyStore, InputType, populateEmptyCell } from '../components/gameloop/stores/BodyStore';
 import { CreditStore } from '../components/gameloop/stores/CreditStore';
 import { defaultRemain, RemainStore } from '../components/gameloop/stores/RemainStore';
-import { defaultStatus ,GameStatus } from '../components/gameloop/stores/GameStatus';
+import { defaultStatus, GameStatus } from '../components/gameloop/stores/GameStatus';
 
 import { EventTypes } from './EventTypes';
+import { resetSpeed } from '../components/gameloop/gameComponents/Utility';
 
 export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
   const action = output.action;
@@ -43,7 +44,7 @@ export const handleGameOutput = (output: EventTypes.OutputEvent): void => {
       break;
     case 'gameover':
       const gameEndEvent = output as EventTypes.GameEndEvent;
-      gameOver(gameEndEvent.status[0]);
+      gameOver(gameEndEvent);
       break;
     case 'restart':
       const restartEvent = output as EventTypes.RestartEvent;
@@ -78,12 +79,12 @@ const shootEntity = (x: number, y: number, direction: string) => {
 
 const hpEntity = (x: number, y: number, change: number) => {
   BodyStore.update((state) => {
-    if(change<0){
-      state.Cell[y][x].action = "reducehp";
-    }else{
-      state.Cell[y][x].action = "increasehp";
+    if (change < 0) {
+      state.Cell[y][x].action = 'reducehp';
+    } else {
+      state.Cell[y][x].action = 'increasehp';
     }
-       
+
     state.Cell[y][x].hp! += change;
   });
 };
@@ -124,10 +125,14 @@ const remainEntity = (antiRemain: number, virusRemain: number) => {
   });
 };
 
-const gameOver = (status: string) => {
+const gameOver = (event: EventTypes.GameEndEvent) => {
+  const { status, virusDeadCount, antiDeadCount, timeUnitPlayed } = event;
   GameStatus.update((state) => {
     state.GameStatusData.isGameEnd = true;
-    state.GameStatusData.Tiile = status;
+    state.GameStatusData.status = status;
+    state.GameStatusData.virusDeadCount = virusDeadCount;
+    state.GameStatusData.antiDeadCount = antiDeadCount;
+    state.GameStatusData.timeUnitPlayed = timeUnitPlayed;
   });
 };
 
@@ -154,6 +159,8 @@ const restart = (event: EventTypes.RestartEvent) => {
     RemainStore.update((s) => {
       s.RemainData = defaultRemain;
     });
+
+    resetSpeed();
   } else if (status === 'FAIL') {
     if (window.confirm(`Error restarting this game. ${msg}. You will need to create a new Game.`)) {
       window.location.replace('/');

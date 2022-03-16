@@ -33,6 +33,11 @@ public class EntityManager {
     private int numberVirus = 0;
 
     @Getter
+    private int antiDeadCount = 0;
+    @Getter
+    private int virusDeadCount = 0;
+
+    @Getter
     private boolean isFirstVirusSpawn = false;
 
     @Getter
@@ -105,12 +110,14 @@ public class EntityManager {
     }
 
     public void die(Virus virus) {
+        virusDeadCount++;
         numberVirus--;
         gameController.sendOutputEvent(sessionId, new DieEvent(virus.getPosX(), virus.getPosY()));
         world.clearPosEntity(virus.getPosX(), virus.getPosY());
     }
 
     public void die(Anti anti) {
+        antiDeadCount++;
         numberAnti--;
         gameController.sendOutputEvent(sessionId, new DieEvent(anti.getPosX(), anti.getPosY()));
         world.clearPosEntity(anti.getPosX(), anti.getPosY());

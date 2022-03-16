@@ -8,7 +8,6 @@ import Background from "../../elements/start/StartBackground.gif";
 import StartBtn from "../../elements/start/StartBtn.gif";
 
 import useSound from "use-sound";
-import {HowlOptions} from "howler";
 import lazysong from '../sound/lazysong.mp3';  
 
 function Start() {

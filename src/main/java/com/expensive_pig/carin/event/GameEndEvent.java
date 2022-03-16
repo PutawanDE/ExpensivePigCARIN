@@ -4,10 +4,16 @@ import lombok.Getter;
 
 @Getter
 public class GameEndEvent extends OutputEvent {
-    private String[] status = new String[1];
+    private String status;
+    private int virusDeadCount;
+    private int antiDeadCount;
+    private int timeUnitPlayed;
 
-    public GameEndEvent(String status) {
+    public GameEndEvent(String status, int virusDeadCount, int antiDeadCount, int timeUnitPlayed) {
         super("gameover");
-        this.status[0] = status;
+        this.status = status;
+        this.virusDeadCount = virusDeadCount;
+        this.antiDeadCount = antiDeadCount;
+        this.timeUnitPlayed = timeUnitPlayed;
     }
 }

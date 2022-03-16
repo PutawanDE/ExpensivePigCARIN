@@ -11,6 +11,8 @@ import restart from '../assets/restart.png';
 import resume from '../assets/resume.png';
 import exit from '../assets/exit.png';
 
+let resetSpeed: () => void;
+
 const Utility = () => {
   const [speedUse, SetSpeedUse] = useState(1.0);
   const [isPause, setIsPause] = useState(false);
@@ -20,6 +22,11 @@ const Utility = () => {
     sendSetSpeed(0);
     setIsPause(true);
   };
+
+  resetSpeed = () => {
+    SetSpeedUse(1.0);
+    setIsPause(false);
+  }
 
   const sendResume = () => {
     console.log('resume');
@@ -94,4 +101,5 @@ const Utility = () => {
   );
 };
 
+export { resetSpeed }
 export default Utility;

@@ -157,11 +157,13 @@ public class Game implements Runnable {
 
     private void gameStatus() {
         if (entityManager.getNumberAnti() <= 0) {
-//            gameController.sendOutputEvent(sessionId, new GameEndEvent("LOST"), timeUnitPlayed, );
+            gameController.sendOutputEvent(sessionId, new GameEndEvent("LOST",
+                    entityManager.getVirusDeadCount(), entityManager.getAntiDeadCount(), timeUnitPlayed));
             end();
         }
         if (entityManager.getNumberVirus() <= 0) {
-//            gameController.sendOutputEvent(sessionId, new GameEndEvent("WIN"), timeUnitPlayed, );
+            gameController.sendOutputEvent(sessionId, new GameEndEvent("WIN",
+                    entityManager.getVirusDeadCount(), entityManager.getAntiDeadCount(), timeUnitPlayed));
             end();
         }
     }

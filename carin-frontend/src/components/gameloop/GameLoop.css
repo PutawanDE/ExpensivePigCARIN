@@ -24,29 +24,3 @@
   bottom:0px;
   left:0px;
 }
-
-.trophyEnd {
-  border: none;
-  height: 250px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.gameOverIcon {
-  width: 70px;
-  border: none;
-  justify-content: center;
-}
-
-.endbtncontainer{
-  justify-content: center;
-}
-
-.endcenter{
-  position: fixed; /* or absolute */
-  top: 50%;
-  left: 50%;
-  /* bring your own prefixes */
-  transform: translate(-50%, -50%);
-}

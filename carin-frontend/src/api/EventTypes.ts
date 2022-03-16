@@ -52,6 +52,9 @@ export namespace EventTypes {
   }
   export interface GameEndEvent extends OutputEvent {
     status: string;
+    virusDeadCount: number;
+    antiDeadCount: number;
+    timeUnitPlayed: number;
   }
 
   export interface RestartEvent extends OutputEvent {
