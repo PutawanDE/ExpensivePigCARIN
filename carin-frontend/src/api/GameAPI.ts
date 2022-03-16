@@ -100,7 +100,7 @@ export const sendMove = (move: EventTypes.InputMoveEvent): void => {
   if (client) {
     if (client.connected) {
       client.publish({
-        destination: '/app/move/' + sessionId,
+        destination: `/app/move/${sessionId}`,
         body: JSON.stringify(move)
       });
     }
@@ -112,23 +112,35 @@ export const sendBuy = (buy: EventTypes.BuyEvent): void => {
   if (client) {
     if (client.connected) {
       client.publish({
-        destination: '/app/buy/' + sessionId,
+        destination: `/app/buy/${sessionId}`,
         body: JSON.stringify(buy)
       });
     }
   }
 };
 
-export const sendRestart = () : void => {
-  console.log("restart...");
+export const sendRestart = (): void => {
+  console.log('restart...');
   if (client) {
     if (client.connected) {
       client.publish({
-        destination: '/app/restart',
+        destination: '/app/restart'
       });
     }
   }
-}
+};
+
+export const sendSetSpeed = (speed: number): void => {
+  console.log('Set speed: ' + speed);
+  if (client) {
+    if (client.connected) {
+      client.publish({
+        destination: `/app/speed/${sessionId}`,
+        body: JSON.stringify(speed)
+      });
+    }
+  }
+};
 
 // function that runs when game sucessfully starts
 const handleGameStart = (resp: GameStartResp): void => {
@@ -150,7 +162,7 @@ const handleGameStart = (resp: GameStartResp): void => {
       s.creditData.credit = resp.config.initialAntibodyCredits;
       s.creditData.buyCost = resp.config.antibodyPlacementCost;
       s.creditData.moveHpCost = resp.config.antibodyMoveHpCost;
-    })
+    });
 
     if (isDefaultGame) gotoDefaultGame();
     else gotoCustomGame();

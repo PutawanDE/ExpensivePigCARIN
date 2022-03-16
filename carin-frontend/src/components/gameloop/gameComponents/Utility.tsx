@@ -1,46 +1,56 @@
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { sendRestart } from '../../../api/GameAPI';
+import { sendRestart, sendSetSpeed } from '../../../api/GameAPI';
 
 import pause from '../assets/pause.png';
-import speed from '../assets/speed.png';
 import speed05 from '../assets/speed05.png';
 import speed1 from '../assets/speed1.png';
 import speed2 from '../assets/speed2.png';
 import restart from '../assets/restart.png';
+import resume from '../assets/resume.png';
 import exit from '../assets/exit.png';
 
 const Utility = () => {
-  const [speedUse, SetSpeedUse] = useState('X1');
+  const [speedUse, SetSpeedUse] = useState(1.0);
+  const [isPause, setIsPause] = useState(false);
 
   const sendPause = () => {
-    console.log('pasue');
+    console.log('pause');
+    sendSetSpeed(0);
+    setIsPause(true);
   };
+
+  const sendResume = () => {
+    console.log('resume');
+    setIsPause(false);
+    sendSetSpeed(speedUse);
+  };
+
   const setSpeed = useCallback(() => {
+    setIsPause(false);
     console.log('set speed');
-    if (speedUse === 'X2') {
-      SetSpeedUse('X05');
+    if (speedUse === 2.0) {
+      SetSpeedUse(0.5);
+      sendSetSpeed(0.5);
       console.log('X05');
-    } else if (speedUse === 'X05') {
-      SetSpeedUse('X1');
+    } else if (speedUse === 0.5) {
+      SetSpeedUse(1.0);
+      sendSetSpeed(1.0);
       console.log('X01');
-    } else if (speedUse === 'X1') {
-      SetSpeedUse('X2');
+    } else if (speedUse === 1.0) {
+      SetSpeedUse(2.0);
+      sendSetSpeed(2.0);
       console.log('X2');
     }
   }, [speedUse]);
 
-  const sentExit = () => {
-    console.log('exit');
-  };
-
   const speedShow = () => {
-    if (speedUse === 'X2') {
+    if (speedUse === 2.0) {
       return speed2;
-    } else if (speedUse === 'X05') {
+    } else if (speedUse === 0.5) {
       return speed05;
-    } else if (speedUse === 'X1') {
+    } else if (speedUse === 1.0) {
       return speed1;
     }
   };
@@ -53,6 +63,7 @@ const Utility = () => {
 
   const gotoHome = () => {
     if (window.confirm('Do you want to exit? This game will be lost.')) {
+      console.log('exit')
       window.location.replace('/SelectModes ');
     }
   };
@@ -60,9 +71,15 @@ const Utility = () => {
   return (
     <div className="pr-5">
       <div className="flex  space-x-3">
-        <button onClick={sendPause}>
-          <img className="selectIcon icon" src={pause} />
-        </button>
+        {isPause ? (
+          <button onClick={sendResume}>
+            <img className="selectIcon icon" src={resume} />
+          </button>
+        ) : (
+          <button onClick={sendPause}>
+            <img className="selectIcon icon" src={pause} />
+          </button>
+        )}
         <button onClick={setSpeed}>
           <img className="selectIcon icon" src={speedShow()} />
         </button>
@@ -70,7 +87,7 @@ const Utility = () => {
           <img className="selectIcon icon" src={restart} />
         </button>
         <button onClick={gotoHome}>
-          <img className="selectIcon icon" src={exit} onClick={sentExit} />
+          <img className="selectIcon icon" src={exit} />
         </button>
       </div>
     </div>

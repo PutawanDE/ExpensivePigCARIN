@@ -36,7 +36,7 @@ public class Game implements Runnable {
 
     private EventQueue<InputEvent> inputEventQueue;
 
-    private float timeScale = 1.0f;
+    private float speed = 1.0f;
     private final long maxTimeUnitInMs = 5000;
 
     public Game(String sessionId, GameConfiguration config,
@@ -48,8 +48,8 @@ public class Game implements Runnable {
         gameController = SpringContext.getBean(GameController.class);
     }
 
-    public void setTimeScale(int timeScale) {
-        this.timeScale = timeScale;
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Game implements Runnable {
                 processInput();
             }
 
-            if (gameDeltaTime * timeScale >= maxTimeUnitInMs * 1000000) {
+            if (gameDeltaTime * speed >= maxTimeUnitInMs * 1000000) {
                 gameLastTime = currentTime;
                 update();
             }
@@ -140,7 +140,7 @@ public class Game implements Runnable {
                 if (!e.isAlive()) itr.remove();
             }
 
-            if(entityManager.isFirstVirusSpawn()){
+            if (entityManager.isFirstVirusSpawn()) {
                 gameStatus();
             }
 
@@ -149,7 +149,7 @@ public class Game implements Runnable {
 
             gameController.sendOutputEvent(sessionId, new RemainEvent(entityManager.getNumberAnti(), entityManager.getNumberVirus()));
         }
-     }
+    }
 
     private void gameStatus() {
         if (entityManager.getNumberAnti() <= 0) {
