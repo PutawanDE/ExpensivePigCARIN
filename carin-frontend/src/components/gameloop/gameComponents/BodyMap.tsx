@@ -164,7 +164,7 @@ const Body = () => {
       </div>
 
       <div className="py-2">
-        <table className="bg-orange-100 outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl mx-auto cellBackgroundColor">
+        <table className="bg-orange-100 outline-dashed outline-4 outline-offset-4 outline-pink-500 rounded-xl mx-auto">
           <tbody className="box target" id="draggable">
             {state.Cell.map((row, i) => (
               <tr key={i}>
